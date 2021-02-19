@@ -1,6 +1,8 @@
 
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { Client as FaunaClient } from 'faunadb';
+import FaunaDBAdapter from '../../../adapters/fauna/index'
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -13,5 +15,7 @@ export default NextAuth({
   ],
   
   // A database is optional, but required to persist accounts in a database
-  database: process.env.DATABASE_URL,
+  adapter: FaunaDBAdapter.Adapter({
+    faunaClient: new FaunaClient({ secret: process.env.FAUNADB_SECRET })
+  }),
 })
