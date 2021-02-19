@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "setup-db": "node ./adapters/fauna/setup.mjs",
+    "clear-db": "node ./adapters/fauna/clear-db.mjs"
   },
   "dependencies": {
     "crypto": "^1.0.1",
@@ -15,5 +17,8 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }
