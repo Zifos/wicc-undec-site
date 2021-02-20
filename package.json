@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
     "faunadb": "^4.1.0",
     "next": "10.0.7",
     "next-auth": "^3.4.2",
@@ -25,7 +26,6 @@
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "babel-plugin-module-resolver": "^4.1.0",
-    "dotenv": "^8.2.0",
     "eslint": "^7.20.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.2.0",
