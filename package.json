@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "setup-db": "node ./adapters/fauna/setup.mjs",
-    "clear-db": "node ./adapters/fauna/clear-db.mjs"
+    "clear-db": "node ./adapters/fauna/cleardb.mjs"
   },
   "dependencies": {
     "crypto": "^1.0.1",
