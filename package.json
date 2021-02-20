@@ -5,12 +5,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "setup-db": "node --require dotenv-flow/config ./adapters/fauna/setup.mjs",
+    "clear-db": "node --require dotenv-flow/config ./adapters/fauna/cleardb.mjs"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
+    "dotenv-flow": "^3.2.0",
+    "faunadb": "^4.1.0",
     "next": "10.0.7",
+    "next-auth": "^3.4.2",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
