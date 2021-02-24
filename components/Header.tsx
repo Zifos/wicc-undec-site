@@ -14,7 +14,7 @@ const StyledPageHeader = styled(PageHeader)`
   }
 `;
 
-const Header = (): React.ReactNode => {
+const Header = (): JSX.Element => {
   const router = useRouter();
   const routerName = () => {
     if (router.pathname === "/") return "Home";
