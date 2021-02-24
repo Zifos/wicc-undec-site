@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
-import { PageHeader } from 'antd';
+import { useRouter } from "next/router";
+import { PageHeader } from "antd";
 import styled from "styled-components";
 
 const StyledHeader = styled.div`
@@ -14,21 +14,18 @@ const StyledPageHeader = styled(PageHeader)`
   }
 `;
 
-const Header = () => {
+const Header = (): React.ReactNode => {
   const router = useRouter();
   const routerName = () => {
-    if(router.pathname === "/") return "Home";
+    if (router.pathname === "/") return "Home";
     return router.pathname.slice(1, router.pathname.length);
-  }
+  };
 
   return (
     <StyledHeader>
-      <StyledPageHeader
-        title={routerName()}
-        subTitle="This is a subtitle"
-      />
+      <StyledPageHeader title={routerName()} subTitle="This is a subtitle" />
     </StyledHeader>
-  )
-}
+  );
+};
 
 export default Header;
