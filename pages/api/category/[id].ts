@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectDB from "../../utils/db_connection.handler";
+import connectDB from "../../../utils/db_connection.handler";
 
 const getCategoryById = (_req: NextApiRequest, res: NextApiResponse): void => {
   res.status(200).json({ name: "Pong" });
