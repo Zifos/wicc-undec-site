@@ -1,9 +1,12 @@
 import { model, Schema } from "mongoose";
-import { PostSchema } from "./post.model";
+
+const {
+  Types
+} = Schema;
 
 export const CategorySchema = new Schema({
-  category_name: String,
-  posts: { type: [PostSchema], default: [] },
+  category_name: Types.String,
+  posts: { type: [{ type: Types.ObjectId, ref: 'post' }], default: [] },
 });
 
 export default model("category", CategorySchema);
