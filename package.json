@@ -1,5 +1,5 @@
 {
-  "name": "dragondrop",
+  "name": "wicc-page",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,19 +11,20 @@
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
-    "@zeit/next-less": "^1.0.1",
+    "@zeit/next-less": "^0.0.4",
     "@zeit/next-sass": "^1.0.1",
     "antd": "^4.12.3",
     "crypto": "^1.0.1",
     "dotenv-flow": "^3.2.0",
-    "faunadb": "^4.1.0",
-    "less": "^2.7.3",
+    "less": "^4.1.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.12.0",
     "next": "10.0.7",
     "next-auth": "^3.4.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "uuid": "^8.3.2",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
