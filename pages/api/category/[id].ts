@@ -1,15 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import Category from "../../../models/category.model";
 import connectDB from "../../../utils/db_connection.handler";
 
-const getCategoryById = (_req: NextApiRequest, res: NextApiResponse): void => {
-  res.status(200).json({ name: "Pong" });
+const getCategoryById = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
+  const {
+    query: { id },
+  } = req;
+  const categories = await Category.find({ _id: id }).select("title");
+  res.status(200).json({ categories });
 };
 
-const removeCategoryById = (
-  _req: NextApiRequest,
+const removeCategoryById = async (
+  req: NextApiRequest,
   res: NextApiResponse
-): void => {
-  res.status(200).json({ success: true });
+): Promise<void> => {
+  const {
+    query: { id },
+  } = req;
+  const removedQuantity = await Category.deleteOne({ _id: id });
+  res.status(200).json({ success: !!removedQuantity });
 };
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
