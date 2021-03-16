@@ -4,8 +4,6 @@ import { ThemeProvider } from "styled-components";
 import { Layout } from "antd";
 import { theme } from "../constants/theme";
 import Sider from "../components/Sider";
-import Content from "../components/Content";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => (
@@ -13,10 +11,7 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => (
     <Layout style={{ height: "100vh" }}>
       <Sider />
       <Layout>
-        <Header />
-        <Content>
-          <Component {...pageProps} />
-        </Content>
+        <Component {...pageProps} />
         <Footer />
       </Layout>
     </Layout>

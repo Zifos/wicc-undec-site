@@ -1,10 +1,9 @@
-import { useRouter } from "next/router";
 import { PageHeader } from "antd";
 import styled from "styled-components";
 
 const StyledHeader = styled.div`
   background: ${({ theme }) => theme.colors.neutrals[0]};
-  border-bottom: 1px solid ${({ theme }) => theme.default.borderColorBase};
+  box-shadow: 0 -80px 64px 64px ${({ theme }) => theme.colors.purple[6]};
 `;
 
 const StyledPageHeader = styled(PageHeader)`
@@ -14,18 +13,19 @@ const StyledPageHeader = styled(PageHeader)`
   }
 `;
 
-const Header = (): JSX.Element => {
-  const router = useRouter();
-  const routerName = () => {
-    if (router.pathname === "/") return "Home";
-    return router.pathname.slice(1, router.pathname.length);
-  };
+interface IHeaderProps {
+  title: string;
+  description?: string;
+}
 
-  return (
-    <StyledHeader>
-      <StyledPageHeader title={routerName()} subTitle="This is a subtitle" />
-    </StyledHeader>
-  );
+const Header = ({ title, description }: IHeaderProps): JSX.Element => (
+  <StyledHeader>
+    <StyledPageHeader title={title} subTitle={description} />
+  </StyledHeader>
+);
+
+Header.defaultProps = {
+  description: "",
 };
 
 export default Header;
