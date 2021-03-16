@@ -8,7 +8,7 @@ const StyledFooter = styled(ANTDFooter)`
     ${({ theme }) => theme.spaces[4] * 3}rem;
   font-size: ${({ theme }) => theme.spaces[6]}rem;
   text-align: center;
-  color: ${({ theme }) => theme.colors.neutrals[5]};
+  color: ${({ theme }) => theme.colors.purple[7]};
 `;
 
 const Footer = (): JSX.Element => (
