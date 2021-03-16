@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Category from "../../../models/category.model";
+import CategoryModel from "../../../models/category.model";
 import connectDB from "../../../utils/db_connection.handler";
 
 const getCategoryById = async (
@@ -9,8 +9,12 @@ const getCategoryById = async (
   const {
     query: { id },
   } = req;
-  const categories = await Category.find({ _id: id }).select("title");
-  res.status(200).json({ categories });
+  try {
+    const category = await CategoryModel.find({ _id: id }).populate("posts");
+    res.status(200).json({ category });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 const removeCategoryById = async (
@@ -20,7 +24,7 @@ const removeCategoryById = async (
   const {
     query: { id },
   } = req;
-  const removedQuantity = await Category.deleteOne({ _id: id });
+  const removedQuantity = await CategoryModel.deleteOne({ _id: id });
   res.status(200).json({ success: !!removedQuantity });
 };
 

@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--trace-warnings' next dev",
     "build": "next build",
-    "start": "next start",
-    "setup-db": "node --require dotenv-flow/config ./adapters/fauna/setup.mjs",
-    "clear-db": "node --require dotenv-flow/config ./adapters/fauna/cleardb.mjs"
+    "start": "next start"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",

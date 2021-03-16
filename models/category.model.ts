@@ -1,12 +1,10 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, models } from "mongoose";
 
-const {
-  Types
-} = Schema;
+const { Types } = Schema;
 
-export const CategorySchema = new Schema({
+const CategorySchema = new Schema({
   category_name: Types.String,
-  posts: { type: [{ type: Types.ObjectId, ref: 'post' }], default: [] },
+  posts: { type: [{ type: Types.ObjectId, ref: "post" }], default: [] },
 });
 
-export default model("category", CategorySchema);
+export default models.category || model("category", CategorySchema);
