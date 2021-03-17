@@ -27,7 +27,7 @@ const createPost = async (
       category: category_id,
     });
     await newPost.save();
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, newPost: newPost.toObject() });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }

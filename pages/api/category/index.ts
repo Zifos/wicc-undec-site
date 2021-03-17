@@ -24,7 +24,9 @@ const createCategory = async (
       title: body.title,
     });
     await newCategory.save();
-    res.status(200).json({ success: true });
+    res
+      .status(200)
+      .json({ success: true, newCategory: newCategory.toObject() });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
