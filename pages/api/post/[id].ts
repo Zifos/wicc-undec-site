@@ -1,12 +1,39 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import PostModel from "../../../models/post.model";
 import connectDB from "../../../utils/db_connection.handler";
 
-const getPostById = (_req: NextApiRequest, res: NextApiResponse): void => {
-  res.status(200).json({ name: "Pong" });
+const getPostById = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
+  const {
+    query: { id },
+  } = req;
+  try {
+    const category = await PostModel.find({ _id: id }).populate(
+      "category",
+      // select fields
+      "title"
+    );
+    res.status(200).json({ category });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-const removePostById = (_req: NextApiRequest, res: NextApiResponse): void => {
-  res.status(200).json({ success: true });
+const removePostById = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
+  try {
+    const {
+      query: { id },
+    } = req;
+    const removedQuantity = await PostModel.deleteOne({ _id: id });
+    res.status(200).json({ success: !!removedQuantity });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
