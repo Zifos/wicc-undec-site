@@ -7,7 +7,7 @@ const getAllCategories = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const categories = await CategoryModel.find().select("category_name");
+    const categories = await CategoryModel.find().select("title");
     res.status(200).json({ categories });
   } catch (error) {
     res.status(500).json(error);
@@ -21,7 +21,7 @@ const createCategory = async (
   try {
     const { body } = req;
     const newCategory = new CategoryModel({
-      category_name: body.category_name,
+      title: body.title,
     });
     await newCategory.save();
     res.status(200).json({ success: true });

@@ -10,7 +10,11 @@ const getCategoryById = async (
     query: { id },
   } = req;
   try {
-    const category = await CategoryModel.find({ _id: id }).populate("posts");
+    const category = await CategoryModel.find({ _id: id }).populate(
+      "posts",
+      // select fields
+      "title"
+    );
     res.status(200).json({ category });
   } catch (error) {
     res.status(500).json(error);
