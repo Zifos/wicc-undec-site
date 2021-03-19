@@ -21,6 +21,26 @@ const getCategoryById = async (
   }
 };
 
+const updateCategoryTitleById = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
+  try {
+    const {
+      query: { id, title },
+    } = req;
+
+    const newCategory = await CategoryModel.findByIdAndUpdate(
+      id,
+      { title },
+      { new: true }
+    );
+    res.status(204).json(newCategory);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const removeCategoryById = async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -37,6 +57,9 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET":
       getCategoryById(req, res);
+      break;
+    case "PUT":
+      updateCategoryTitleById(req, res);
       break;
     case "DELETE":
       removeCategoryById(req, res);

@@ -21,6 +21,26 @@ const getPostById = async (
   }
 };
 
+const updatePostTitleById = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
+  try {
+    const {
+      query: { id, title },
+    } = req;
+
+    const newPost = await PostModel.findByIdAndUpdate(
+      id,
+      { title },
+      { new: true }
+    );
+    res.status(204).json(newPost);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const removePostById = async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -41,6 +61,9 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "GET":
       getPostById(req, res);
+      break;
+    case "PUT":
+      updatePostTitleById(req, res);
       break;
     case "DELETE":
       removePostById(req, res);
