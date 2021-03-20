@@ -1,8 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import type { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
+import filehandler from "../../../utils/filehandler";
 import initMiddleware from "../../../utils/initMiddleware";
-import PostModel from "../../../models/category.model";
+import PostModel from "../../../models/post.model";
 import connectDB from "../../../utils/db_connection.handler";
+import CategoryModel from "../../../models/category.model";
 
 export const config = {
   api: {
@@ -32,7 +35,7 @@ const uploader = multer({
 const multerFields = initMiddleware(
   uploader.fields([
     {
-      name: "paper-pdf",
+      name: "paper",
     },
     {
       name: "audio",
@@ -40,27 +43,74 @@ const multerFields = initMiddleware(
   ])
 );
 
+interface NextApiRequestWithFiles extends NextApiRequest {
+  files: {
+    audio: {
+      originalname: string;
+      mimetype: string;
+      buffer: Buffer;
+    }[];
+    paper: {
+      originalname: string;
+      mimetype: string;
+      buffer: Buffer;
+    }[];
+  };
+}
+
 const createPost = async (
-  req: NextApiRequest,
+  req: NextApiRequestWithFiles,
   res: NextApiResponse
 ): Promise<void> => {
   try {
     const { body } = req;
     // eslint-disable-next-line camelcase
     const { title, category_id } = body;
+
+    const audioFile = req.files.audio[0];
+    const paperFile = req.files.paper[0];
+
+    const pdfData = await filehandler.save(
+      paperFile.originalname,
+      paperFile.mimetype,
+      paperFile.buffer
+    );
+    let audioData;
+    try {
+      audioData = await filehandler.save(
+        audioFile.originalname,
+        audioFile.mimetype,
+        audioFile.buffer
+      );
+    } catch (error) {
+      const fileRemoved = await filehandler.remove(pdfData.fileName);
+      if (fileRemoved) {
+        throw new Error(`Couldn't save audio file ${error}`);
+      }
+      throw new Error(
+        `Couldn't save audio file and error when tryied to remove pdf ${pdfData.fileName} file please remove it manually ${error}`
+      );
+    }
+
     const newPost = new PostModel({
       title,
       category: category_id,
+      pdf: pdfData,
+      audio: audioData,
     });
-
     await newPost.save();
+    await CategoryModel.findByIdAndUpdate(
+      category_id,
+      { $push: { posts: newPost._id } },
+      { safe: true, upsert: true }
+    );
     res.status(200).json({ success: true, newPost: newPost.toObject() });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
   const { method } = req;
   switch (method) {
     case "GET":
