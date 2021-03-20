@@ -1,11 +1,6 @@
 import { useState } from "react";
 import fetch from "unfetch";
-
-interface ICategory {
-  id: string;
-  title: string;
-  posts?: Array<unknown>;
-}
+import { ICategory } from "../models/category.model";
 
 export default (): {
   categories: ICategory[];
@@ -25,15 +20,15 @@ export default (): {
     setCategories((values) => [...values, newCategory]);
   };
 
-  const updateCategoryTitle = async ({ id, title }: ICategory) => {
-    const updatedCategory: ICategory = await fetch(`/api/category/${id}`, {
+  const updateCategoryTitle = async ({ _id, title }: ICategory) => {
+    const updatedCategory: ICategory = await fetch(`/api/category/${_id}`, {
       method: "PUT",
       body: JSON.stringify({
         title,
       }),
     }).then((res) => res.json());
     const updatedCategoryIndex = categories.findIndex(
-      (cat) => cat.id === updatedCategory.id
+      (cat) => cat._id === updatedCategory._id
     );
     setCategories((values) => {
       values.splice(updatedCategoryIndex, 1, updatedCategory);

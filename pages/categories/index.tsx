@@ -1,48 +1,62 @@
-import { Button, Card, Col, Form, Input, Row } from "antd";
-import useCategories from "hooks/useCategories";
-import Head from "next/head";
 import React, { useState } from "react";
+import Head from "next/head";
+import { Button, Card, Col, message, Row } from "antd";
+import useCategories from "../../hooks/useCategories";
 import Content from "../../components/Content";
 import Header from "../../components/Header";
+import CategoriesModal from "./CategoriesModal";
+import { ICategory } from "../../models/category.model";
+import CategoriesTable from "./CategoriesTable";
 
-type CategoriesFormProps = {
-  onFinish?: ({ title }: { title: string }) => void;
-  onFinishFailed?: () => void;
-};
-const CategoriesForm: React.FC<CategoriesFormProps> = ({
-  onFinish,
-  onFinishFailed,
-}): JSX.Element => (
-  <Form
-    name="category-form"
-    initialValues={{ remember: true }}
-    onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-    layout="inline"
-  >
-    <Form.Item
-      label="Titulo"
-      name="title"
-      rules={[{ required: true, message: "Please input your password!" }]}
-    >
-      <Input />
-    </Form.Item>
-
-    <Form.Item>
-      <Button type="primary" htmlType="submit">
-        Submit
-      </Button>
-    </Form.Item>
-  </Form>
-);
+const data: ICategory[] = [
+  {
+    title: "Test",
+    _id: "123123",
+    posts: [
+      {
+        _id: "123",
+        title: "Test Posts",
+      },
+      {
+        _id: "321",
+        title: "Test Posts 2",
+      },
+    ],
+  },
+  {
+    title: "Test 2",
+    _id: "123124",
+    posts: [
+      {
+        _id: "123",
+        title: "Test Posts",
+      },
+    ],
+  },
+];
 
 const Categories = (): JSX.Element => {
   const [isCategoryFormOpen, setIsCategoryFormOpen] = useState(false);
-  const { categories, createCategory } = useCategories();
   const openCategoryForm = () => setIsCategoryFormOpen(true);
+  const { categories, createCategory } = useCategories();
 
-  const onSubmit = ({ title }: { title: string }) => {
+  const onSubmit = ({ title }) => {
     createCategory(title);
+    message.success("Categoría Creada");
+  };
+
+  const onCancel = () => {
+    setIsCategoryFormOpen(false);
+  };
+
+  const onUpdate = (_id: Pick<ICategory, "_id">) => {
+    console.log(`TODO: Update category ${_id}`);
+    // open the modal
+  };
+
+  const onDelete = (_id: Pick<ICategory, "_id">) => {
+    message.success("Categoría eliminada");
+    console.log(`TODO: Delete category ${_id}`);
   };
 
   return (
@@ -69,14 +83,19 @@ const Categories = (): JSX.Element => {
                 </Button>
               }
             >
-              {isCategoryFormOpen && (
-                <Card>
-                  <CategoriesForm onFinish={onSubmit} />
-                </Card>
-              )}
+              <CategoriesTable
+                data={data}
+                onUpdate={onUpdate}
+                onDelete={onDelete}
+              />
             </Card>
           </Col>
         </Row>
+        <CategoriesModal
+          visible={isCategoryFormOpen}
+          onFinish={onSubmit}
+          onCancel={onCancel}
+        />
       </Content>
     </>
   );
