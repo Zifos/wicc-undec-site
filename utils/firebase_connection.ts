@@ -1,7 +1,5 @@
 import * as admin from "firebase-admin";
 
-import serviceAccount from "../firebase-sdk-config.json";
-
 const certConfig = {
   privateKey: process.env.FIREBASE_PRIVATE_KEY,
   clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
