@@ -29,12 +29,12 @@ const Routes: Route[] = [
   {
     name: "Categorías",
     icon: <BarsOutlined />,
-    url: "/categories",
+    url: "/admin/categories",
   },
   {
     name: "Publicaciones",
     icon: <SnippetsOutlined />,
-    url: "/posts",
+    url: "/admin/posts",
   },
 ];
 
