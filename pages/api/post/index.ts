@@ -18,8 +18,8 @@ const getAllPosts = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const categories = await PostModel.find().select("title");
-    res.status(200).json({ categories });
+    const posts = await PostModel.find();
+    res.status(200).json({ posts });
   } catch (error) {
     res.status(500).json(error);
   }
