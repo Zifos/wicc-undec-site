@@ -1,7 +1,7 @@
 import { Card, Col, Row } from "antd";
 import Head from "next/head";
-import Content from "../components/Content";
-import Header from "../components/Header";
+import Content from "../../components/Content";
+import Header from "../../components/Header";
 
 const Categories = (): JSX.Element => (
   <>

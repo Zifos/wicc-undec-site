@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { NextPageContext } from "next";
 import Head from "next/head";
 import { Button, Card, Col, message, Row } from "antd";
-import useCategories from "../../hooks/useCategories";
-import Content from "../../components/Content";
-import Header from "../../components/Header";
+import useCategories from "../../../hooks/useCategories";
+import Content from "../../../components/Content";
+import Header from "../../../components/Header";
 import CategoriesModal from "./CategoriesModal";
-import { ICategory } from "../../models/category.model";
+import { ICategory } from "../../../models/category.model";
 import CategoriesTable from "./CategoriesTable";
 
 const Categories = ({
