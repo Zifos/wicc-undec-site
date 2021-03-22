@@ -13,7 +13,7 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => {
 
   return (
     <ThemeProvider theme={{ ...theme }}>
-      {currentRoute === "/home" || currentRoute === "/post/[...]" ? (
+      {!currentRoute.includes("/admin") ? (
         <Layout style={{ height: "100vh", overflow: "hidden" }}>
           <Component {...pageProps} />
         </Layout>

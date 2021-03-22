@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import Content from "../../components/Content";
 import AudioPlayer from "./AudioPlayer";
 
-const PdfViewer = dynamic(() => import("./PdfViewer"), { ssr: false });
+const PdfViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
 
 const logo = "/WICC-logo-2.png";
 
