@@ -1,13 +1,17 @@
 import { useState } from "react";
-import fetch from "unfetch";
 import { ICategory } from "../models/category.model";
 
-export default (): {
+const useCategories = (
+  initialCategories: ICategory[]
+): {
   categories: ICategory[];
   createCategory: (title: string) => void;
   updateCategoryTitle: (cat: ICategory) => void;
+  deleteCategory: (_id: string) => Promise<{ success: boolean }>;
 } => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>(
+    initialCategories || []
+  );
 
   const createCategory = async (title: string) => {
     const newCategory: ICategory = await fetch("/api/category", {
@@ -32,13 +36,28 @@ export default (): {
     );
     setCategories((values) => {
       values.splice(updatedCategoryIndex, 1, updatedCategory);
-      return values;
+      return [...values];
     });
+  };
+
+  const deleteCategory = async (_id: string) => {
+    const success = await fetch(`/api/category/${_id}`, {
+      method: "DELETE",
+    }).then((res) => res.json());
+    const updatedCategoryIndex = categories.findIndex((cat) => cat._id === _id);
+    setCategories((values) => {
+      values.splice(updatedCategoryIndex, 1);
+      return [...values];
+    });
+    return success as { success: boolean };
   };
 
   return {
     categories,
     createCategory,
     updateCategoryTitle,
+    deleteCategory,
   };
 };
+
+export default useCategories;

@@ -10,12 +10,12 @@ const getPostById = async (
     query: { id },
   } = req;
   try {
-    const category = await PostModel.find({ _id: id }).populate(
+    const post = await PostModel.find({ _id: id }).populate(
       "category",
       // select fields
       "title"
     );
-    res.status(200).json({ category });
+    res.status(200).json({ post });
   } catch (error) {
     res.status(500).json(error);
   }

@@ -30,7 +30,7 @@ module.exports = {
     "import/extensions": "off",
     "react/prop-types": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "react/jsx-props-no-spreading": ["error", { custom: "ignore" }],
+    "react/jsx-props-no-spreading": "off",
     "prettier/prettier": "error",
     "react/no-unescaped-entities": "off",
     "import/no-cycle": [0, { ignoreExternal: true }],

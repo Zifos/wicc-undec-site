@@ -9,4 +9,6 @@ export const PostSchema = new Schema({
   category: { type: Types.ObjectId, ref: "category" },
 });
 
-export default models.post || model("post", PostSchema);
+const PostModel = model("post", PostSchema);
+
+export default models.post || PostModel;

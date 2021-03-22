@@ -1,40 +1,75 @@
-import React from "react";
-import { Form, Button, Input, Modal, ModalProps } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, message, Modal, ModalProps } from "antd";
+import { ICategory } from "../../models/category.model";
 
 interface ICategoriesModal extends ModalProps {
-  onFinish: (values?: unknown) => void;
+  initialData: ICategory;
+  onCreate: (values?: unknown) => void;
   onFinishFailed?: (values?: unknown) => void;
+  onUpdate: (values?: unknown) => void;
 }
 
 const CategoriesModal = ({
+  initialData,
   visible = false,
-  onFinish,
-  onFinishFailed,
+  onUpdate,
+  onCreate,
   ...rest
-}: ICategoriesModal): JSX.Element => (
-  <Modal title="Crear categoría" visible={visible} okText="Crear" {...rest}>
-    <Form
-      name="category-form"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      layout="inline"
-    >
-      <Form.Item
-        label="Titulo"
-        name="title"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input />
-      </Form.Item>
+}: ICategoriesModal): JSX.Element => {
+  const [form] = Form.useForm();
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  </Modal>
-);
+  const onSubmit = async () => {
+    try {
+      await form.validateFields();
+      const title = form.getFieldValue("title");
+      if (initialData?._id && title !== initialData.title) {
+        onUpdate({ _id: initialData?._id, title });
+        return;
+      }
+      onCreate({ title });
+    } catch (error) {
+      message.error(
+        "No se puede crear la categoria, por favor verifique los valores"
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (!visible && form?.resetFields) {
+      form.resetFields();
+    }
+  }, [form, visible]);
+
+  useEffect(() => {
+    if (initialData?._id && form?.setFieldsValue) {
+      form.setFieldsValue({ title: initialData.title });
+    }
+  }, [form, initialData]);
+
+  return (
+    <Modal
+      title={!initialData ? "Crear categoría" : "Actualizar categoría"}
+      visible={visible}
+      okText={!initialData ? "Crear" : "Actualizar"}
+      onOk={onSubmit}
+      {...rest}
+    >
+      <Form form={form} name="category-form" layout="inline">
+        <Form.Item
+          label="Titulo"
+          name="title"
+          rules={[
+            {
+              required: true,
+              message: "El titulo de la categoria es requerido!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
 
 export default CategoriesModal;

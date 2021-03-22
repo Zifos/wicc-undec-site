@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NextPageContext } from "next";
 import Head from "next/head";
 import { Button, Card, Col, message, Row } from "antd";
 import useCategories from "../../hooks/useCategories";
@@ -8,55 +9,49 @@ import CategoriesModal from "./CategoriesModal";
 import { ICategory } from "../../models/category.model";
 import CategoriesTable from "./CategoriesTable";
 
-const data: ICategory[] = [
-  {
-    title: "Test",
-    _id: "123123",
-    posts: [
-      {
-        _id: "123",
-        title: "Test Posts",
-      },
-      {
-        _id: "321",
-        title: "Test Posts 2",
-      },
-    ],
-  },
-  {
-    title: "Test 2",
-    _id: "123124",
-    posts: [
-      {
-        _id: "123",
-        title: "Test Posts",
-      },
-    ],
-  },
-];
-
-const Categories = (): JSX.Element => {
+const Categories = ({
+  initialCategories,
+}: {
+  initialCategories: ICategory[];
+}): JSX.Element => {
   const [isCategoryFormOpen, setIsCategoryFormOpen] = useState(false);
   const openCategoryForm = () => setIsCategoryFormOpen(true);
-  const { categories, createCategory } = useCategories();
+  const {
+    categories,
+    createCategory,
+    updateCategoryTitle,
+    deleteCategory,
+  } = useCategories(initialCategories);
+
+  const [categoryForUpdate, setCategoryForUpdate] = useState(undefined);
 
   const onSubmit = ({ title }) => {
     createCategory(title);
-    message.success("Categoría Creada");
+    message.success(`Categoría Creada ${title}`);
   };
 
   const onCancel = () => {
     setIsCategoryFormOpen(false);
   };
 
-  const onUpdate = (_id: Pick<ICategory, "_id">) => {
-    console.log(`TODO: Update category ${_id}`);
+  const openUpdateForm = (_id: string) => {
+    setCategoryForUpdate(categories.find((cat) => cat._id === _id));
+    setIsCategoryFormOpen(true);
     // open the modal
   };
 
-  const onDelete = (_id: Pick<ICategory, "_id">) => {
-    message.success("Categoría eliminada");
-    console.log(`TODO: Delete category ${_id}`);
+  const onUpdate = (updatedCategory: ICategory) => {
+    updateCategoryTitle(updatedCategory);
+    setIsCategoryFormOpen(false);
+    setCategoryForUpdate(undefined);
+    message.success("Categoria actualizada");
+  };
+
+  const onDelete = async (_id: string) => {
+    const { success } = await deleteCategory(_id);
+    if (success) {
+      message.success("Categoría eliminada");
+    }
   };
 
   return (
@@ -84,21 +79,47 @@ const Categories = (): JSX.Element => {
               }
             >
               <CategoriesTable
-                data={data}
-                onUpdate={onUpdate}
+                data={categories}
+                onUpdate={openUpdateForm}
                 onDelete={onDelete}
               />
             </Card>
           </Col>
         </Row>
         <CategoriesModal
+          initialData={categoryForUpdate}
           visible={isCategoryFormOpen}
-          onFinish={onSubmit}
+          onCreate={onSubmit}
+          onUpdate={onUpdate}
           onCancel={onCancel}
         />
       </Content>
     </>
   );
+};
+
+Categories.getInitialProps = async ({
+  res,
+}: NextPageContext): Promise<{ initialCategories: ICategory[] } | unknown> => {
+  const response = await fetch(`${process.env.URL || ""}/api/category`);
+
+  if (response.ok) {
+    const responseJSON: {
+      categories: ICategory[];
+    } = await response.json();
+    const { categories } = responseJSON;
+    return {
+      initialCategories: categories,
+    };
+  }
+  if (res) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+  return {};
 };
 
 export default Categories;

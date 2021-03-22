@@ -5,8 +5,8 @@ import { ICategory } from "../../models/category.model";
 
 interface ICategoriesTableProps {
   data?: ICategory[];
-  onUpdate: (_id: Pick<ICategory, "_id">) => void;
-  onDelete: (_id: Pick<ICategory, "_id">) => void;
+  onUpdate: (_id: string) => void;
+  onDelete: (_id: string) => void;
 }
 
 const CategoriesTable = ({
@@ -32,7 +32,7 @@ const CategoriesTable = ({
     {
       title: "Publicaciones",
       key: "posts",
-      render: (record): number => record.posts.length,
+      render: (record): number => record.posts?.length || 0,
       width: "min-content",
     },
     {

@@ -27,15 +27,15 @@ const updateCategoryTitleById = async (
 ): Promise<void> => {
   try {
     const {
-      query: { id, title },
+      query: { id },
     } = req;
-
+    const { title } = JSON.parse(req.body);
     const newCategory = await CategoryModel.findByIdAndUpdate(
       id,
       { title },
       { new: true }
     );
-    res.status(204).json(newCategory);
+    res.status(200).json(newCategory);
   } catch (error) {
     res.status(500).json(error);
   }

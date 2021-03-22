@@ -5,6 +5,7 @@ import { Layout } from "antd";
 import { theme } from "../constants/theme";
 import Sider from "../components/Sider";
 import Footer from "../components/Footer";
+import "isomorphic-unfetch";
 
 const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => (
   <ThemeProvider theme={{ ...theme }}>
