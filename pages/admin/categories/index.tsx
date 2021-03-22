@@ -7,7 +7,7 @@ import Content from "../../../components/Content";
 import Header from "../../../components/Header";
 import CategoriesModal from "./CategoriesModal";
 import { ICategory } from "../../../models/category.model";
-import CategoriesTable from "./CategoriesTable";
+import CategoriesTable from "./_CategoriesTable";
 
 const Categories = ({
   initialCategories,
