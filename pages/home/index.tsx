@@ -7,18 +7,37 @@ import Content from "../../components/Content";
 
 const logo = "/WICC-logo-2.png";
 
+const StyledWrapper = styled.div`
+  background: white;
+`;
+
+const StyledHeader = styled.div`
+  background: white;
+  display: flex;
+  justify-content: center;
+`;
+
 const StyledContent = styled(Content)`
   /* padding-top: 100vh; */
   min-height: 100vh;
-  background-position: center;
+  background-position: top;
   background-attachment: fixed;
   overflow-y: auto;
   background: hsla(247, 79%, 22%, 1);
   background: linear-gradient(
     180deg,
     hsla(247, 79%, 22%, 1) 0%,
-    hsla(331, 97%, 24%, 1) 100%
+    hsla(298, 84%, 17%, 1) 100%
   );
+  background-image: url("/background.svg");
+  background-size: cover;
+  margin: 0 2rem;
+  padding: 3rem;
+  border-radius: 2rem;
+  box-shadow: 0 1rem 2rem 1rem rgb(11 6 47 / 30%),
+    0 -6rem 6rem -6rem rgb(11 6 47 / 50%);
+  z-index: 2;
+  position: relative;
 `;
 
 const StyledLinkCard = styled(Card)`
@@ -76,30 +95,39 @@ const Home = (): JSX.Element => {
         <title>WICC 2021 | Lista de publicaciones</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <Image src={logo} width="24rem" preview={false} /> */}
-      <StyledContent>
-        <Space size="large" direction="vertical">
-          {dataGrouped.map((group, i) => (
-            <Row gutter={24}>
-              {group.map((post, i2) => (
-                <Col lg={8}>
-                  <StyledLinkCard key={i + i2}>
-                    <Link href={`post/${post._id}`}>
-                      <Typography.Title
-                        type="secondary"
-                        level={4}
-                        style={{ margin: "0" }}
-                      >
-                        {post.title}
-                      </Typography.Title>
-                    </Link>
-                  </StyledLinkCard>
-                </Col>
-              ))}
-            </Row>
-          ))}
-        </Space>
-      </StyledContent>
+      <StyledWrapper>
+        <StyledHeader>
+          <Image
+            src={logo}
+            height="12rem"
+            style={{ width: "auto" }}
+            preview={false}
+          />
+        </StyledHeader>
+        <StyledContent>
+          <Space size="large" direction="vertical">
+            {dataGrouped.map((group, i) => (
+              <Row gutter={24}>
+                {group.map((post, i2) => (
+                  <Col lg={8}>
+                    <StyledLinkCard key={i + i2}>
+                      <Link href={`post/${post._id}`}>
+                        <Typography.Title
+                          type="secondary"
+                          level={4}
+                          style={{ margin: "0" }}
+                        >
+                          {post.title}
+                        </Typography.Title>
+                      </Link>
+                    </StyledLinkCard>
+                  </Col>
+                ))}
+              </Row>
+            ))}
+          </Space>
+        </StyledContent>
+      </StyledWrapper>
     </>
   );
 };
