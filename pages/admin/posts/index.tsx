@@ -6,9 +6,31 @@ import { IPost } from "../../../models/post.model";
 import Content from "../../../components/Content";
 import Header from "../../../components/Header";
 import PostsTable from "./_PostsTable";
+import PostModal from "./_PostModal";
+import usePosts from "../../../hooks/usePosts";
 
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
+  const [postForUpdate, setPostForUpdate] = useState(undefined);
+  const { posts, createPost, updatePost, deletePost } = usePosts(initialPosts);
+
+  const openUpdateForm = (_id) => {
+    setPostForUpdate(posts.find((post) => post._id === _id));
+    setShowForm(true);
+  };
+
+  const onCreate = (props) => {
+    createPost(props);
+  };
+
+  const onUpdate = (props) => {
+    setPostForUpdate(undefined);
+    updatePost(props);
+  };
+
+  const onDelete = (props) => {
+    deletePost(props);
+  };
 
   return (
     <>
@@ -35,20 +57,23 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
               }
             >
               <PostsTable
-                data={initialPosts}
-                onUpdate={() => message.success("Updated")}
-                onDelete={() => message.success("Deleted")}
+                data={posts}
+                onUpdate={openUpdateForm}
+                onDelete={onDelete}
               />
             </Card>
           </Col>
         </Row>
-        {/* <PostModal
-        initialData={categoryForUpdate}
-        visible={isCategoryFormOpen}
-        onCreate={onSubmit}
-        onUpdate={onUpdate}
-        onCancel={onCancel}
-      /> */}
+        <PostModal
+          initialData={postForUpdate}
+          visible={showForm}
+          onCreate={onCreate}
+          onUpdate={onUpdate}
+          onCancel={() => {
+            setShowForm(false);
+            setPostForUpdate(undefined);
+          }}
+        />
       </Content>
     </>
   );

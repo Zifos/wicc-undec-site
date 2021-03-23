@@ -30,8 +30,8 @@ const PostsTable = ({
       title: "PDF",
       key: "pdf",
       render: (record) => (
-        <a href={record.pdf.fileLocation} rel="noreferrer" target="_blank">
-          {record.pdf.fileName}
+        <a href={record?.pdf?.fileLocation} rel="noreferrer" target="_blank">
+          {record?.pdf?.fileName}
         </a>
       ),
     },
@@ -39,8 +39,8 @@ const PostsTable = ({
       title: "Audio",
       key: "audio",
       render: (record) => (
-        <a href={record.audio.fileLocation} rel="noreferrer" target="_blank">
-          {record.audio.fileName}
+        <a href={record?.audio?.fileLocation} rel="noreferrer" target="_blank">
+          {record?.audio?.fileName}
         </a>
       ),
     },
