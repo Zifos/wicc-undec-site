@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Head from "next/head";
-import styled from "styled-components";
 import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
+import { NextPageContext } from "next";
+import { ICategory } from "../../models/category.model";
 import {
   StyledWrapper,
   StyledHeader,
@@ -13,62 +14,23 @@ import {
 
 const logo = "/WICC-logo-2.png";
 
-const Categories = (): JSX.Element => {
-  const data = [
-    {
-      _id: "1231",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1232",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1233",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1234",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1231",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1232",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1233",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1234",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1231",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1232",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1233",
-      title: "Agentes y sistemas inteligentes",
-    },
-  ];
-  let dataGrouped = [];
+const Categories = ({
+  initialCategories,
+}: {
+  initialCategories: ICategory[];
+}): JSX.Element => {
+  const dataGrouped = useMemo<Array<Array<ICategory>>>(
+    () =>
+      initialCategories.reduce((acc, category, index) => {
+        if (index % 3 === 0) {
+          acc.push([]);
+        }
+        acc[acc.length - 1].push(category);
 
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; data.length > i; i++) {
-    if (i % 3 === 0) {
-      dataGrouped.push([]);
-    }
-    dataGrouped[dataGrouped.length - 1].push(data[i]);
-  }
+        return acc;
+      }, []),
+    [initialCategories]
+  );
 
   return (
     <>
@@ -112,6 +74,30 @@ const Categories = (): JSX.Element => {
       </StyledWrapper>
     </>
   );
+};
+
+Categories.getInitialProps = async ({
+  res,
+}: NextPageContext): Promise<{ initialCategories: ICategory[] } | unknown> => {
+  const response = await fetch(`${process.env.URL || ""}/api/category`);
+
+  if (response.ok) {
+    const responseJSON: {
+      categories: ICategory[];
+    } = await response.json();
+    const { categories } = responseJSON;
+    return {
+      initialCategories: categories,
+    };
+  }
+  if (res) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+  return {};
 };
 
 export default Categories;
