@@ -1,13 +1,15 @@
 import React, { useEffect, useState, createRef } from "react";
 import Head from "next/head";
 import styled from "styled-components";
-import { Card, Col, Row, Image, Space, Typography, Tag, Button } from "antd";
-import { FilePdfOutlined, SoundOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Space, Typography, Tag, Button } from "antd";
+import { FilePdfOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { NextPageContext } from "next";
 import Content from "../../../../components/Content";
 import AudioPlayer from "./AudioPlayer";
+import { IPost } from "../../../../models/post.model";
 
 const PdfViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
 
@@ -31,7 +33,7 @@ const StyledLinkCard = styled(Card)`
   }
 `;
 
-const Post = (): JSX.Element => {
+const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
   const router = useRouter();
   const { categoryID } = router.query;
 
@@ -41,28 +43,6 @@ const Post = (): JSX.Element => {
   useEffect(() => {
     setPDFHeight(PDFRef.current.offsetHeight);
   }, [PDFRef]);
-
-  const data = {
-    _id: "605661b209cc58127b1e9add",
-    title: "dasdsadsa",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    category: {
-      _id: "605135bb4fa0173e3cb775bb",
-      title: "mi primera categoria 7",
-    },
-    pdf: {
-      fileName: "Jose Nicolas Frati CV.pdf",
-      fileLocation:
-        "https://firebasestorage.googleapis.com/v0/b/tests-frati.appspot.com/o/Jose%20Nicolas%20Frati%20CV.pdf?alt=media",
-    },
-    audio: {
-      fileName: "poster01.mp3",
-      fileLocation:
-        "https://firebasestorage.googleapis.com/v0/b/tests-frati.appspot.com/o/poster01.mp3?alt=media",
-    },
-    __v: 0,
-  };
 
   return (
     <>
@@ -89,28 +69,28 @@ const Post = (): JSX.Element => {
                     >
                       <Link href={`/category/${categoryID}`}>
                         <Tag color="purple" style={{ cursor: "pointer" }}>
-                          {data.category?.title}
+                          {initialPost.category?.title}
                         </Tag>
                       </Link>
                       <Typography.Title level={2} style={{ margin: 0 }}>
-                        {data.title}
+                        {initialPost.title}
                       </Typography.Title>
                     </Space>
                     <Typography.Text type="secondary">
-                      {data.description}
+                      {initialPost?.description}
                     </Typography.Text>
                     <AudioPlayer
-                      src={data.audio?.fileLocation}
-                      downloadFileName={data.audio?.fileName}
+                      src={initialPost.audio?.fileLocation}
+                      downloadFileName={initialPost.audio?.fileName}
                     />
                     <StyledLinkCard>
                       <Button
                         type="link"
-                        href={data.pdf?.fileLocation}
+                        href={initialPost.pdf?.fileLocation}
                         target="_blank"
                       >
                         <FilePdfOutlined />
-                        {data.pdf?.fileName}
+                        {initialPost.pdf?.fileName}
                       </Button>
                     </StyledLinkCard>
                   </Space>
@@ -118,7 +98,7 @@ const Post = (): JSX.Element => {
                 <Col lg={12}>
                   <div ref={PDFRef} style={{ height: "100%" }}>
                     <PdfViewer
-                      url={String(data.pdf?.fileLocation)}
+                      url={String(initialPost.pdf?.fileLocation)}
                       height={PDFHeight}
                     />
                   </div>
@@ -130,6 +110,33 @@ const Post = (): JSX.Element => {
       </StyledContent>
     </>
   );
+};
+
+Post.getInitialProps = async ({
+  res,
+  query,
+}: NextPageContext): Promise<{ initialPost: IPost } | unknown> => {
+  const { postID } = query;
+
+  const response = await fetch(`${process.env.URL || ""}/api/post/${postID}`);
+
+  if (response.ok) {
+    const responseJSON: {
+      post: IPost;
+    } = await response.json();
+    const { post } = responseJSON;
+    return {
+      initialPost: post,
+    };
+  }
+  if (res) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+  return {};
 };
 
 export default Post;
