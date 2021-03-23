@@ -1,16 +1,12 @@
 import { model, Schema, models } from "mongoose";
+import { IPost } from "./post.model";
 
 const { Types } = Schema;
 
 export interface ICategory {
   title: string;
   _id: string;
-  posts: {
-    _id: string;
-    title: string;
-    pdfURL?: string;
-    audioURL?: string;
-  }[];
+  posts: IPost[];
 }
 
 const CategorySchema = new Schema({

@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next";
 import {
   StyledWrapper,
   StyledHeader,
@@ -10,72 +11,26 @@ import {
   StyledLinkCard,
   StyledTitle,
 } from "../../components/Styled";
+import { ICategory } from "../../models/category.model";
 
 const logo = "/WICC-logo-2.png";
 
-const Category = (): JSX.Element => {
+const Category = ({
+  initialCategory,
+}: {
+  initialCategory: ICategory;
+}): JSX.Element => {
   const router = useRouter();
   const { categoryID } = router.query;
 
-  const data = [
-    {
-      _id: "1231",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1232",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1233",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1234",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1231",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1232",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1233",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1234",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1231",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1232",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1233",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1234",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-  ];
-  let dataGrouped = [];
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; data.length > i; i++) {
-    if (i % 3 === 0) {
-      dataGrouped.push([]);
+  const dataGrouped = initialCategory.posts.reduce((acc, post, index) => {
+    if (index % 3 === 0) {
+      acc.push([]);
     }
-    dataGrouped[dataGrouped.length - 1].push(data[i]);
-  }
+    acc[acc.length - 1].push(post);
+
+    return acc;
+  }, []);
 
   return (
     <>
@@ -93,8 +48,8 @@ const Category = (): JSX.Element => {
           />
         </StyledHeader>
         <StyledContent>
-          <Space size="large" direction="vertical">
-            <StyledTitle>Agentes y sistemas inteligentes</StyledTitle>
+          <Space size="large" direction="vertical" style={{ width: "100%" }}>
+            <StyledTitle>{initialCategory.title}</StyledTitle>
             {dataGrouped.map((group, i) => (
               <Row gutter={32} key={i}>
                 {group.map((post, i2) => (
@@ -119,6 +74,35 @@ const Category = (): JSX.Element => {
       </StyledWrapper>
     </>
   );
+};
+
+Category.getInitialProps = async ({
+  res,
+  query,
+}: NextPageContext): Promise<{ initialCategory: ICategory } | unknown> => {
+  const { categoryID } = query;
+
+  const response = await fetch(
+    `${process.env.URL || ""}/api/category/${categoryID}`
+  );
+
+  if (response.ok) {
+    const responseJSON: {
+      category: ICategory;
+    } = await response.json();
+    const { category } = responseJSON;
+    return {
+      initialCategory: category,
+    };
+  }
+  if (res) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+  return {};
 };
 
 export default Category;
