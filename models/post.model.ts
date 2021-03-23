@@ -12,6 +12,7 @@ export interface IPost {
   title: string;
   audio: IFile;
   pdf: IFile;
+  category: string;
 }
 
 export const PostSchema = new Schema({
