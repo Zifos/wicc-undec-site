@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import type { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
+import AuthMiddleware from "../../../utils/auth_middleware";
 import filehandler from "../../../utils/filehandler";
 import initMiddleware from "../../../utils/initMiddleware";
 import PostModel from "../../../models/post.model";
@@ -118,7 +119,7 @@ const handler = async (req: NextApiRequestWithFiles, res: NextApiResponse) => {
       break;
     case "POST":
       await multerFields(req, res);
-      createPost(req, res);
+      AuthMiddleware(createPost)(req, res);
       break;
     default:
       res.status(404).json({ error: "Resource not found" });

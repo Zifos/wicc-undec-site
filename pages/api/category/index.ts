@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import AuthMiddleware from "../../../utils/auth_middleware";
 import CategoryModel from "../../../models/category.model";
 import connectDB from "../../../utils/db_connection.handler";
 
@@ -39,7 +40,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await getAllCategories(req, res);
       break;
     case "POST":
-      await createCategory(req, res);
+      await AuthMiddleware(createCategory)(req, res);
       break;
     default:
       res.status(404).json({ error: "Resource not found" });

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import AuthMiddleware from "../../../utils/auth_middleware";
 import PostModel from "../../../models/post.model";
 import connectDB from "../../../utils/db_connection.handler";
 
@@ -63,10 +64,10 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       getPostById(req, res);
       break;
     case "PUT":
-      updatePostTitleById(req, res);
+      AuthMiddleware(updatePostTitleById)(req, res);
       break;
     case "DELETE":
-      removePostById(req, res);
+      AuthMiddleware(removePostById)(req, res);
       break;
     default:
       res.status(404).json({ error: "Resource not found" });

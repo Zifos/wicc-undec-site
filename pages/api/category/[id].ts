@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import AuthMiddleware from "../../../utils/auth_middleware";
 import CategoryModel from "../../../models/category.model";
 import connectDB from "../../../utils/db_connection.handler";
 
@@ -59,10 +60,10 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       getCategoryById(req, res);
       break;
     case "PUT":
-      updateCategoryTitleById(req, res);
+      AuthMiddleware(updateCategoryTitleById)(req, res);
       break;
     case "DELETE":
-      removeCategoryById(req, res);
+      AuthMiddleware(removeCategoryById)(req, res);
       break;
     default:
       res.status(404).json({ error: "Resource not found" });
