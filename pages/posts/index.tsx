@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Head from "next/head";
 import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { IPost } from "../../models/post.model";
 import {
   StyledWrapper,
   StyledHeader,
@@ -13,65 +13,19 @@ import {
 
 const logo = "/WICC-logo-2.png";
 
-const Posts = (): JSX.Element => {
-  const router = useRouter();
-  const { categoryID } = router.query;
+const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
+  const dataGrouped = useMemo<Array<Array<IPost>>>(
+    () =>
+      initialPosts.reduce((acc, post, index) => {
+        if (index % 3 === 0) {
+          acc.push([]);
+        }
+        acc[acc.length - 1].push(post);
 
-  const data = [
-    {
-      _id: "1231",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1232",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1233",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1234",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1231",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1232",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1233",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1234",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1231",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1232",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-    {
-      _id: "1233",
-      title: "Solución a grandes problemas aplicando hpc multi-tecnología",
-    },
-  ];
-  let dataGrouped = [];
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; data.length > i; i++) {
-    if (i % 3 === 0) {
-      dataGrouped.push([]);
-    }
-    dataGrouped[dataGrouped.length - 1].push(data[i]);
-  }
+        return acc;
+      }, []),
+    [initialPosts]
+  );
 
   return (
     <>
@@ -89,14 +43,14 @@ const Posts = (): JSX.Element => {
           />
         </StyledHeader>
         <StyledContent>
-          <Space size="large" direction="vertical">
+          <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <StyledTitle>Publicaciones</StyledTitle>
             {dataGrouped.map((group, i) => (
               <Row gutter={32} key={i}>
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2}>
                     <StyledLinkCard>
-                      <Link href={`${categoryID}/post/${post._id}`}>
+                      <Link href={`category/${post.category}/post/${post._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -115,6 +69,28 @@ const Posts = (): JSX.Element => {
       </StyledWrapper>
     </>
   );
+};
+
+Posts.getInitialProps = async (_req, res) => {
+  const response = await fetch(`${process.env.URL || ""}/api/post`);
+
+  if (response.ok) {
+    const responseJSON: {
+      posts: IPost[];
+    } = await response.json();
+    const { posts } = responseJSON;
+    return {
+      initialPosts: posts,
+    };
+  }
+  if (res) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+  return {};
 };
 
 export default Posts;
