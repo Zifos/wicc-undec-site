@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { Card, Col, Row, Image, Space, Typography, Tag, Button } from "antd";
 import { FilePdfOutlined, SoundOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
-import Content from "../../components/Content";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Content from "../../../../components/Content";
 import AudioPlayer from "./AudioPlayer";
 
 const PdfViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
@@ -23,7 +25,16 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const Home = (): JSX.Element => {
+const StyledLinkCard = styled(Card)`
+  .ant-card-body {
+    padding: 0.5rem;
+  }
+`;
+
+const Post = (): JSX.Element => {
+  const router = useRouter();
+  const { categoryID } = router.query;
+
   const [PDFHeight, setPDFHeight] = useState(0);
   const PDFRef = createRef<HTMLDivElement>();
 
@@ -66,9 +77,25 @@ const Home = (): JSX.Element => {
             <StyledCard>
               <Row gutter={64} style={{ height: "100%" }}>
                 <Col lg={12}>
-                  <Space size="large" direction="vertical">
-                    <Tag color="purple">{data.category?.title}</Tag>
-                    <Typography.Title level={2}>{data.title}</Typography.Title>
+                  <Space
+                    size="large"
+                    direction="vertical"
+                    style={{ width: "100%" }}
+                  >
+                    <Space
+                      size="middle"
+                      direction="vertical"
+                      style={{ width: "100%" }}
+                    >
+                      <Link href={`/category/${categoryID}`}>
+                        <Tag color="purple" style={{ cursor: "pointer" }}>
+                          {data.category?.title}
+                        </Tag>
+                      </Link>
+                      <Typography.Title level={2} style={{ margin: 0 }}>
+                        {data.title}
+                      </Typography.Title>
+                    </Space>
                     <Typography.Text type="secondary">
                       {data.description}
                     </Typography.Text>
@@ -76,18 +103,16 @@ const Home = (): JSX.Element => {
                       src={data.audio?.fileLocation}
                       downloadFileName={data.audio?.fileName}
                     />
-                    <Card>
-                      <Button type="link" href={data.audio?.fileLocation}>
-                        <SoundOutlined />
-                        {data.audio?.fileName}
-                      </Button>
-                    </Card>
-                    <Card>
-                      <Button type="link" href={data.pdf?.fileLocation}>
+                    <StyledLinkCard>
+                      <Button
+                        type="link"
+                        href={data.pdf?.fileLocation}
+                        target="_blank"
+                      >
                         <FilePdfOutlined />
                         {data.pdf?.fileName}
                       </Button>
-                    </Card>
+                    </StyledLinkCard>
                   </Space>
                 </Col>
                 <Col lg={12}>
@@ -107,4 +132,4 @@ const Home = (): JSX.Element => {
   );
 };
 
-export default Home;
+export default Post;

@@ -1,93 +1,54 @@
 import React from "react";
 import Head from "next/head";
-import styled from "styled-components";
-import { Card, Col, Row, Image, Space, Typography } from "antd";
+import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
-import Content from "../components/Content";
+import { BarsOutlined, SnippetsOutlined } from "@ant-design/icons";
+import Footer from "../components/Footer";
+import {
+  StyledWrapper,
+  StyledHeader,
+  StyledContent,
+  StyledLinkCard,
+} from "../components/Styled";
 
 const logo = "/WICC-logo-2.png";
 
-const StyledWrapper = styled.div`
-  background: white;
-`;
-
-const StyledHeader = styled.div`
-  background: white;
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledContent = styled(Content)`
-  /* padding-top: 100vh; */
-  min-height: 100vh;
-  background-position: top;
-  background-attachment: fixed;
-  overflow-y: auto;
-  background: hsla(247, 79%, 22%, 1);
-  background: linear-gradient(
-    180deg,
-    hsla(247, 79%, 22%, 1) 0%,
-    hsla(298, 84%, 17%, 1) 100%
-  );
-  background-image: url("/background.svg");
-  background-size: cover;
-  margin: 0 2rem;
-  padding: 3rem;
-  border-radius: 2rem;
-  box-shadow: 0 1rem 2rem 1rem rgb(11 6 47 / 30%),
-    0 -6rem 6rem -6rem rgb(11 6 47 / 50%);
-  z-index: 2;
-  position: relative;
-`;
-
-const StyledLinkCard = styled(Card)`
-  transition: transform 0.3s ease;
-  cursor: pointer;
-
-  .ant-card-body > * {
-    transition: color 0.3s ease;
-  }
-  &:hover {
-    transform: scale(1.025);
-
-    .ant-card-body > * {
-      color: ${({ theme }) => theme.default.primaryColor};
-    }
-  }
-`;
-
 const Home = (): JSX.Element => {
-  const data = [
+  const posts = [
     {
       _id: "1231",
       title:
-        "Invalid hook call. Hooks can only be called inside of the body of a function component.",
+        "Rendimiento de Cloud Computin para HPC en IasS privados y públicos",
+      categoryID: "111",
     },
     {
       _id: "1232",
       title:
-        "Invalid hook call. Hooks can only be called inside of the body of a function component.",
+        "Rendimiento de Cloud Computin para HPC en IasS privados y públicos",
+      categoryID: "222",
     },
     {
       _id: "1233",
       title:
-        "Invalid hook call. Hooks can only be called inside of the body of a function component.",
-    },
-    {
-      _id: "1234",
-      title:
-        "Invalid hook call. Hooks can only be called inside of the body of a function component.",
+        "Rendimiento de Cloud Computin para HPC en IasS privados y públicos",
+      categoryID: "333",
     },
   ];
-  let dataGrouped = [];
 
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; data.length > i; i++) {
-    if (i % 3 === 0) {
-      dataGrouped.push([]);
-    }
-    dataGrouped[dataGrouped.length - 1].push(data[i]);
-  }
+  const categories = [
+    {
+      _id: "1231",
+      title: "Agentes y sistemas inteligentes",
+    },
+    {
+      _id: "1232",
+      title: "Agentes y sistemas inteligentes",
+    },
+    {
+      _id: "1233",
+      title: "Agentes y sistemas inteligentes",
+    },
+  ];
 
   return (
     <>
@@ -99,19 +60,127 @@ const Home = (): JSX.Element => {
         <StyledHeader>
           <Image
             src={logo}
-            height="12rem"
+            height="14rem"
             style={{ width: "auto" }}
             preview={false}
           />
         </StyledHeader>
-        <StyledContent>
-          <Space size="large" direction="vertical">
-            {dataGrouped.map((group, i) => (
-              <Row gutter={24} key={i}>
-                {group.map((post, i2) => (
-                  <Col lg={8} key={i + i2}>
+        <Space
+          size={64}
+          direction="vertical"
+          style={{ width: "100%", marginBottom: "2rem" }}
+        >
+          <StyledContent color="purple" fullRounded>
+            <Row align="middle" gutter={32} justify="center">
+              <Col>
+                <Typography.Title
+                  level={2}
+                  style={{ margin: "0", color: "white", fontSize: "8rem" }}
+                >
+                  XXIII
+                </Typography.Title>
+              </Col>
+              <Col>
+                <Typography.Title
+                  level={1}
+                  className="ant-typography"
+                  style={{ margin: "0", color: "white", fontSize: "3rem" }}
+                >
+                  <span style={{ textTransform: "uppercase" }}>
+                    Workshop de Investigadores{" "}
+                  </span>
+                  <br />
+                  <span style={{ fontWeight: "300" }}>
+                    en Ciencias de la Computación
+                  </span>
+                </Typography.Title>
+              </Col>
+            </Row>
+          </StyledContent>
+          <Row gutter={0}>
+            <Col lg={12}>
+              <Link href="posts">
+                <StyledContent link fullRounded>
+                  <Row justify="space-between" align="middle">
+                    <div>
+                      <Typography.Title
+                        level={1}
+                        style={{
+                          margin: "0",
+                          color: "white",
+                          fontWeight: "300",
+                        }}
+                      >
+                        Publicaciones
+                      </Typography.Title>
+                      <Typography.Title
+                        level={2}
+                        style={{
+                          margin: "0",
+                          color: "white",
+                          fontSize: "4rem",
+                        }}
+                      >
+                        78
+                      </Typography.Title>
+                    </div>
+                    <SnippetsOutlined
+                      style={{ fontSize: "6rem", color: "white" }}
+                    />
+                  </Row>
+                </StyledContent>
+              </Link>
+            </Col>
+            <Col lg={12}>
+              <Link href="categories">
+                <StyledContent link color="red" fullRounded>
+                  <Row justify="space-between" align="middle">
+                    <div>
+                      <Typography.Title
+                        level={1}
+                        style={{
+                          margin: "0",
+                          color: "white",
+                          fontWeight: "300",
+                        }}
+                      >
+                        Categorías
+                      </Typography.Title>
+                      <Typography.Title
+                        level={2}
+                        style={{
+                          margin: "0",
+                          color: "white",
+                          fontSize: "4rem",
+                        }}
+                      >
+                        24
+                      </Typography.Title>
+                    </div>
+                    <BarsOutlined
+                      style={{ fontSize: "6rem", color: "white" }}
+                    />
+                  </Row>
+                </StyledContent>
+              </Link>
+            </Col>
+          </Row>
+          <StyledContent fullRounded>
+            <Space size="large" direction="vertical" style={{ width: "100%" }}>
+              <Typography.Title
+                level={1}
+                style={{ color: "white", textAlign: "center" }}
+              >
+                <span style={{ fontWeight: "300" }}>Publicaciones</span>{" "}
+                relevantes
+              </Typography.Title>
+              <Row gutter={32}>
+                {posts.map((post, i) => (
+                  <Col lg={8} key={i}>
                     <StyledLinkCard>
-                      <Link href={`post/${post._id}`}>
+                      <Link
+                        href={`category/${post.categoryID}/post/${post._id}`}
+                      >
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -124,9 +193,37 @@ const Home = (): JSX.Element => {
                   </Col>
                 ))}
               </Row>
-            ))}
-          </Space>
-        </StyledContent>
+            </Space>
+          </StyledContent>
+          <StyledContent color="red" fullRounded>
+            <Space size="large" direction="vertical" style={{ width: "100%" }}>
+              <Typography.Title
+                level={1}
+                style={{ color: "white", textAlign: "center" }}
+              >
+                <span style={{ fontWeight: "300" }}>Categorías</span> buscadas
+              </Typography.Title>
+              <Row gutter={32}>
+                {categories.map((category, i) => (
+                  <Col lg={8} key={i}>
+                    <StyledLinkCard>
+                      <Link href={`category/${category._id}`}>
+                        <Typography.Title
+                          type="secondary"
+                          level={4}
+                          style={{ margin: "0" }}
+                        >
+                          {category.title}
+                        </Typography.Title>
+                      </Link>
+                    </StyledLinkCard>
+                  </Col>
+                ))}
+              </Row>
+            </Space>
+          </StyledContent>
+          <Footer />
+        </Space>
       </StyledWrapper>
     </>
   );
