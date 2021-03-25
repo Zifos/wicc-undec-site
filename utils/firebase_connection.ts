@@ -8,7 +8,7 @@ const certConfig = {
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(certConfig),
+    credential: admin.credential.cert(JSON.stringify(certConfig)),
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET_URL,
   });
 }
