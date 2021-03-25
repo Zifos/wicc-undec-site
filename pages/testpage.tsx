@@ -21,7 +21,7 @@ export default function Component(): ReactElement {
   return (
     <>
       Not signed in <br />
-      <button type="button" onClick={() => signIn()}>
+      <button type="button" onClick={() => signIn("auth0")}>
         Sign in
       </button>
     </>

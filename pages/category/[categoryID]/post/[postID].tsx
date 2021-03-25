@@ -13,8 +13,6 @@ import { IPost } from "../../../../models/post.model";
 
 const PdfViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
 
-const logo = "/WICC-logo-2.png";
-
 const StyledContent = styled(Content)`
   overflow-y: auto;
   background: hsla(247, 79%, 22%, 1);

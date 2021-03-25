@@ -1,6 +1,6 @@
 import { Card } from "antd";
-import React, { useState } from "react";
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import React from "react";
+import { Document, Page } from "react-pdf";
 import styled from "styled-components";
 import { LoadingOutlined } from "@ant-design/icons";
 
@@ -33,7 +33,15 @@ const StyledLoading = styled.div`
   align-items: center;
 `;
 
-const PdfViewer = ({ url, pageNumber = 1, height = undefined }) => (
+const PdfViewer = ({
+  url,
+  pageNumber = 1,
+  height = undefined,
+}: {
+  url: string;
+  pageNumber?: number;
+  height?: unknown | undefined;
+}): JSX.Element => (
   <StyledWrapper>
     <Document
       file={url}
