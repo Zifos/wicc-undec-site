@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../../utils/auth_middleware";
-import CategoryModel from "../../../models/category.model";
+import Models from "../../../models";
 import connectDB from "../../../utils/db_connection.handler";
 
 const getAllCategories = async (
@@ -8,7 +8,10 @@ const getAllCategories = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const categories = await CategoryModel.find().populate("posts", "_id");
+    const categories = await Models.CategoryModel.find().populate(
+      "posts",
+      "_id"
+    );
     res.status(200).json({ categories });
   } catch (error) {
     res.status(500).send(error);
@@ -21,7 +24,7 @@ const createCategory = async (
 ): Promise<void> => {
   try {
     const { body } = req;
-    const newCategory = new CategoryModel({
+    const newCategory = new Models.CategoryModel({
       title: body.title,
     });
     await newCategory.save();

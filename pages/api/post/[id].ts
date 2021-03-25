@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import AuthMiddleware from "../../../utils/auth_middleware";
-import PostModel from "../../../models/post.model";
+import Models from "../../../models";
 import connectDB from "../../../utils/db_connection.handler";
 
 const getPostById = async (
@@ -11,7 +11,7 @@ const getPostById = async (
     query: { id },
   } = req;
   try {
-    const post = await PostModel.findById(id).populate(
+    const post = await Models.PostModel.findById(id).populate(
       "category",
       // select fields
       "title"
@@ -31,7 +31,7 @@ const updatePostTitleById = async (
       query: { id, title },
     } = req;
 
-    const newPost = await PostModel.findByIdAndUpdate(
+    const newPost = await Models.PostModel.findByIdAndUpdate(
       id,
       { title },
       { new: true }
@@ -50,7 +50,7 @@ const removePostById = async (
     const {
       query: { id },
     } = req;
-    const removedQuantity = await PostModel.deleteOne({ _id: id });
+    const removedQuantity = await Models.PostModel.deleteOne({ _id: id });
     res.status(200).json({ success: !!removedQuantity });
   } catch (error) {
     res.status(500).json(error);

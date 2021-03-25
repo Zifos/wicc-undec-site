@@ -6,7 +6,7 @@ import filehandler from "../../../utils/filehandler";
 import initMiddleware from "../../../utils/initMiddleware";
 import PostModel from "../../../models/post.model";
 import connectDB from "../../../utils/db_connection.handler";
-import CategoryModel from "../../../models/category.model";
+import Models from "../../../models";
 
 export const config = {
   api: {
@@ -100,7 +100,7 @@ const createPost = async (
       audio: audioData,
     });
     await newPost.save();
-    await CategoryModel.findByIdAndUpdate(
+    await Models.CategoryModel.findByIdAndUpdate(
       category_id,
       { $push: { posts: newPost._id as never } },
       { upsert: true }
