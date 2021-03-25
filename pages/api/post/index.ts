@@ -102,8 +102,8 @@ const createPost = async (
     await newPost.save();
     await CategoryModel.findByIdAndUpdate(
       category_id,
-      { $push: { posts: newPost._id } },
-      { safe: true, upsert: true }
+      { $push: { posts: newPost._id as never } },
+      { upsert: true }
     );
     res.status(200).json({ success: true, newPost: newPost.toObject() });
   } catch (error) {
