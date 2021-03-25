@@ -90,7 +90,7 @@ const Home = (): JSX.Element => {
                     Workshop de Investigadores{" "}
                   </span>
                   <br />
-                  <span style={{ fontWeight: "300" }}>
+                  <span style={{ fontWeight: 300 }}>
                     en Ciencias de la Computación
                   </span>
                 </Typography.Title>
@@ -108,7 +108,7 @@ const Home = (): JSX.Element => {
                         style={{
                           margin: "0",
                           color: "white",
-                          fontWeight: "300",
+                          fontWeight: 300,
                         }}
                       >
                         Publicaciones
@@ -141,7 +141,7 @@ const Home = (): JSX.Element => {
                         style={{
                           margin: "0",
                           color: "white",
-                          fontWeight: "300",
+                          fontWeight: 300,
                         }}
                       >
                         Categorías
@@ -171,7 +171,7 @@ const Home = (): JSX.Element => {
                 level={1}
                 style={{ color: "white", textAlign: "center" }}
               >
-                <span style={{ fontWeight: "300" }}>Publicaciones</span>{" "}
+                <span style={{ fontWeight: 300 }}>Publicaciones</span>{" "}
                 relevantes
               </Typography.Title>
               <Row gutter={32}>
@@ -201,7 +201,7 @@ const Home = (): JSX.Element => {
                 level={1}
                 style={{ color: "white", textAlign: "center" }}
               >
-                <span style={{ fontWeight: "300" }}>Categorías</span> buscadas
+                <span style={{ fontWeight: 300 }}>Categorías</span> buscadas
               </Typography.Title>
               <Row gutter={32}>
                 {categories.map((category, i) => (
