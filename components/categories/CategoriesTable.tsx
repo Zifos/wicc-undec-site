@@ -22,18 +22,19 @@ const CategoriesTable = ({
       title: "Título",
       dataIndex: "title",
       key: "title",
+      ellipsis: true,
     },
     {
       title: "ID",
       dataIndex: "_id",
       key: "_id",
-      width: "min-content",
+      width: "25%",
     },
     {
       title: "Publicaciones",
       key: "posts",
       render: (record): number => record.posts?.length || 0,
-      width: "min-content",
+      width: "15%",
     },
     {
       title: "Acciones",
@@ -59,10 +60,17 @@ const CategoriesTable = ({
           </Popconfirm>
         </Space>
       ),
-      width: "min-content",
+      width: "23%",
     },
   ];
-  return <Table columns={columns} dataSource={data} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+      scroll={{ y: 400 }}
+    />
+  );
 };
 
 export default CategoriesTable;

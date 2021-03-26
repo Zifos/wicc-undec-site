@@ -19,12 +19,13 @@ const PostsTable = ({
       title: "Título",
       dataIndex: "title",
       key: "title",
+      ellipsis: true,
     },
     {
       title: "ID",
       dataIndex: "_id",
       key: "_id",
-      width: "min-content",
+      width: "25%",
     },
     {
       title: "PDF",
@@ -34,6 +35,8 @@ const PostsTable = ({
           {record?.pdf?.fileName}
         </a>
       ),
+      width: "15%",
+      ellipsis: true,
     },
     {
       title: "Audio",
@@ -43,6 +46,8 @@ const PostsTable = ({
           {record?.audio?.fileName}
         </a>
       ),
+      width: "15%",
+      ellipsis: true,
     },
     {
       title: "Acciones",
@@ -68,10 +73,17 @@ const PostsTable = ({
           </Popconfirm>
         </Space>
       ),
-      width: "min-content",
+      width: "23%",
     },
   ];
-  return <Table columns={columns} dataSource={data} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+      scroll={{ y: 400 }}
+    />
+  );
 };
 
 export default PostsTable;

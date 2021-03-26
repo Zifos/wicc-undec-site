@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import { Col, Row, Image, Space, Typography } from "antd";
-import Link from "next/link";
+import { Col, Row, Space, Typography, Button } from "antd";
+import NextLink from "next/link";
 import { BarsOutlined, SnippetsOutlined } from "@ant-design/icons";
 import Footer from "../components/Footer";
 import {
@@ -9,6 +9,11 @@ import {
   StyledHeader,
   StyledContent,
   StyledLinkCard,
+  StyledFooterLink,
+  StyledTitle1,
+  StyledTitle2,
+  StyledTitle3,
+  StyledLogo,
 } from "../components/Styled";
 
 const logo = "/WICC-logo-2.png";
@@ -58,34 +63,16 @@ const Home = (): JSX.Element => {
       </Head>
       <StyledWrapper>
         <StyledHeader>
-          <Image
-            src={logo}
-            height="14rem"
-            style={{ width: "auto" }}
-            preview={false}
-          />
+          <StyledLogo src={logo} preview={false} />
         </StyledHeader>
-        <Space
-          size={64}
-          direction="vertical"
-          style={{ width: "100%", marginBottom: "2rem" }}
-        >
+        <Space size={64} direction="vertical" style={{ width: "100%" }}>
           <StyledContent color="purple" fullRounded>
-            <Row align="middle" gutter={32} justify="center">
+            <Row align="middle" gutter={[32, 32]} justify="center">
               <Col>
-                <Typography.Title
-                  level={2}
-                  style={{ margin: "0", color: "white", fontSize: "8rem" }}
-                >
-                  XXIII
-                </Typography.Title>
+                <StyledTitle2 level={2}>XXIII</StyledTitle2>
               </Col>
               <Col>
-                <Typography.Title
-                  level={1}
-                  className="ant-typography"
-                  style={{ margin: "0", color: "white", fontSize: "3rem" }}
-                >
+                <StyledTitle1 level={1} className="ant-typography">
                   <span style={{ textTransform: "uppercase" }}>
                     Workshop de Investigadores{" "}
                   </span>
@@ -93,13 +80,13 @@ const Home = (): JSX.Element => {
                   <span style={{ fontWeight: 300 }}>
                     en Ciencias de la Computación
                   </span>
-                </Typography.Title>
+                </StyledTitle1>
               </Col>
             </Row>
           </StyledContent>
-          <Row gutter={0}>
+          <Row gutter={[0, 32]}>
             <Col lg={12}>
-              <Link href="posts">
+              <NextLink href="posts">
                 <StyledContent link fullRounded>
                   <Row justify="space-between" align="middle">
                     <div>
@@ -129,10 +116,10 @@ const Home = (): JSX.Element => {
                     />
                   </Row>
                 </StyledContent>
-              </Link>
+              </NextLink>
             </Col>
             <Col lg={12}>
-              <Link href="categories">
+              <NextLink href="categories">
                 <StyledContent link color="red" fullRounded>
                   <Row justify="space-between" align="middle">
                     <div>
@@ -162,23 +149,23 @@ const Home = (): JSX.Element => {
                     />
                   </Row>
                 </StyledContent>
-              </Link>
+              </NextLink>
             </Col>
           </Row>
           <StyledContent fullRounded>
             <Space size="large" direction="vertical" style={{ width: "100%" }}>
-              <Typography.Title
-                level={1}
+              <StyledTitle3
+                level={3}
                 style={{ color: "white", textAlign: "center" }}
               >
                 <span style={{ fontWeight: 300 }}>Publicaciones</span>{" "}
                 relevantes
-              </Typography.Title>
-              <Row gutter={32}>
+              </StyledTitle3>
+              <Row gutter={[32, 32]}>
                 {posts.map((post, i) => (
                   <Col lg={8} key={i}>
                     <StyledLinkCard>
-                      <Link
+                      <NextLink
                         href={`category/${post.categoryID}/post/${post._id}`}
                       >
                         <Typography.Title
@@ -188,7 +175,7 @@ const Home = (): JSX.Element => {
                         >
                           {post.title}
                         </Typography.Title>
-                      </Link>
+                      </NextLink>
                     </StyledLinkCard>
                   </Col>
                 ))}
@@ -197,17 +184,17 @@ const Home = (): JSX.Element => {
           </StyledContent>
           <StyledContent color="red" fullRounded>
             <Space size="large" direction="vertical" style={{ width: "100%" }}>
-              <Typography.Title
-                level={1}
+              <StyledTitle3
+                level={3}
                 style={{ color: "white", textAlign: "center" }}
               >
                 <span style={{ fontWeight: 300 }}>Categorías</span> buscadas
-              </Typography.Title>
-              <Row gutter={32}>
+              </StyledTitle3>
+              <Row gutter={[32, 32]}>
                 {categories.map((category, i) => (
                   <Col lg={8} key={i}>
                     <StyledLinkCard>
-                      <Link href={`category/${category._id}`}>
+                      <NextLink href={`category/${category._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -215,7 +202,7 @@ const Home = (): JSX.Element => {
                         >
                           {category.title}
                         </Typography.Title>
-                      </Link>
+                      </NextLink>
                     </StyledLinkCard>
                   </Col>
                 ))}
@@ -223,6 +210,22 @@ const Home = (): JSX.Element => {
             </Space>
           </StyledContent>
           <Footer />
+          <StyledFooterLink justify="center">
+            <Col lg={8}>
+              <Button
+                type="link"
+                href="https://wicc2021.undec.edu.ar/"
+                target="_blank"
+              >
+                WICC2021.undec.edu.ar/
+              </Button>
+            </Col>
+            <Col lg={8}>
+              <NextLink href="/admin">
+                <Button type="link">Admin</Button>
+              </NextLink>
+            </Col>
+          </StyledFooterLink>
         </Space>
       </StyledWrapper>
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { Col, Row, Image, Space, Typography } from "antd";
+import { Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
@@ -10,6 +10,7 @@ import {
   StyledContent,
   StyledLinkCard,
   StyledTitle,
+  StyledLogo,
 } from "../../components/Styled";
 import { ICategory } from "../../models/category.model";
 
@@ -40,18 +41,13 @@ const Category = ({
       </Head>
       <StyledWrapper>
         <StyledHeader>
-          <Image
-            src={logo}
-            height="14rem"
-            style={{ width: "auto" }}
-            preview={false}
-          />
+          <StyledLogo src={logo} preview={false} />
         </StyledHeader>
         <StyledContent>
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <StyledTitle>{initialCategory.title}</StyledTitle>
             {dataGrouped.map((group, i) => (
-              <Row gutter={32} key={i}>
+              <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2}>
                     <StyledLinkCard>

@@ -9,11 +9,21 @@ const StyledFooter = styled(ANTDFooter)`
   font-size: ${({ theme }) => theme.spaces[6]}rem;
   text-align: center;
   color: ${({ theme }) => theme.colors.purple[7]};
+
+  a {
+    color: inherit;
+    text-decoration: unset;
+  }
 `;
 
 const Footer = (): JSX.Element => (
   <StyledFooter>
-    With lots of coffee by <b>Zifos Team</b>
+    With lots of coffee by{" "}
+    <b>
+      <a href="http://zifosteam.com/" target="_blank">
+        Zifos Team
+      </a>
+    </b>
   </StyledFooter>
 );
 
