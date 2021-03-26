@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Col, Row, Space, Typography, Button } from "antd";
 import NextLink from "next/link";
 import { BarsOutlined, SnippetsOutlined } from "@ant-design/icons";
+import { signIn, useSession } from "next-auth/client";
 import Footer from "../components/Footer";
 import {
   StyledWrapper,
@@ -19,6 +20,8 @@ import {
 const logo = "/WICC-logo-2.png";
 
 const Home = (): JSX.Element => {
+  const [session, loading] = useSession();
+
   const posts = [
     {
       _id: "1231",
@@ -221,9 +224,15 @@ const Home = (): JSX.Element => {
               </Button>
             </Col>
             <Col lg={8}>
-              <NextLink href="/admin">
-                <Button type="link">Admin</Button>
-              </NextLink>
+              {session ? (
+                <NextLink href="/admin">
+                  <Button type="link">Admin</Button>
+                </NextLink>
+              ) : (
+                <Button type="link" onClick={() => signIn("auth0")}>
+                  Admin
+                </Button>
+              )}
             </Col>
           </StyledFooterLink>
         </Space>

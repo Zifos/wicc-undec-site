@@ -115,11 +115,9 @@ Posts.getInitialProps = async ({
   const session = await getSession({ req });
 
   if (!session) {
-    // On the server, we'll use an HTTP response to
-    // redirect with the status code of our choice.
-    // 307 is for temporary redirects.
-    res.writeHead(307, { Location: "/" });
-    res.end();
+    if (res) {
+      res.writeHead(307, { Location: "/" }).end();
+    }
   }
 
   const response = await fetch(`${process.env.URL || ""}/api/post`);
