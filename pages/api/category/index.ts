@@ -23,9 +23,9 @@ const createCategory = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const { body } = req;
+    const { title } = JSON.parse(req.body);
     const newCategory = new Models.CategoryModel({
-      title: body.title,
+      title,
     });
     await newCategory.save();
     res

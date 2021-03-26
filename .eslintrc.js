@@ -26,6 +26,7 @@ module.exports = {
     "prettier/react",
   ],
   rules: {
+    camelcase: "off",
     "react/no-array-index-key": "off",
     "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }],
     "import/extensions": "off",

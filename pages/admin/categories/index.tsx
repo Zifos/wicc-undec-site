@@ -54,9 +54,10 @@ const Categories = ({
     router.push("/");
   }
 
-  const onSubmit = ({ title }) => {
-    createCategory(title);
+  const onSubmit = async ({ title }) => {
+    await createCategory(title);
     message.success(`Categoría Creada ${title}`);
+    setIsCategoryFormOpen(false);
   };
 
   const onCancel = () => {

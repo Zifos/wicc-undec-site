@@ -1,11 +1,20 @@
-import { Button, Form, Input, Modal, ModalProps, Upload } from "antd";
+import { Button, Form, Input, Modal, ModalProps, Select, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UploadOutlined } from "@ant-design/icons";
-import { IPost } from "../../models/post.model";
+import { UploadFile } from "antd/lib/upload/interface";
+import { IFile } from "../../models/post.model";
+import useCategories from "../../hooks/useCategories";
 
 interface IPostModalProps extends ModalProps {
-  initialData: IPost;
+  initialData: {
+    _id: string;
+    title: string;
+    description?: string;
+    category: string;
+    audio: IFile;
+    pdf: IFile;
+  };
   onCreate: (values?: unknown) => void;
   // onFinishFailed?: (values?: unknown) => void;
   onUpdate: (values?: unknown) => void;
@@ -21,8 +30,10 @@ const PostModal = ({
   ...rest
 }: IPostModalProps): JSX.Element => {
   const [form] = Form.useForm();
+  const [selectedCategoryId, setSelectedCategoryId] = useState(undefined);
   const [pdfFile, setPdfFile] = useState(undefined);
   const [audioFile, setAudioFile] = useState(undefined);
+  const { categories, getCategories } = useCategories();
 
   const onOk = async () => {
     await form.validateFields();
@@ -32,6 +43,7 @@ const PostModal = ({
         title,
         pdf: pdfFile,
         audio: audioFile,
+        category_id: selectedCategoryId,
       });
       return;
     }
@@ -39,8 +51,16 @@ const PostModal = ({
       title,
       pdf: pdfFile,
       audio: audioFile,
+      category_id: selectedCategoryId,
     });
   };
+
+  useEffect(() => {
+    if (initialData) {
+      form.setFieldsValue({ title: initialData.title });
+      form.setFieldsValue({ category: initialData.category });
+    }
+  }, [form, initialData]);
 
   useEffect(() => {
     if (!visible) {
@@ -49,6 +69,12 @@ const PostModal = ({
       form.resetFields();
     }
   }, [form, visible]);
+
+  useEffect(() => {
+    if (!categories.length) {
+      getCategories();
+    }
+  }, [categories, getCategories]);
 
   return (
     <Modal
@@ -72,6 +98,26 @@ const PostModal = ({
         >
           <Input />
         </Form.Item>
+        <Form.Item name="category">
+          <Select
+            showSearch
+            style={{ width: "100%" }}
+            placeholder="Selecciona una categoria"
+            optionFilterProp="children"
+            onChange={(val) => setSelectedCategoryId(val)}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {categories?.length &&
+              categories.map((cat) => (
+                <Select.Option key={cat._id} value={cat._id}>
+                  {cat.title}
+                </Select.Option>
+              ))}
+          </Select>
+        </Form.Item>
+
         <Form.Item>
           <Upload
             name="logo"
@@ -79,6 +125,12 @@ const PostModal = ({
             onChange={(e) => {
               setPdfFile(e?.fileList[0]?.originFileObj);
             }}
+            defaultFileList={[
+              {
+                name: initialData?.pdf?.fileName,
+                url: initialData?.pdf.fileLocation,
+              } as UploadFile,
+            ]}
           >
             <Button disabled={!!pdfFile} icon={<UploadOutlined />}>
               Click to upload

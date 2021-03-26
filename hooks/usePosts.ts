@@ -5,7 +5,12 @@ const usePosts = (
   initialPosts: IPost[]
 ): {
   posts: IPost[];
-  createPost: (newPost: { title: string; pdf: File; audio: File }) => void;
+  createPost: (newPost: {
+    title: string;
+    pdf: File;
+    audio: File;
+    category_id: string | number;
+  }) => void;
   updatePost: (cat: {
     _id: string;
     title: string;
@@ -20,17 +25,19 @@ const usePosts = (
     title,
     pdf,
     audio,
+    category_id,
   }: {
     title: string;
     pdf: File;
     audio: File;
+    category_id: string | number;
   }) => {
     const formData = new FormData();
 
     formData.append("title", title);
     formData.append("paper", pdf);
     formData.append("audio", audio);
-
+    formData.append("category_id", String(category_id));
     const { newPost }: { newPost: IPost } = await fetch("/api/post", {
       method: "POST",
       body: formData,
@@ -44,23 +51,24 @@ const usePosts = (
     title,
     pdf,
     audio,
+    category_id,
   }: {
     _id: string;
     title: string;
     pdf: File;
     audio: File;
+    category_id: string | number;
   }) => {
     const formData = new FormData();
 
     formData.append("title", title);
     formData.append("paper", pdf);
     formData.append("audio", audio);
+    formData.append("category_id", String(category_id));
 
     const updatedPost: IPost = await fetch(`/api/post/${_id}`, {
       method: "PUT",
-      body: JSON.stringify({
-        title,
-      }),
+      body: formData,
     }).then((res) => res.json());
     const updatedPostIndex = posts.findIndex(
       (post) => post._id === updatedPost._id

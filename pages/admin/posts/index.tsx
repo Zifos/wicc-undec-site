@@ -72,7 +72,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
         <Row justify="center">
           <Col lg={20}>
             <Card
-              title="Listado de categorías"
+              title="Listado de publicaciones"
               bordered
               extra={
                 <Button

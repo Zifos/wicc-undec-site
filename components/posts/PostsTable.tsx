@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/display-name */
 import React from "react";
 import { Space, Button, Popconfirm, Table } from "antd";
@@ -62,7 +63,7 @@ const PostsTable = ({
             Actualizar
           </Button>
           <Popconfirm
-            title="¿Quieres borrar la categoría?"
+            title="¿Quieres borrar la publicación?"
             onConfirm={() => onDelete(record._id)}
             okText="Eliminar"
             cancelText="No"
