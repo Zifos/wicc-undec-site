@@ -2,6 +2,10 @@ import { Card, Col, Row, Button } from "antd";
 import Head from "next/head";
 import React, { useState } from "react";
 import { NextPageContext } from "next";
+import styled from "styled-components";
+import { getSession, useSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import { LoadingOutlined } from "@ant-design/icons";
 import { IPost } from "../../../models/post.model";
 import Content from "../../../components/Content";
 import Header from "../../../components/Header";
@@ -9,10 +13,35 @@ import PostsTable from "../../../components/posts/PostsTable";
 import PostModal from "../../../components/posts/PostModal";
 import usePosts from "../../../hooks/usePosts";
 
+const StyledLoading = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [postForUpdate, setPostForUpdate] = useState(undefined);
   const { posts, createPost, updatePost, deletePost } = usePosts(initialPosts);
+
+  const [session, loading] = useSession();
+  const router = useRouter();
+
+  if (typeof window !== "undefined" && loading) return null;
+
+  if (loading) {
+    return (
+      <StyledLoading>
+        <LoadingOutlined style={{ fontSize: 24 }} spin />
+      </StyledLoading>
+    );
+  }
+
+  if (!session) {
+    router.push("/");
+  }
 
   const openUpdateForm = (_id) => {
     setPostForUpdate(posts.find((post) => post._id === _id));
@@ -81,7 +110,18 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
 
 Posts.getInitialProps = async ({
   res,
+  req,
 }: NextPageContext): Promise<{ initialPosts: IPost[] } | unknown> => {
+  const session = await getSession({ req });
+
+  if (!session) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+
   const response = await fetch(`${process.env.URL || ""}/api/post`);
 
   if (response.ok) {

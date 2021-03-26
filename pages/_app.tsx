@@ -1,4 +1,5 @@
-import { AppProps } from "next/app";
+import { Provider } from "next-auth/client";
+import type { AppProps } from "next/app";
 import "antd/dist/antd.less";
 import { ThemeProvider } from "styled-components";
 import { Layout } from "antd";
@@ -12,21 +13,23 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => {
   const currentRoute = useRouter().pathname;
 
   return (
-    <ThemeProvider theme={{ ...theme }}>
-      {!currentRoute.includes("/admin") ? (
-        <Layout style={{ height: "100vh", overflow: "hidden" }}>
-          <Component {...pageProps} />
-        </Layout>
-      ) : (
-        <Layout style={{ height: "100vh" }}>
-          <Sider />
-          <Layout>
+    <Provider session={pageProps.session}>
+      <ThemeProvider theme={{ ...theme }}>
+        {!currentRoute.includes("/admin") ? (
+          <Layout style={{ height: "100vh", overflow: "hidden" }}>
             <Component {...pageProps} />
-            <Footer />
           </Layout>
-        </Layout>
-      )}
-    </ThemeProvider>
+        ) : (
+          <Layout style={{ height: "100vh" }}>
+            <Sider />
+            <Layout>
+              <Component {...pageProps} />
+              <Footer />
+            </Layout>
+          </Layout>
+        )}
+      </ThemeProvider>
+    </Provider>
   );
 };
 

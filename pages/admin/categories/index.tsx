@@ -2,12 +2,24 @@ import React, { useState } from "react";
 import { NextPageContext } from "next";
 import Head from "next/head";
 import { Button, Card, Col, message, Row } from "antd";
+import styled from "styled-components";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import { getSession, useSession } from "next-auth/client";
 import useCategories from "../../../hooks/useCategories";
 import Content from "../../../components/Content";
 import Header from "../../../components/Header";
 import CategoriesModal from "../../../components/categories/CategoriesModal";
 import { ICategory } from "../../../models/category.model";
 import CategoriesTable from "../../../components/categories/CategoriesTable";
+
+const StyledLoading = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Categories = ({
   initialCategories,
@@ -24,6 +36,23 @@ const Categories = ({
   } = useCategories(initialCategories);
 
   const [categoryForUpdate, setCategoryForUpdate] = useState(undefined);
+
+  const [session, loading] = useSession();
+  const router = useRouter();
+
+  if (typeof window !== "undefined" && loading) return null;
+
+  if (loading) {
+    return (
+      <StyledLoading>
+        <LoadingOutlined style={{ fontSize: 24 }} spin />
+      </StyledLoading>
+    );
+  }
+
+  if (!session) {
+    router.push("/");
+  }
 
   const onSubmit = ({ title }) => {
     createCategory(title);
@@ -100,7 +129,18 @@ const Categories = ({
 
 Categories.getInitialProps = async ({
   res,
+  req,
 }: NextPageContext): Promise<{ initialCategories: ICategory[] } | unknown> => {
+  const session = await getSession({ req });
+
+  if (!session) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+
   const response = await fetch(`${process.env.URL || ""}/api/category`);
 
   if (response.ok) {

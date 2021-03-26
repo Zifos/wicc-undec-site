@@ -1,6 +1,10 @@
 import Head from "next/head";
 import { Image } from "antd";
 import styled from "styled-components";
+import { getSession, useSession } from "next-auth/client";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import type { NextPageContext } from "next";
 
 const logo = "/WICC-logo-2.png";
 const backoffice = "/backoffice-01.svg";
@@ -14,17 +18,61 @@ const StyledContent = styled.div`
   background-color: white;
 `;
 
-const Home = (): JSX.Element => (
-  <>
-    <Head>
-      <title>Inicio - WICC</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-    <StyledContent>
-      <Image src={logo} preview={false} />
-      <Image src={backoffice} preview={false} width="80%" />
-    </StyledContent>
-  </>
-);
+const StyledLoading = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Home = (): JSX.Element => {
+  const [session, loading] = useSession();
+  const router = useRouter();
+
+  if (typeof window !== "undefined" && loading) return null;
+
+  if (loading) {
+    return (
+      <StyledLoading>
+        <LoadingOutlined style={{ fontSize: 24 }} spin />
+      </StyledLoading>
+    );
+  }
+
+  if (!session) {
+    router.push("/");
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Inicio - WICC</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <StyledContent>
+        <Image src={logo} preview={false} />
+        <Image src={backoffice} preview={false} width="80%" />
+      </StyledContent>
+    </>
+  );
+};
+
+Home.getInitialProps = async ({
+  res,
+  req,
+}: NextPageContext): Promise<unknown> => {
+  const session = await getSession({ req });
+
+  if (!session) {
+    // On the server, we'll use an HTTP response to
+    // redirect with the status code of our choice.
+    // 307 is for temporary redirects.
+    res.writeHead(307, { Location: "/" });
+    res.end();
+  }
+
+  return {};
+};
 
 export default Home;
