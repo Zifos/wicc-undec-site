@@ -51,7 +51,7 @@ const Categories = ({
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <StyledTitle>Categorías</StyledTitle>
             {dataGrouped.map((group, i) => (
-              <Row gutter={32} key={i}>
+              <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2}>
                     <StyledLinkCard>

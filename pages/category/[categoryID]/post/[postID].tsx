@@ -55,7 +55,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
         <Row justify="center" align="middle" style={{ height: "100%" }}>
           <Col lg={20} style={{ height: "100%", display: "flex" }}>
             <StyledCard>
-              <Row gutter={64} style={{ height: "100%" }}>
+              <Row gutter={[64, 32]} style={{ height: "100%" }}>
                 <Col lg={12}>
                   <Space
                     size="large"

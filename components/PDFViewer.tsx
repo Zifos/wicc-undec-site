@@ -23,6 +23,14 @@ const StyledWrapper = styled(Card)`
     &__Page {
       display: flex;
       justify-content: center;
+      height: 100%;
+
+      &__canvas {
+        @media (max-width: 768px) {
+          width: 100% !important;
+          height: auto !important;
+        }
+      }
     }
   }
 `;
