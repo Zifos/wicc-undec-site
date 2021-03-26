@@ -24,7 +24,7 @@ const Routes: Route[] = [
   {
     name: "Inicio",
     icon: <HomeOutlined />,
-    url: "/",
+    url: "/admin",
   },
   {
     name: "Categorías",
