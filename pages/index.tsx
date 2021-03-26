@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import { Col, Row, Image, Space, Typography } from "antd";
-import Link from "next/link";
+import { Col, Row, Image, Space, Typography, Button } from "antd";
+import NextLink from "next/link";
 import { BarsOutlined, SnippetsOutlined } from "@ant-design/icons";
 import Footer from "../components/Footer";
 import {
@@ -9,6 +9,7 @@ import {
   StyledHeader,
   StyledContent,
   StyledLinkCard,
+  StyledFooterLink,
 } from "../components/Styled";
 
 const logo = "/WICC-logo-2.png";
@@ -58,6 +59,7 @@ const Home = (): JSX.Element => {
       </Head>
       <StyledWrapper>
         <StyledHeader>
+          <div />
           <Image
             src={logo}
             height="14rem"
@@ -65,11 +67,7 @@ const Home = (): JSX.Element => {
             preview={false}
           />
         </StyledHeader>
-        <Space
-          size={64}
-          direction="vertical"
-          style={{ width: "100%", marginBottom: "2rem" }}
-        >
+        <Space size={64} direction="vertical" style={{ width: "100%" }}>
           <StyledContent color="purple" fullRounded>
             <Row align="middle" gutter={32} justify="center">
               <Col>
@@ -99,7 +97,7 @@ const Home = (): JSX.Element => {
           </StyledContent>
           <Row gutter={0}>
             <Col lg={12}>
-              <Link href="posts">
+              <NextLink href="posts">
                 <StyledContent link fullRounded>
                   <Row justify="space-between" align="middle">
                     <div>
@@ -129,10 +127,10 @@ const Home = (): JSX.Element => {
                     />
                   </Row>
                 </StyledContent>
-              </Link>
+              </NextLink>
             </Col>
             <Col lg={12}>
-              <Link href="categories">
+              <NextLink href="categories">
                 <StyledContent link color="red" fullRounded>
                   <Row justify="space-between" align="middle">
                     <div>
@@ -162,7 +160,7 @@ const Home = (): JSX.Element => {
                     />
                   </Row>
                 </StyledContent>
-              </Link>
+              </NextLink>
             </Col>
           </Row>
           <StyledContent fullRounded>
@@ -178,7 +176,7 @@ const Home = (): JSX.Element => {
                 {posts.map((post, i) => (
                   <Col lg={8} key={i}>
                     <StyledLinkCard>
-                      <Link
+                      <NextLink
                         href={`category/${post.categoryID}/post/${post._id}`}
                       >
                         <Typography.Title
@@ -188,7 +186,7 @@ const Home = (): JSX.Element => {
                         >
                           {post.title}
                         </Typography.Title>
-                      </Link>
+                      </NextLink>
                     </StyledLinkCard>
                   </Col>
                 ))}
@@ -207,7 +205,7 @@ const Home = (): JSX.Element => {
                 {categories.map((category, i) => (
                   <Col lg={8} key={i}>
                     <StyledLinkCard>
-                      <Link href={`category/${category._id}`}>
+                      <NextLink href={`category/${category._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -215,7 +213,7 @@ const Home = (): JSX.Element => {
                         >
                           {category.title}
                         </Typography.Title>
-                      </Link>
+                      </NextLink>
                     </StyledLinkCard>
                   </Col>
                 ))}
@@ -223,6 +221,22 @@ const Home = (): JSX.Element => {
             </Space>
           </StyledContent>
           <Footer />
+          <StyledFooterLink justify="center">
+            <Col lg={8}>
+              <Button
+                type="link"
+                href="https://wicc2021.undec.edu.ar/"
+                target="_blank"
+              >
+                WICC2021.undec.edu.ar/
+              </Button>
+            </Col>
+            <Col lg={8}>
+              <NextLink href="/admin">
+                <Button type="link">Admin</Button>
+              </NextLink>
+            </Col>
+          </StyledFooterLink>
         </Space>
       </StyledWrapper>
     </>

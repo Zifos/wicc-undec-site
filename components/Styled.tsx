@@ -1,4 +1,4 @@
-import { Card, Typography } from "antd";
+import { Card, Row, Typography } from "antd";
 import styled from "styled-components";
 import Content from "./Content";
 
@@ -107,10 +107,22 @@ const StyledTitle = ({ children }) => (
   </StyledWrappedTitle>
 );
 
+const StyledFooterLink = styled(Row)`
+  padding: 1rem;
+  background-color: ${({ theme }) => theme.colors.neutrals[2]};
+  > * {
+    text-align: center;
+  }
+  .ant-btn.ant-btn-link {
+    color: ${({ theme }) => theme.colors.blue[6]};
+  }
+`;
+
 export {
   StyledWrapper,
   StyledHeader,
   StyledContent,
   StyledLinkCard,
   StyledTitle,
+  StyledFooterLink,
 };
