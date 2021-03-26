@@ -1,8 +1,10 @@
 import { Card } from "antd";
 import React from "react";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 import styled from "styled-components";
 import { LoadingOutlined } from "@ant-design/icons";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const StyledWrapper = styled(Card)`
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2), 0 3rem 20rem -2rem rgba(0, 0, 0, 0.4);
