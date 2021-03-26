@@ -440,6 +440,15 @@ const Style = styled.div`
   }
 `;
 
+interface IAudioPlayerProps {
+  src: string;
+  mediaMetadata?: { title: "" };
+  className?: string;
+  onDidMount?: () => void;
+  useRepeatButton?: boolean;
+  downloadFileName?: string;
+}
+
 const AudioPlayer = ({
   src,
   mediaMetadata = { title: "" },
@@ -447,7 +456,7 @@ const AudioPlayer = ({
   onDidMount = undefined,
   useRepeatButton = false,
   downloadFileName,
-}) => (
+}: IAudioPlayerProps): JSX.Element => (
   <Style>
     <AudioPlayerControlSprite />
     <Audio

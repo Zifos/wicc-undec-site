@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import { Table, Space, Button, Popconfirm } from "antd";
-import { ICategory } from "../../../models/category.model";
+import { ICategory } from "../../models/category.model";
 
 interface ICategoriesTableProps {
   data?: ICategory[];

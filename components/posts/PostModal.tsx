@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, ModalProps, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UploadOutlined } from "@ant-design/icons";
-import { IPost } from "../../../models/post.model";
+import { IPost } from "../../models/post.model";
 
 interface IPostModalProps extends ModalProps {
   initialData: IPost;

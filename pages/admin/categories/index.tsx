@@ -5,9 +5,9 @@ import { Button, Card, Col, message, Row } from "antd";
 import useCategories from "../../../hooks/useCategories";
 import Content from "../../../components/Content";
 import Header from "../../../components/Header";
-import CategoriesModal from "./CategoriesModal";
+import CategoriesModal from "../../../components/categories/CategoriesModal";
 import { ICategory } from "../../../models/category.model";
-import CategoriesTable from "./_CategoriesTable";
+import CategoriesTable from "../../../components/categories/CategoriesTable";
 
 const Categories = ({
   initialCategories,

@@ -1,12 +1,12 @@
-import { Card, Col, Row, Button, message } from "antd";
+import { Card, Col, Row, Button } from "antd";
 import Head from "next/head";
 import React, { useState } from "react";
 import { NextPageContext } from "next";
 import { IPost } from "../../../models/post.model";
 import Content from "../../../components/Content";
 import Header from "../../../components/Header";
-import PostsTable from "./_PostsTable";
-import PostModal from "./_PostModal";
+import PostsTable from "../../../components/posts/PostsTable";
+import PostModal from "../../../components/posts/PostModal";
 import usePosts from "../../../hooks/usePosts";
 
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {

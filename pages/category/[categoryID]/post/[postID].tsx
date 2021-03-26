@@ -8,10 +8,12 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { NextPageContext } from "next";
 import Content from "../../../../components/Content";
-import AudioPlayer from "./AudioPlayer";
+import AudioPlayer from "../../../../components/AudioPlayer";
 import { IPost } from "../../../../models/post.model";
 
-const PdfViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
+const PdfViewer = dynamic(() => import("../../../../components/PDFViewer"), {
+  ssr: false,
+});
 
 const StyledContent = styled(Content)`
   overflow-y: auto;

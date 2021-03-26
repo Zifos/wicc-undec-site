@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Input, message, Modal, ModalProps } from "antd";
-import { ICategory } from "../../../models/category.model";
+import { ICategory } from "../../models/category.model";
 
 interface ICategoriesModal extends ModalProps {
   initialData: ICategory;

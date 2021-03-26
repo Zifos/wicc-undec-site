@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import { Space, Button, Popconfirm, Table } from "antd";
-import { IPost } from "../../../models/post.model";
+import { IPost } from "../../models/post.model";
 
 interface IPostsTableProps {
   data?: IPost[];
