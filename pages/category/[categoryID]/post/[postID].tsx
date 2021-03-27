@@ -10,6 +10,7 @@ import { NextPageContext } from "next";
 import Content from "../../../../components/Content";
 import AudioPlayer from "../../../../components/AudioPlayer";
 import { IPost } from "../../../../models/post.model";
+import Breadcrumbs from "../../../../components/Breadcrumbs";
 
 const PdfViewer = dynamic(() => import("../../../../components/PDFViewer"), {
   ssr: false,
@@ -37,6 +38,21 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
   const router = useRouter();
   const { categoryID } = router.query;
 
+  const routes = [
+    {
+      path: "/",
+      name: "Inicio",
+    },
+    {
+      path: "/categories",
+      name: "Categorías",
+    },
+    {
+      path: `/category/${categoryID}`,
+      name: initialPost.category?.title,
+    },
+  ];
+
   const [PDFHeight, setPDFHeight] = useState(0);
   const PDFRef = createRef<HTMLDivElement>();
 
@@ -52,6 +68,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
       </Head>
       {/* <Image src={logo} width="24rem" preview={false} /> */}
       <StyledContent>
+        <Breadcrumbs routes={routes} />
         <Row justify="center" align="middle" style={{ height: "100%" }}>
           <Col lg={20} style={{ height: "100%", display: "flex" }}>
             <StyledCard>

@@ -4,6 +4,7 @@ import { Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import {
   StyledWrapper,
   StyledHeader,
@@ -15,6 +16,17 @@ import {
 import { ICategory } from "../../models/category.model";
 
 const logo = "/WICC-logo-2.png";
+
+const routes = [
+  {
+    path: "/",
+    name: "Inicio",
+  },
+  {
+    path: "/categories",
+    name: "Categorías",
+  },
+];
 
 const Category = ({
   initialCategory,
@@ -44,6 +56,7 @@ const Category = ({
           <StyledLogo src={logo} preview={false} />
         </StyledHeader>
         <StyledContent>
+          <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <StyledTitle>{initialCategory.title}</StyledTitle>
             {dataGrouped.map((group, i) => (

@@ -11,8 +11,16 @@ import {
   StyledTitle,
   StyledLogo,
 } from "../../components/Styled";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const logo = "/WICC-logo-2.png";
+
+const routes = [
+  {
+    path: "/",
+    name: "Inicio",
+  },
+];
 
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
   const dataGrouped = useMemo<Array<Array<IPost>>>(
@@ -39,6 +47,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
           <StyledLogo src={logo} preview={false} />
         </StyledHeader>
         <StyledContent>
+          <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <StyledTitle>Publicaciones</StyledTitle>
             {dataGrouped.map((group, i) => (

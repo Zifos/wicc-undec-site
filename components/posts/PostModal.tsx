@@ -34,6 +34,8 @@ const PostModal = ({
   const [pdfFile, setPdfFile] = useState(undefined);
   const [audioFile, setAudioFile] = useState(undefined);
   const { categories, getCategories } = useCategories();
+  const [isPDFButtonDisabled, setPDFButtonDisabled] = useState(false);
+  const [isAudioButtonDisabled, setAudioButtonDisabled] = useState(false);
 
   const onOk = async () => {
     await form.validateFields();
@@ -59,6 +61,8 @@ const PostModal = ({
     if (initialData) {
       form.setFieldsValue({ title: initialData.title });
       form.setFieldsValue({ category: initialData.category });
+      setPDFButtonDisabled(Boolean(initialData.pdf));
+      setAudioButtonDisabled(Boolean(initialData.audio));
     }
   }, [form, initialData]);
 
@@ -66,6 +70,8 @@ const PostModal = ({
     if (!visible) {
       setPdfFile(undefined);
       setAudioFile(undefined);
+      setPDFButtonDisabled(false);
+      setAudioButtonDisabled(false);
       form.resetFields();
     }
   }, [form, visible]);
@@ -92,13 +98,22 @@ const PostModal = ({
           rules={[
             {
               required: true,
-              message: "El titulo de la publicacion es requerido!",
+              message: "Ingresá un título",
             },
           ]}
         >
           <Input />
         </Form.Item>
-        <Form.Item name="category">
+        <Form.Item
+          name="category"
+          label="Categoría"
+          rules={[
+            {
+              required: true,
+              message: "Seleccioná una categoría",
+            },
+          ]}
+        >
           <Select
             showSearch
             style={{ width: "100%" }}
@@ -118,32 +133,54 @@ const PostModal = ({
           </Select>
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item name="pdf" label="PDF">
           <Upload
-            name="logo"
+            name="pdf"
             multiple={false}
             onChange={(e) => {
               setPdfFile(e?.fileList[0]?.originFileObj);
+              setPDFButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
             }}
-            defaultFileList={[
-              {
-                name: initialData?.pdf?.fileName,
-                url: initialData?.pdf.fileLocation,
-              } as UploadFile,
-            ]}
+            defaultFileList={
+              initialData?.pdf && [
+                {
+                  name: initialData?.pdf?.fileName,
+                  url: initialData?.pdf.fileLocation,
+                } as UploadFile,
+              ]
+            }
+            accept=".pdf"
           >
-            <Button disabled={!!pdfFile} icon={<UploadOutlined />}>
-              Click to upload
+            <Button
+              disabled={Boolean(pdfFile) || isPDFButtonDisabled}
+              icon={<UploadOutlined />}
+            >
+              Subir PDF
             </Button>
           </Upload>
         </Form.Item>
-        <Form.Item>
+        <Form.Item name="audio" label="Audio">
           <Upload
-            name="logo"
-            onChange={(e) => setAudioFile(e?.fileList[0]?.originFileObj)}
+            name="audio"
+            onChange={(e) => {
+              setAudioFile(e?.fileList[0]?.originFileObj);
+              setAudioButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
+            }}
+            defaultFileList={
+              initialData?.audio && [
+                {
+                  name: initialData?.audio?.fileName,
+                  url: initialData?.audio.fileLocation,
+                } as UploadFile,
+              ]
+            }
+            accept=".mp3"
           >
-            <Button disabled={!!audioFile} icon={<UploadOutlined />}>
-              Click to upload
+            <Button
+              disabled={Boolean(audioFile) || isAudioButtonDisabled}
+              icon={<UploadOutlined />}
+            >
+              Subir audio
             </Button>
           </Upload>
         </Form.Item>

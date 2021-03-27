@@ -13,7 +13,9 @@ const StyledWrapper = styled.div`
 const StyledHeader = styled.div`
   background: white;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 interface IStyledContentProps {
@@ -25,7 +27,6 @@ interface IStyledContentProps {
 const StyledContent = styled(Content)<IStyledContentProps>`
   height: unset;
   min-height: unset;
-  overflow-x: hidden;
   background-position: top;
   background-attachment: fixed;
   background: hsla(247, 79%, 22%, 1);
@@ -92,6 +93,7 @@ const StyledWrappedTitle = styled.div`
   position: relative;
   text-align: center;
   margin-bottom: 2rem;
+  z-index: -1;
 
   &::after {
     content: attr(data-text);
