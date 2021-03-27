@@ -17,7 +17,7 @@ import {
   StyledLogo,
 } from "../components/Styled";
 
-const logo = "/WICC-logo-2.png";
+const logo = "/WICC-logo.png";
 
 const Home = (): JSX.Element => {
   const [session, loading] = useSession();

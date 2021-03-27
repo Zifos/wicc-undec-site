@@ -6,8 +6,8 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import type { NextPageContext } from "next";
 
-const logo = "/WICC-logo-2.png";
-const backoffice = "/backoffice-01.svg";
+const logo = "/WICC-logo.png";
+const backoffice = "/backoffice.svg";
 
 const StyledContent = styled.div`
   height: 100vh;
