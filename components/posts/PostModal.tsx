@@ -83,109 +83,111 @@ const PostModal = ({
   }, [categories, getCategories]);
 
   return (
-    <Modal
-      title={!initialData ? "Crear publicacion" : "Actualizar publicacion"}
-      visible={visible}
-      okText={!initialData ? "Crear" : "Actualizar"}
-      onOk={onOk}
-      onCancel={onCancel}
-      {...rest}
-    >
-      <Form form={form} name="post-form" layout="vertical">
-        <Form.Item
-          label="Titulo"
-          name="title"
-          rules={[
-            {
-              required: true,
-              message: "Ingresá un título",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="category"
-          label="Categoría"
-          rules={[
-            {
-              required: true,
-              message: "Seleccioná una categoría",
-            },
-          ]}
-        >
-          <Select
-            showSearch
-            style={{ width: "100%" }}
-            placeholder="Selecciona una categoria"
-            optionFilterProp="children"
-            onChange={(val) => setSelectedCategoryId(val)}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
+    visible && (
+      <Modal
+        title={!initialData ? "Crear publicacion" : "Actualizar publicacion"}
+        visible={visible}
+        okText={!initialData ? "Crear" : "Actualizar"}
+        onOk={onOk}
+        onCancel={onCancel}
+        {...rest}
+      >
+        <Form form={form} name="post-form" layout="vertical">
+          <Form.Item
+            label="Titulo"
+            name="title"
+            rules={[
+              {
+                required: true,
+                message: "Ingresá un título",
+              },
+            ]}
           >
-            {categories?.length &&
-              categories.map((cat) => (
-                <Select.Option key={cat._id} value={cat._id}>
-                  {cat.title}
-                </Select.Option>
-              ))}
-          </Select>
-        </Form.Item>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="category"
+            label="Categoría"
+            rules={[
+              {
+                required: true,
+                message: "Seleccioná una categoría",
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              style={{ width: "100%" }}
+              placeholder="Selecciona una categoria"
+              optionFilterProp="children"
+              onChange={(val) => setSelectedCategoryId(val)}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {categories?.length &&
+                categories.map((cat) => (
+                  <Select.Option key={cat._id} value={cat._id}>
+                    {cat.title}
+                  </Select.Option>
+                ))}
+            </Select>
+          </Form.Item>
 
-        <Form.Item name="pdf" label="PDF">
-          <Upload
-            name="pdf"
-            multiple={false}
-            onChange={(e) => {
-              setPdfFile(e?.fileList[0]?.originFileObj);
-              setPDFButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
-            }}
-            defaultFileList={
-              initialData?.pdf && [
-                {
-                  name: initialData?.pdf?.fileName,
-                  url: initialData?.pdf.fileLocation,
-                } as UploadFile,
-              ]
-            }
-            accept=".pdf"
-          >
-            <Button
-              disabled={Boolean(pdfFile) || isPDFButtonDisabled}
-              icon={<UploadOutlined />}
+          <Form.Item name="pdf" label="PDF">
+            <Upload
+              name="pdf"
+              multiple={false}
+              onChange={(e) => {
+                setPdfFile(e?.fileList[0]?.originFileObj);
+                setPDFButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
+              }}
+              defaultFileList={
+                initialData?.pdf && [
+                  {
+                    name: initialData?.pdf?.fileName,
+                    url: initialData?.pdf.fileLocation,
+                  } as UploadFile,
+                ]
+              }
+              accept=".pdf"
             >
-              Subir PDF
-            </Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item name="audio" label="Audio">
-          <Upload
-            name="audio"
-            onChange={(e) => {
-              setAudioFile(e?.fileList[0]?.originFileObj);
-              setAudioButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
-            }}
-            defaultFileList={
-              initialData?.audio && [
-                {
-                  name: initialData?.audio?.fileName,
-                  url: initialData?.audio.fileLocation,
-                } as UploadFile,
-              ]
-            }
-            accept=".mp3"
-          >
-            <Button
-              disabled={Boolean(audioFile) || isAudioButtonDisabled}
-              icon={<UploadOutlined />}
+              <Button
+                disabled={Boolean(pdfFile) || isPDFButtonDisabled}
+                icon={<UploadOutlined />}
+              >
+                Subir PDF
+              </Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item name="audio" label="Audio">
+            <Upload
+              name="audio"
+              onChange={(e) => {
+                setAudioFile(e?.fileList[0]?.originFileObj);
+                setAudioButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
+              }}
+              defaultFileList={
+                initialData?.audio && [
+                  {
+                    name: initialData?.audio?.fileName,
+                    url: initialData?.audio.fileLocation,
+                  } as UploadFile,
+                ]
+              }
+              accept=".mp3"
             >
-              Subir audio
-            </Button>
-          </Upload>
-        </Form.Item>
-      </Form>
-    </Modal>
+              <Button
+                disabled={Boolean(audioFile) || isAudioButtonDisabled}
+                icon={<UploadOutlined />}
+              >
+                Subir audio
+              </Button>
+            </Upload>
+          </Form.Item>
+        </Form>
+      </Modal>
+    )
   );
 };
 
