@@ -15,6 +15,7 @@ interface IPostModalProps extends ModalProps {
     audio: IFile;
     pdf: IFile;
   };
+  loading: boolean;
   onCreate: (values?: unknown) => void;
   // onFinishFailed?: (values?: unknown) => void;
   onUpdate: (values?: unknown) => void;
@@ -22,6 +23,7 @@ interface IPostModalProps extends ModalProps {
 }
 
 const PostModal = ({
+  loading,
   initialData,
   visible,
   onCreate,
@@ -50,6 +52,7 @@ const PostModal = ({
       return;
     }
     onUpdate({
+      _id: initialData._id,
       title,
       pdf: pdfFile,
       audio: audioFile,
@@ -89,7 +92,9 @@ const PostModal = ({
         visible={visible}
         okText={!initialData ? "Crear" : "Actualizar"}
         onOk={onOk}
-        onCancel={onCancel}
+        onCancel={() => !loading && onCancel()}
+        okButtonProps={{ loading }}
+        cancelButtonProps={{ disabled: loading }}
         {...rest}
       >
         <Form form={form} name="post-form" layout="vertical">

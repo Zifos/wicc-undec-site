@@ -24,14 +24,16 @@ const StyledLoading = styled.div`
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [postForUpdate, setPostForUpdate] = useState(undefined);
-  const { posts, createPost, updatePost, deletePost } = usePosts(initialPosts);
+  const { posts, loading, createPost, updatePost, deletePost } = usePosts(
+    initialPosts
+  );
 
-  const [session, loading] = useSession();
+  const [session, loadingSession] = useSession();
   const router = useRouter();
 
-  if (typeof window !== "undefined" && loading) return null;
+  if (typeof window !== "undefined" && loadingSession) return null;
 
-  if (loading) {
+  if (loadingSession) {
     return (
       <StyledLoading>
         <LoadingOutlined style={{ fontSize: 24 }} spin />
@@ -48,14 +50,14 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
     setShowForm(true);
   };
 
-  const onCreate = (props) => {
-    createPost(props);
+  const onCreate = async (props) => {
+    await createPost(props);
     setShowForm(false);
   };
 
-  const onUpdate = (props) => {
+  const onUpdate = async (props) => {
+    await updatePost(props);
     setPostForUpdate(undefined);
-    updatePost(props);
     setShowForm(false);
   };
 
@@ -96,6 +98,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
           </Col>
         </Row>
         <PostModal
+          loading={loading}
           initialData={postForUpdate}
           visible={showForm}
           onCreate={onCreate}
