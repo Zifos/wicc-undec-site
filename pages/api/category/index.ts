@@ -8,10 +8,9 @@ const getAllCategories = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const categories = await Models.CategoryModel.find().populate(
-      "posts",
-      "_id"
-    );
+    const categories = await Models.CategoryModel.find({
+      "posts.1": { $exists: true },
+    }).populate("posts", "_id");
     res.status(200).json({ categories });
   } catch (error) {
     res.status(500).send(error);
