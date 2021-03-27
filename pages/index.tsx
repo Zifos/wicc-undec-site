@@ -20,7 +20,7 @@ import {
 import { ICategory } from "../models/category.model";
 import { IPost } from "../models/post.model";
 
-const logo = "/WICC-logo-2.png";
+const logo = "/WICC-logo.png";
 
 interface IHomeProps {
   categoriesCount: number;

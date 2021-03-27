@@ -15,7 +15,7 @@ import {
 } from "../../components/Styled";
 import { ICategory } from "../../models/category.model";
 
-const logo = "/WICC-logo-2.png";
+const logo = "/WICC-logo.png";
 
 const routes = [
   {

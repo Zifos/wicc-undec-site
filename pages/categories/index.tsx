@@ -13,7 +13,7 @@ import {
   StyledTitle,
 } from "../../components/Styled";
 
-const logo = "/WICC-logo-2.png";
+const logo = "/WICC-logo.png";
 
 const routes = [
   {
@@ -96,7 +96,9 @@ Categories.getInitialProps = async ({
     } = await response.json();
     const { categories } = responseJSON;
     return {
-      initialCategories: categories,
+      initialCategories: categories.filter(
+        (category) => category.posts.length > 0
+      ),
     };
   }
   if (res) {

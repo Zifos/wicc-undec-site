@@ -13,7 +13,7 @@ import {
 } from "../../components/Styled";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
-const logo = "/WICC-logo-2.png";
+const logo = "/WICC-logo.png";
 
 const routes = [
   {
