@@ -4,6 +4,7 @@ import { Col, Row, Space, Typography, Button } from "antd";
 import NextLink from "next/link";
 import { BarsOutlined, SnippetsOutlined } from "@ant-design/icons";
 import { signIn, useSession } from "next-auth/client";
+import type { GetServerSidePropsResult } from "next";
 import Footer from "../components/Footer";
 import {
   StyledWrapper,
@@ -16,47 +17,37 @@ import {
   StyledTitle3,
   StyledLogo,
 } from "../components/Styled";
+import { ICategory } from "../models/category.model";
+import { IPost } from "../models/post.model";
 
 const logo = "/WICC-logo-2.png";
 
-const Home = (): JSX.Element => {
-  const [session, loading] = useSession();
+interface IHomeProps {
+  categoriesCount: number;
+  postsCount: number;
+  firstPosts: IPost[];
+  firstCategories: ICategory[];
+}
 
-  const posts = [
-    {
-      _id: "1231",
-      title:
-        "Rendimiento de Cloud Computin para HPC en IasS privados y públicos",
-      categoryID: "111",
-    },
-    {
-      _id: "1232",
-      title:
-        "Rendimiento de Cloud Computin para HPC en IasS privados y públicos",
-      categoryID: "222",
-    },
-    {
-      _id: "1233",
-      title:
-        "Rendimiento de Cloud Computin para HPC en IasS privados y públicos",
-      categoryID: "333",
-    },
-  ];
+export async function getStaticProps(): Promise<
+  GetServerSidePropsResult<IHomeProps>
+> {
+  const props = await fetch(`${process.env.URL}/api/index_page`).then((res) =>
+    res.json()
+  );
 
-  const categories = [
-    {
-      _id: "1231",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1232",
-      title: "Agentes y sistemas inteligentes",
-    },
-    {
-      _id: "1233",
-      title: "Agentes y sistemas inteligentes",
-    },
-  ];
+  return {
+    props, // will be passed to the page component as props
+  };
+}
+
+const Home = ({
+  postsCount,
+  categoriesCount,
+  firstPosts,
+  firstCategories,
+}: IHomeProps): JSX.Element => {
+  const [session] = useSession();
 
   return (
     <>
@@ -111,7 +102,7 @@ const Home = (): JSX.Element => {
                           fontSize: "4rem",
                         }}
                       >
-                        78
+                        {postsCount}
                       </Typography.Title>
                     </div>
                     <SnippetsOutlined
@@ -144,7 +135,7 @@ const Home = (): JSX.Element => {
                           fontSize: "4rem",
                         }}
                       >
-                        24
+                        {categoriesCount}
                       </Typography.Title>
                     </div>
                     <BarsOutlined
@@ -165,11 +156,11 @@ const Home = (): JSX.Element => {
                 relevantes
               </StyledTitle3>
               <Row gutter={[32, 32]}>
-                {posts.map((post, i) => (
+                {firstPosts.map((post, i) => (
                   <Col lg={8} key={i}>
                     <StyledLinkCard>
                       <NextLink
-                        href={`category/${post.categoryID}/post/${post._id}`}
+                        href={`category/${post.category}/post/${post._id}`}
                       >
                         <Typography.Title
                           type="secondary"
@@ -194,7 +185,7 @@ const Home = (): JSX.Element => {
                 <span style={{ fontWeight: 300 }}>Categorías</span> buscadas
               </StyledTitle3>
               <Row gutter={[32, 32]}>
-                {categories.map((category, i) => (
+                {firstCategories.map((category, i) => (
                   <Col lg={8} key={i}>
                     <StyledLinkCard>
                       <NextLink href={`category/${category._id}`}>
