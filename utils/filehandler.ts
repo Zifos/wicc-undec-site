@@ -45,7 +45,6 @@ const remove = async (filename: string): Promise<boolean> => {
     await bucket.file(filename).delete();
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 };
