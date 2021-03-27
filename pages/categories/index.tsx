@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
 import { NextPageContext } from "next";
-import Breadcrumbs from "components/Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { ICategory } from "../../models/category.model";
 import {
   StyledWrapper,
