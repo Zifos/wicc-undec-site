@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import filehandler from "../../../utils/filehandler";
 import AuthMiddleware from "../../../utils/auth_middleware";
 import Models from "../../../models";
 import connectDB from "../../../utils/db_connection.handler";
@@ -50,6 +51,10 @@ const removePostById = async (
     const {
       query: { id },
     } = req;
+    const postForRemove = await Models.PostModel.findById(id).exec();
+    await filehandler.remove(postForRemove.pdf.fileName);
+    await filehandler.remove(postForRemove.audio.fileName);
+
     const removedQuantity = await Models.PostModel.deleteOne({ _id: id });
     res.status(200).json({ success: !!removedQuantity });
   } catch (error) {
