@@ -29,7 +29,7 @@ interface IHomeProps {
   firstCategories: ICategory[];
 }
 
-export async function getStaticProps(): Promise<
+export async function getServerSideProps(): Promise<
   GetServerSidePropsResult<IHomeProps>
 > {
   const props = await fetch(`${process.env.URL}/api/index_page`).then((res) =>
