@@ -50,11 +50,13 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
 
   const onCreate = (props) => {
     createPost(props);
+    setShowForm(false);
   };
 
   const onUpdate = (props) => {
     setPostForUpdate(undefined);
     updatePost(props);
+    setShowForm(false);
   };
 
   const onDelete = (props) => {
