@@ -55,5 +55,11 @@
     "prettier": "^2.2.1",
     "typescript": "^4.1.5",
     "webpack": "^4.46.0"
+  },
+  "peerOptionalDependencies": {
+    "mongodb": "^3.6.4"
+  },
+  "peerOptionalDependenciesComments": {
+    "mongodb": "https://github.com/nextauthjs/next-auth/issues/552#issuecomment-671662283"
   }
 }
