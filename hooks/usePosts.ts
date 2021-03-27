@@ -5,6 +5,7 @@ const usePosts = (
   initialPosts: IPost[]
 ): {
   posts: IPost[];
+  loading: boolean;
   createPost: (newPost: {
     title: string;
     pdf: File;
@@ -20,6 +21,7 @@ const usePosts = (
   deletePost: (_id: string) => Promise<{ success: boolean }>;
 } => {
   const [posts, setPosts] = useState<IPost[]>(initialPosts || []);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const createPost = async ({
     title,
@@ -32,6 +34,7 @@ const usePosts = (
     audio: File;
     category_id: string | number;
   }) => {
+    setLoading(true);
     const formData = new FormData();
 
     formData.append("title", title);
@@ -44,6 +47,7 @@ const usePosts = (
     }).then((res) => res.json());
 
     setPosts((values) => [...values, newPost]);
+    setLoading(false);
   };
 
   const updatePost = async ({
@@ -59,17 +63,27 @@ const usePosts = (
     audio: File;
     category_id: string | number;
   }) => {
+    setLoading(true);
     const formData = new FormData();
 
-    formData.append("title", title);
-    formData.append("paper", pdf);
-    formData.append("audio", audio);
-    formData.append("category_id", String(category_id));
+    if (title) {
+      formData.append("title", title);
+    }
+    if (pdf) {
+      formData.append("paper", pdf);
+    }
+    if (audio) {
+      formData.append("audio", audio);
+    }
+    if (category_id) {
+      formData.append("category_id", String(category_id));
+    }
 
-    const updatedPost: IPost = await fetch(`/api/post/${_id}`, {
+    const { newPost }: { newPost: IPost } = await fetch(`/api/post/${_id}`, {
       method: "PUT",
       body: formData,
     }).then((res) => res.json());
+    const updatedPost = newPost;
     const updatedPostIndex = posts.findIndex(
       (post) => post._id === updatedPost._id
     );
@@ -77,9 +91,11 @@ const usePosts = (
       values.splice(updatedPostIndex, 1, updatedPost);
       return [...values];
     });
+    setLoading(false);
   };
 
   const deletePost = async (_id: string) => {
+    setLoading(true);
     const success = await fetch(`/api/post/${_id}`, {
       method: "DELETE",
     }).then((res) => res.json());
@@ -88,11 +104,13 @@ const usePosts = (
       values.splice(deletedPostIndex, 1);
       return [...values];
     });
+    setLoading(false);
     return success as { success: boolean };
   };
 
   return {
     posts,
+    loading,
     createPost,
     updatePost,
     deletePost,

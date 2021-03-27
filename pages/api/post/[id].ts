@@ -103,7 +103,7 @@ const updatePostTitleById = async (
         paperFile.mimetype,
         paperFile.buffer
       );
-      updateQuery.pdfData = pdfData;
+      updateQuery.pdf = pdfData;
     }
 
     const oldPost = await Models.PostModel.findById(id);
@@ -112,7 +112,7 @@ const updatePostTitleById = async (
       new: true,
     });
 
-    if (oldPost.category !== category_id) {
+    if (category_id && oldPost.category !== category_id) {
       const oldCategory = await Models.CategoryModel.findById(oldPost.category);
 
       oldCategory.posts.pull(oldPost.id);

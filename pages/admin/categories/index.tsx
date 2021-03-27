@@ -30,6 +30,7 @@ const Categories = ({
   const openCategoryForm = () => setIsCategoryFormOpen(true);
   const {
     categories,
+    loading,
     createCategory,
     updateCategoryTitle,
     deleteCategory,
@@ -37,12 +38,12 @@ const Categories = ({
 
   const [categoryForUpdate, setCategoryForUpdate] = useState(undefined);
 
-  const [session, loading] = useSession();
+  const [session, loadingSession] = useSession();
   const router = useRouter();
 
-  if (typeof window !== "undefined" && loading) return null;
+  if (typeof window !== "undefined" && loadingSession) return null;
 
-  if (loading) {
+  if (loadingSession) {
     return (
       <StyledLoading>
         <LoadingOutlined style={{ fontSize: 24 }} spin />
@@ -70,8 +71,8 @@ const Categories = ({
     // open the modal
   };
 
-  const onUpdate = (updatedCategory: ICategory) => {
-    updateCategoryTitle(updatedCategory);
+  const onUpdate = async (updatedCategory: ICategory) => {
+    await updateCategoryTitle(updatedCategory);
     setIsCategoryFormOpen(false);
     setCategoryForUpdate(undefined);
     message.success("Categoria actualizada");
@@ -118,6 +119,7 @@ const Categories = ({
         </Row>
         <CategoriesModal
           initialData={categoryForUpdate}
+          loading={loading}
           visible={isCategoryFormOpen}
           onCreate={onSubmit}
           onUpdate={onUpdate}

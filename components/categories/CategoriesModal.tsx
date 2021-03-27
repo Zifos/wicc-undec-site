@@ -4,6 +4,7 @@ import { ICategory } from "../../models/category.model";
 
 interface ICategoriesModal extends ModalProps {
   initialData: ICategory;
+  loading: boolean;
   onCreate: (values?: unknown) => void;
   onFinishFailed?: (values?: unknown) => void;
   onUpdate: (values?: unknown) => void;
@@ -11,9 +12,11 @@ interface ICategoriesModal extends ModalProps {
 
 const CategoriesModal = ({
   initialData,
+  loading,
   visible = false,
   onUpdate,
   onCreate,
+  onCancel,
   ...rest
 }: ICategoriesModal): JSX.Element => {
   const [form] = Form.useForm();
@@ -52,6 +55,9 @@ const CategoriesModal = ({
       visible={visible}
       okText={!initialData ? "Crear" : "Actualizar"}
       onOk={onSubmit}
+      onCancel={(e) => !loading && onCancel(e)}
+      okButtonProps={{ loading }}
+      cancelButtonProps={{ disabled: loading }}
       {...rest}
     >
       <Form form={form} name="category-form" layout="inline">
