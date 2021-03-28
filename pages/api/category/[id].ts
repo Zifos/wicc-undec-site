@@ -14,7 +14,7 @@ const getCategoryById = async (
     const category = await Models.CategoryModel.findById(id).populate(
       "posts",
       // select fields
-      "title"
+      ["title", "author"]
     );
     res.status(200).json({ category });
   } catch (error) {

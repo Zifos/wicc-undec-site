@@ -6,6 +6,7 @@ const StyledWrapper = styled.div`
   background: white;
   min-height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 `;
@@ -63,6 +64,7 @@ const StyledContent = styled(Content)<IStyledContentProps>`
 `;
 
 const StyledLinkCard = styled(Card)`
+  height: 100%;
   transition: transform 0.3s ease;
   cursor: pointer;
 

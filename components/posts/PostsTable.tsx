@@ -33,7 +33,7 @@ const PostsTable = ({
       dataIndex: "author",
       key: "author",
       width: "15%",
-      render: (author) => author?.name,
+      render: (author) => author.name,
     },
     {
       title: "PDF",

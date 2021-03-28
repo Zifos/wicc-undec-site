@@ -90,12 +90,12 @@ const Home = ({
             </Row>
           </StyledContent>
           <Row gutter={[0, 32]}>
-            <Col lg={12}>
+            <Col lg={12} style={{ width: "100%" }}>
               <NextLink href="posts">
                 <StyledContent link fullRounded>
                   <Row justify="space-between" align="middle">
-                    <div>
-                      <Typography.Title
+                    <Col>
+                      <StyledTitle3
                         level={1}
                         style={{
                           margin: "0",
@@ -104,7 +104,7 @@ const Home = ({
                         }}
                       >
                         Publicaciones
-                      </Typography.Title>
+                      </StyledTitle3>
                       <Typography.Title
                         level={2}
                         style={{
@@ -115,20 +115,22 @@ const Home = ({
                       >
                         {postsCount}
                       </Typography.Title>
-                    </div>
-                    <SnippetsOutlined
-                      style={{ fontSize: "6rem", color: "white" }}
-                    />
+                    </Col>
+                    <Col xs={0} sm={5} style={{ textAlign: "right" }}>
+                      <SnippetsOutlined
+                        style={{ fontSize: "6rem", color: "white" }}
+                      />
+                    </Col>
                   </Row>
                 </StyledContent>
               </NextLink>
             </Col>
-            <Col lg={12}>
+            <Col lg={12} style={{ width: "100%" }}>
               <NextLink href="categories">
                 <StyledContent link color="red" fullRounded>
                   <Row justify="space-between" align="middle">
-                    <div>
-                      <Typography.Title
+                    <Col>
+                      <StyledTitle3
                         level={1}
                         style={{
                           margin: "0",
@@ -137,7 +139,7 @@ const Home = ({
                         }}
                       >
                         Categorías
-                      </Typography.Title>
+                      </StyledTitle3>
                       <Typography.Title
                         level={2}
                         style={{
@@ -148,10 +150,12 @@ const Home = ({
                       >
                         {categoriesCount}
                       </Typography.Title>
-                    </div>
-                    <BarsOutlined
-                      style={{ fontSize: "6rem", color: "white" }}
-                    />
+                    </Col>
+                    <Col xs={0} sm={5} style={{ textAlign: "right" }}>
+                      <BarsOutlined
+                        style={{ fontSize: "6rem", color: "white" }}
+                      />
+                    </Col>
                   </Row>
                 </StyledContent>
               </NextLink>
@@ -168,18 +172,26 @@ const Home = ({
               </StyledTitle3>
               <Row gutter={[32, 32]}>
                 {firstPosts.map((post, i) => (
-                  <Col lg={8} key={i}>
+                  <Col lg={8} key={i} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <NextLink
                         href={`category/${post.category}/post/${post._id}`}
                       >
-                        <Typography.Title
-                          type="secondary"
-                          level={4}
-                          style={{ margin: "0" }}
-                        >
-                          {post.title}
-                        </Typography.Title>
+                        <>
+                          <Typography.Title
+                            type="secondary"
+                            level={4}
+                            style={{ margin: "0" }}
+                          >
+                            {post.title}
+                          </Typography.Title>
+                          <Typography.Text
+                            type="secondary"
+                            style={{ margin: "0" }}
+                          >
+                            {post.author.name}
+                          </Typography.Text>
+                        </>
                       </NextLink>
                     </StyledLinkCard>
                   </Col>
@@ -197,7 +209,7 @@ const Home = ({
               </StyledTitle3>
               <Row gutter={[32, 32]}>
                 {firstCategories.map((category, i) => (
-                  <Col lg={8} key={i}>
+                  <Col lg={8} key={i} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <NextLink href={`category/${category._id}`}>
                         <Typography.Title

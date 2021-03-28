@@ -62,16 +62,24 @@ const Category = ({
             {dataGrouped.map((group, i) => (
               <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
-                  <Col lg={8} key={i + i2}>
+                  <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <Link href={`${categoryID}/post/${post._id}`}>
-                        <Typography.Title
-                          type="secondary"
-                          level={4}
-                          style={{ margin: "0" }}
-                        >
-                          {post.title}
-                        </Typography.Title>
+                        <>
+                          <Typography.Title
+                            type="secondary"
+                            level={4}
+                            style={{ margin: "0" }}
+                          >
+                            {post.title}
+                          </Typography.Title>
+                          <Typography.Text
+                            type="secondary"
+                            style={{ margin: "0" }}
+                          >
+                            {post.author.name}
+                          </Typography.Text>
+                        </>
                       </Link>
                     </StyledLinkCard>
                   </Col>
