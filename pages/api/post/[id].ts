@@ -74,6 +74,7 @@ const updatePostTitleById = async (
     } = req;
     const { body } = req;
     const { title, category_id } = body;
+    const oldPost = await Models.PostModel.findById(id);
 
     let updateQuery: { [key: string]: unknown } = {};
 
@@ -94,6 +95,7 @@ const updatePostTitleById = async (
         audioFile.mimetype,
         audioFile.buffer
       );
+      await filehandler.remove(oldPost.audio.fileName);
       updateQuery.audio = audioData;
     }
 
@@ -103,10 +105,9 @@ const updatePostTitleById = async (
         paperFile.mimetype,
         paperFile.buffer
       );
+      await filehandler.remove(oldPost.pdf.fileName);
       updateQuery.pdf = pdfData;
     }
-
-    const oldPost = await Models.PostModel.findById(id);
 
     const newPost = await Models.PostModel.findByIdAndUpdate(id, updateQuery, {
       new: true,
