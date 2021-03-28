@@ -100,7 +100,7 @@ const updatePostTitleById = async (
         parsedAuthor &&
         Object.keys(parsedAuthor).length === 0 &&
         parsedAuthor.constructor === Object;
-      if (isAuthorEmpty) {
+      if (!isAuthorEmpty) {
         updateQuery.author = parsedAuthor;
       }
     }
