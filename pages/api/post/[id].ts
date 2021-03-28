@@ -73,7 +73,7 @@ const updatePostTitleById = async (
       query: { id },
     } = req;
     const { body } = req;
-    const { title, category_id } = body;
+    const { title, category_id, article_id, author } = body;
     const oldPost = await Models.PostModel.findById(id);
 
     let updateQuery: { [key: string]: unknown } = {};
@@ -84,6 +84,21 @@ const updatePostTitleById = async (
 
     if (category_id) {
       updateQuery.category = category_id;
+    }
+
+    if (article_id) {
+      updateQuery.article_id = article_id;
+    }
+
+    if (author) {
+      const parsedAuthor = JSON.parse(author);
+      const isAuthorEmpty =
+        parsedAuthor &&
+        Object.keys(parsedAuthor).length === 0 &&
+        parsedAuthor.constructor === Object;
+      if (isAuthorEmpty) {
+        updateQuery.author = parsedAuthor;
+      }
     }
 
     const audioFile = req.files?.audio?.length && req.files.audio[0];
