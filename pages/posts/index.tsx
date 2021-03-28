@@ -56,7 +56,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
                   <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <Link href={`category/${post.category}/post/${post._id}`}>
-                        <>
+                        <div>
                           <Typography.Title
                             type="secondary"
                             level={4}
@@ -70,7 +70,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
                           >
                             {post.author.name}
                           </Typography.Text>
-                        </>
+                        </div>
                       </Link>
                     </StyledLinkCard>
                   </Col>
