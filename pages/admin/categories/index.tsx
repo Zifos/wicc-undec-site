@@ -142,7 +142,9 @@ Categories.getInitialProps = async ({
     }
   }
 
-  const response = await fetch(`${process.env.URL || ""}/api/category`);
+  const response = await fetch(
+    `${process.env.URL || ""}/api/category?all=true`
+  );
 
   if (response.ok) {
     const responseJSON: {

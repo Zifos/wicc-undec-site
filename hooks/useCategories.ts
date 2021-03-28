@@ -17,7 +17,7 @@ const useCategories = (
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     if (!initialCategories && categories?.length) {
-      fetch("/api/category").then(async (res) => {
+      fetch("/api/category?all=true").then(async (res) => {
         if (res.ok) {
           const response = await res.json();
           setCategories(response.categories);
@@ -80,7 +80,7 @@ const useCategories = (
     success: boolean;
     categories?: ICategory[];
   }> =>
-    fetch("/api/category").then(async (res) => {
+    fetch("/api/category?all=true").then(async (res) => {
       if (res.ok) {
         const response = await res.json();
         if (response.categories) {

@@ -4,14 +4,25 @@ import Models from "../../../models";
 import connectDB from "../../../utils/db_connection.handler";
 
 const getAllCategories = async (
-  _req: NextApiRequest,
+  req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const categories = await Models.CategoryModel.find({
-      "posts.1": { $exists: true },
-    }).populate("posts", "_id");
-    res.status(200).json({ categories });
+    const {
+      query: { all },
+    } = req;
+    if (all) {
+      const categories = await Models.CategoryModel.find().populate(
+        "posts",
+        "_id"
+      );
+      res.status(200).json({ categories });
+    } else {
+      const categories = await Models.CategoryModel.find({
+        "posts.1": { $exists: true },
+      }).populate("posts", "_id");
+      res.status(200).json({ categories });
+    }
   } catch (error) {
     res.status(500).send(error);
   }
