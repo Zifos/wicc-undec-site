@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect, useState, createRef } from "react";
 import Head from "next/head";
 import styled from "styled-components";
@@ -13,6 +14,10 @@ import { IPost } from "../../../../models/post.model";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 
 const PdfViewer = dynamic(() => import("../../../../components/PDFViewer"), {
+  ssr: false,
+});
+
+const Remark42 = dynamic(() => import("../../../../components/Remark42"), {
   ssr: false,
 });
 
@@ -65,6 +70,35 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
       <Head>
         <title>WICC 2021 | Lista de publicaciones</title>
         <link rel="icon" href="/favicon.ico" />
+        <Remark42 />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              
+                var remark_config = {
+                  host: "http://localhost:8080", // hostname of remark server, same as REMARK_URL in backend config, e.g. "https://demo.remark42.com"
+                  site_id: "asd",
+                  components: ["embed"],
+                  locale: "es", 
+                  show_email_subscription: false,
+                };
+              
+              
+            `,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(c) {
+              for(var i = 0; i < c.length; i++){
+                var d = document, s = d.createElement('script');
+                s.src = 'http://localhost:8080' + '/web/' +c[i] +'.js';
+                s.defer = true;
+                (d.head || d.body).appendChild(s);
+              }
+            })(remark_config.components || ['embed']);`,
+          }}
+        />
       </Head>
       {/* <Image src={logo} width="24rem" preview={false} /> */}
       <StyledContent>
@@ -110,6 +144,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         {initialPost.pdf?.fileName}
                       </Button>
                     </StyledLinkCard>
+                    <div id="remark42" />
                   </Space>
                 </Col>
                 <Col lg={12}>
