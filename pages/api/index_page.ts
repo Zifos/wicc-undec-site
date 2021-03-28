@@ -7,13 +7,13 @@ const getIndexPageData = async (
   res: NextApiResponse
 ): Promise<void> => {
   const categories = await Models.CategoryModel.find({
-    "posts.1": { $exists: true },
+    "posts.0": { $exists: true },
   });
   const categoriesCount = categories.length;
   const postsCount = await Models.PostModel.estimatedDocumentCount();
   const firstPosts = await Models.PostModel.find().limit(3);
   const firstCategories = await Models.CategoryModel.find({
-    "posts.1": { $exists: true },
+    "posts.0": { $exists: true },
   }).limit(3);
 
   res.status(200).json({

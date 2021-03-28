@@ -19,7 +19,7 @@ const getAllCategories = async (
       res.status(200).json({ categories });
     } else {
       const categories = await Models.CategoryModel.find({
-        "posts.1": { $exists: true },
+        "posts.0": { $exists: true },
       }).populate("posts", "_id");
       res.status(200).json({ categories });
     }
