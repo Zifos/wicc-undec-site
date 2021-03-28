@@ -66,7 +66,7 @@ const createPost = async (
   try {
     const { body } = req;
     // eslint-disable-next-line camelcase
-    const { title, category_id, author, article_id } = body;
+    const { title, category_id, author, article_id, description } = body;
 
     const audioFile = req.files.audio[0];
     const paperFile = req.files.paper[0];
@@ -102,6 +102,7 @@ const createPost = async (
       audio: audioData,
       article_id,
       author: newAuthor || {},
+      description,
     });
     await newPost.save();
     await Models.CategoryModel.findByIdAndUpdate(

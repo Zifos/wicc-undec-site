@@ -73,7 +73,7 @@ const updatePostTitleById = async (
       query: { id },
     } = req;
     const { body } = req;
-    const { title, category_id, article_id, author } = body;
+    const { title, category_id, article_id, author, description } = body;
     const oldPost = await Models.PostModel.findById(id);
 
     let updateQuery: { [key: string]: unknown } = {};
@@ -88,6 +88,10 @@ const updatePostTitleById = async (
 
     if (article_id) {
       updateQuery.article_id = article_id;
+    }
+
+    if (description) {
+      updateQuery.description = description;
     }
 
     if (author) {

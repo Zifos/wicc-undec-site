@@ -27,7 +27,7 @@ export const PostSchema = new Schema({
   pdf: { type: Object, default: {} },
   audio: { type: Object, default: {} },
   title: Types.String,
-  description: Types.String,
+  description: { type: Types.String, default: "" },
   article_id: Types.String,
   author: { type: Object, default: {} },
   category: { type: Types.ObjectId, ref: "category" },
