@@ -68,9 +68,15 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
       </Head>
       {/* <Image src={logo} width="24rem" preview={false} /> */}
       <StyledContent>
-        <Breadcrumbs routes={routes} />
         <Row justify="center" align="middle" style={{ height: "100%" }}>
-          <Col lg={20} style={{ height: "100%", display: "flex" }}>
+          <Col
+            lg={20}
+            style={{ height: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <Breadcrumbs
+              routes={routes}
+              style={{ padding: "1rem 0", textAlign: "left" }}
+            />
             <StyledCard>
               <Row gutter={[64, 32]} style={{ height: "100%" }}>
                 <Col lg={12}>
@@ -84,14 +90,23 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                       direction="vertical"
                       style={{ width: "100%" }}
                     >
-                      <Link href={`/category/${categoryID}`}>
+                      {/* <Link href={`/category/${categoryID}`}>
                         <Tag color="purple" style={{ cursor: "pointer" }}>
                           {initialPost.category?.title}
                         </Tag>
-                      </Link>
-                      <Typography.Title level={2} style={{ margin: 0 }}>
-                        {initialPost.title}
-                      </Typography.Title>
+                      </Link> */}
+                      <div>
+                        <Typography.Title level={2}>
+                          {initialPost.title}
+                        </Typography.Title>
+                        <Typography.Title
+                          level={5}
+                          style={{ margin: 0 }}
+                          type="secondary"
+                        >
+                          {initialPost.author.name}
+                        </Typography.Title>
+                      </div>
                     </Space>
                     <Typography.Text type="secondary">
                       {initialPost?.description}
@@ -105,9 +120,14 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         type="link"
                         href={initialPost.pdf?.fileLocation}
                         target="_blank"
+                        icon={<FilePdfOutlined />}
                       >
-                        <FilePdfOutlined />
-                        {initialPost.pdf?.fileName}
+                        <Space style={{ marginLeft: "0.5rem" }}>
+                          Descargar PDF
+                          <Typography.Text type="secondary">
+                            {` - ${initialPost.pdf?.fileName}`}
+                          </Typography.Text>
+                        </Space>
                       </Button>
                     </StyledLinkCard>
                   </Space>
