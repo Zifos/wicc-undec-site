@@ -8,10 +8,16 @@ export interface IFile {
   fileLocation: string;
 }
 
+export interface IAuthor {
+  name: string;
+}
+
 export interface IPost {
   _id: string;
   title: string;
   description?: string;
+  article_id: string;
+  author: IAuthor;
   audio: IFile;
   pdf: IFile;
   category: ICategory;
@@ -22,6 +28,8 @@ export const PostSchema = new Schema({
   audio: { type: Object, default: {} },
   title: Types.String,
   description: Types.String,
+  article_id: Types.String,
+  author: { type: Object, default: {} },
   category: { type: Types.ObjectId, ref: "category" },
 });
 
