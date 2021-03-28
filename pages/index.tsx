@@ -32,13 +32,24 @@ interface IHomeProps {
 export async function getServerSideProps(): Promise<
   GetServerSidePropsResult<IHomeProps>
 > {
-  const props = await fetch(`${process.env.URL}/api/index_page`).then((res) =>
-    res.json()
-  );
-
-  return {
-    props, // will be passed to the page component as props
-  };
+  try {
+    const props = await fetch(`${process.env.URL}/api/index_page`).then((res) =>
+      res.json()
+    );
+    if (!props) {
+      return {
+        notFound: true,
+      };
+    }
+    return {
+      props, // will be passed to the page component as props
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      notFound: true,
+    };
+  }
 }
 
 const Home = ({
