@@ -53,7 +53,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
             {dataGrouped.map((group, i) => (
               <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
-                  <Col lg={8} key={i + i2}>
+                  <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <Link href={`category/${post.category}/post/${post._id}`}>
                         <Typography.Title

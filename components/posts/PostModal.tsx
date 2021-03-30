@@ -3,18 +3,11 @@ import React, { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UploadOutlined } from "@ant-design/icons";
 import { UploadFile } from "antd/lib/upload/interface";
-import { IFile } from "../../models/post.model";
+import { IPost } from "../../models/post.model";
 import useCategories from "../../hooks/useCategories";
 
 interface IPostModalProps extends ModalProps {
-  initialData: {
-    _id: string;
-    title: string;
-    description?: string;
-    category: string;
-    audio: IFile;
-    pdf: IFile;
-  };
+  initialData: IPost;
   loading: boolean;
   onCreate: (values?: unknown) => void;
   // onFinishFailed?: (values?: unknown) => void;
@@ -42,30 +35,46 @@ const PostModal = ({
   const onOk = async () => {
     await form.validateFields();
     const title = form.getFieldValue("title");
+    const description = form.getFieldValue("description");
+    const author_name = form.getFieldValue("author_name");
+    const article_id = form.getFieldValue("article_id");
     if (!initialData) {
       onCreate({
         title,
+        description,
         pdf: pdfFile,
         audio: audioFile,
         category_id: selectedCategoryId,
+        article_id,
+        author: {
+          name: author_name,
+        },
       });
       return;
     }
     onUpdate({
       _id: initialData._id,
       title,
+      description,
       pdf: pdfFile,
       audio: audioFile,
       category_id: selectedCategoryId,
+      article_id,
+      author: {
+        name: author_name,
+      },
     });
   };
 
   useEffect(() => {
     if (initialData) {
       form.setFieldsValue({ title: initialData.title });
+      form.setFieldsValue({ description: initialData.description });
       form.setFieldsValue({ category: initialData.category });
       setPDFButtonDisabled(Boolean(initialData.pdf));
       setAudioButtonDisabled(Boolean(initialData.audio));
+      form.setFieldsValue({ article_id: initialData.article_id });
+      form.setFieldsValue({ author_name: initialData.author.name });
     }
   }, [form, initialData]);
 
@@ -109,6 +118,33 @@ const PostModal = ({
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            label="ID del Artículo"
+            name="article_id"
+            rules={[
+              {
+                required: true,
+                message: "Ingresá el ID del artículo",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Autor"
+            name="author_name"
+            rules={[
+              {
+                required: true,
+                message: "Ingresá el nombre del autor",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item label="Descripción" name="description">
+            <Input.TextArea rows={2} />
           </Form.Item>
           <Form.Item
             name="category"

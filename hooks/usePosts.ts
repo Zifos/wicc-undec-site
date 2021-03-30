@@ -1,23 +1,24 @@
 import { useState } from "react";
-import { IPost } from "../models/post.model";
+import { IAuthor, IPost } from "../models/post.model";
+
+type CRUDPost = {
+  _id: string;
+  title: string;
+  description?: string;
+  pdf: File;
+  audio: File;
+  category_id: string | number;
+  article_id: string;
+  author: IAuthor;
+};
 
 const usePosts = (
   initialPosts: IPost[]
 ): {
   posts: IPost[];
   loading: boolean;
-  createPost: (newPost: {
-    title: string;
-    pdf: File;
-    audio: File;
-    category_id: string | number;
-  }) => void;
-  updatePost: (cat: {
-    _id: string;
-    title: string;
-    pdf: File;
-    audio: File;
-  }) => void;
+  createPost: (newPost: Omit<CRUDPost, "_id">) => void;
+  updatePost: (cat: CRUDPost) => void;
   deletePost: (_id: string) => Promise<{ success: boolean }>;
 } => {
   const [posts, setPosts] = useState<IPost[]>(initialPosts || []);
@@ -25,22 +26,23 @@ const usePosts = (
 
   const createPost = async ({
     title,
+    description,
     pdf,
     audio,
     category_id,
-  }: {
-    title: string;
-    pdf: File;
-    audio: File;
-    category_id: string | number;
-  }) => {
+    article_id,
+    author,
+  }: Omit<CRUDPost, "_id">) => {
     setLoading(true);
     const formData = new FormData();
 
     formData.append("title", title);
+    formData.append("description", description);
     formData.append("paper", pdf);
     formData.append("audio", audio);
     formData.append("category_id", String(category_id));
+    formData.append("article_id", article_id);
+    formData.append("author", JSON.stringify(author));
     const { newPost }: { newPost: IPost } = await fetch("/api/post", {
       method: "POST",
       body: formData,
@@ -53,21 +55,21 @@ const usePosts = (
   const updatePost = async ({
     _id,
     title,
+    description,
     pdf,
     audio,
     category_id,
-  }: {
-    _id: string;
-    title: string;
-    pdf: File;
-    audio: File;
-    category_id: string | number;
-  }) => {
+    article_id,
+    author,
+  }: CRUDPost) => {
     setLoading(true);
     const formData = new FormData();
 
     if (title) {
       formData.append("title", title);
+    }
+    if (description) {
+      formData.append("description", description);
     }
     if (pdf) {
       formData.append("paper", pdf);
@@ -77,6 +79,12 @@ const usePosts = (
     }
     if (category_id) {
       formData.append("category_id", String(category_id));
+    }
+    if (article_id) {
+      formData.append("article_id", article_id);
+    }
+    if (author) {
+      formData.append("author", JSON.stringify(author));
     }
 
     const { newPost }: { newPost: IPost } = await fetch(`/api/post/${_id}`, {

@@ -18,13 +18,11 @@ const StyledBreadcrumbs = styled(Breadcrumb)`
     color: rgba(255, 255, 255, 0.75);
   }
 
-  .ant-breadcrumb {
-    &-link {
-      color: white;
-    }
-    &-separator {
-      color: rgba(255, 255, 255, 0.5);
-    }
+  .ant-breadcrumb-link {
+    color: white;
+  }
+  .ant-breadcrumb-separator {
+    color: rgba(255, 255, 255, 0.5);
   }
 `;
 

@@ -23,10 +23,17 @@ const PostsTable = ({
       ellipsis: true,
     },
     {
-      title: "ID",
-      dataIndex: "_id",
-      key: "_id",
-      width: "25%",
+      title: "ID del Artículo",
+      dataIndex: "article_id",
+      key: "article_id",
+      width: "15%",
+    },
+    {
+      title: "Autor",
+      dataIndex: "author",
+      key: "author",
+      width: "15%",
+      render: (author) => author.name,
     },
     {
       title: "PDF",
