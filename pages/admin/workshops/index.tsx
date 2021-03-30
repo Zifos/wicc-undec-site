@@ -6,12 +6,12 @@ import styled from "styled-components";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/client";
-import useCategories from "../../../hooks/useCategories";
+import useWorkshops from "../../../hooks/useWorkshops";
 import Content from "../../../components/Content";
 import Header from "../../../components/Header";
-import CategoriesModal from "../../../components/categories/CategoriesModal";
-import { ICategory } from "../../../models/category.model";
-import CategoriesTable from "../../../components/categories/CategoriesTable";
+import WorkshopModal from "../../../components/workshops/WorkshopModal";
+import { IWorkshop } from "../../../models/workshop.model";
+import WorkshopsTable from "../../../components/workshops/WorkshopsTable";
 
 const StyledLoading = styled.div`
   width: 100%;
@@ -21,22 +21,22 @@ const StyledLoading = styled.div`
   align-items: center;
 `;
 
-const Categories = ({
-  initialCategories,
+const Workshops = ({
+  initialWorkshops,
 }: {
-  initialCategories: ICategory[];
+  initialWorkshops: IWorkshop[];
 }): JSX.Element => {
-  const [isCategoryFormOpen, setIsCategoryFormOpen] = useState(false);
-  const openCategoryForm = () => setIsCategoryFormOpen(true);
+  const [isWorkshopFormOpen, setIsWorkshopFormOpen] = useState(false);
+  const openWorkshopForm = () => setIsWorkshopFormOpen(true);
   const {
-    categories,
+    workshops,
     loading,
-    createCategory,
-    updateCategoryTitle,
-    deleteCategory,
-  } = useCategories(initialCategories);
+    createWorkshop,
+    updateWorkshopTitle,
+    deleteWorkshop,
+  } = useWorkshops(initialWorkshops);
 
-  const [categoryForUpdate, setCategoryForUpdate] = useState(undefined);
+  const [workshopForUpdate, setWorkshopForUpdate] = useState(undefined);
 
   const [session, loadingSession] = useSession();
   const router = useRouter();
@@ -56,71 +56,71 @@ const Categories = ({
   }
 
   const onSubmit = async ({ title }) => {
-    await createCategory(title);
-    message.success(`Categoría Creada ${title}`);
-    setIsCategoryFormOpen(false);
+    await createWorkshop(title);
+    message.success(`Workshop creado ${title}`);
+    setIsWorkshopFormOpen(false);
   };
 
   const onCancel = () => {
-    setIsCategoryFormOpen(false);
+    setIsWorkshopFormOpen(false);
   };
 
   const openUpdateForm = (_id: string) => {
-    setCategoryForUpdate(categories.find((cat) => cat._id === _id));
-    setIsCategoryFormOpen(true);
+    setWorkshopForUpdate(workshops.find((cat) => cat._id === _id));
+    setIsWorkshopFormOpen(true);
     // open the modal
   };
 
-  const onUpdate = async (updatedCategory: ICategory) => {
-    await updateCategoryTitle(updatedCategory);
-    setIsCategoryFormOpen(false);
-    setCategoryForUpdate(undefined);
-    message.success("Categoria actualizada");
+  const onUpdate = async (updatedWorkshop: IWorkshop) => {
+    await updateWorkshopTitle(updatedWorkshop);
+    setIsWorkshopFormOpen(false);
+    setWorkshopForUpdate(undefined);
+    message.success("Workshop actualizado");
   };
 
   const onDelete = async (_id: string) => {
-    const { success } = await deleteCategory(_id);
+    const { success } = await deleteWorkshop(_id);
     if (success) {
-      message.success("Categoría eliminada");
+      message.success("Workshop eliminado");
     }
   };
 
   return (
     <>
       <Head>
-        <title>Categorías - WICC</title>
+        <title>Workshops - WICC</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="Categorías" />
+      <Header title="Workshops" />
       <Content>
         <Row justify="center">
           <Col lg={20}>
             <Card
-              title="Listado de categorías"
+              title="Listado de Workshops"
               bordered
               extra={
                 <Button
                   type="primary"
                   shape="round"
                   size="middle"
-                  onClick={openCategoryForm}
+                  onClick={openWorkshopForm}
                 >
-                  Nueva categoria
+                  Nuevo Workshop
                 </Button>
               }
             >
-              <CategoriesTable
-                data={categories}
+              <WorkshopsTable
+                data={workshops}
                 onUpdate={openUpdateForm}
                 onDelete={onDelete}
               />
             </Card>
           </Col>
         </Row>
-        <CategoriesModal
-          initialData={categoryForUpdate}
+        <WorkshopModal
+          initialData={workshopForUpdate}
           loading={loading}
-          visible={isCategoryFormOpen}
+          visible={isWorkshopFormOpen}
           onCreate={onSubmit}
           onUpdate={onUpdate}
           onCancel={onCancel}
@@ -130,10 +130,10 @@ const Categories = ({
   );
 };
 
-Categories.getInitialProps = async ({
+Workshops.getInitialProps = async ({
   res,
   req,
-}: NextPageContext): Promise<{ initialCategories: ICategory[] } | unknown> => {
+}: NextPageContext): Promise<{ initialWorkshops: IWorkshop[] } | unknown> => {
   const session = await getSession({ req });
 
   if (!session) {
@@ -143,16 +143,16 @@ Categories.getInitialProps = async ({
   }
 
   const response = await fetch(
-    `${process.env.URL || ""}/api/category?all=true`
+    `${process.env.URL || ""}/api/workshop?all=true`
   );
 
   if (response.ok) {
     const responseJSON: {
-      categories: ICategory[];
+      workshops: IWorkshop[];
     } = await response.json();
-    const { categories } = responseJSON;
+    const { workshops } = responseJSON;
     return {
-      initialCategories: categories,
+      initialWorkshops: workshops,
     };
   }
   if (res) {
@@ -165,4 +165,4 @@ Categories.getInitialProps = async ({
   return {};
 };
 
-export default Categories;
+export default Workshops;

@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { Form, Input, message, Modal, ModalProps } from "antd";
-import { ICategory } from "../../models/category.model";
+import { IWorkshop } from "../../models/workshop.model";
 
-interface ICategoriesModal extends ModalProps {
-  initialData: ICategory;
+interface IWorkshopModal extends ModalProps {
+  initialData: IWorkshop;
   loading: boolean;
   onCreate: (values?: unknown) => void;
   onFinishFailed?: (values?: unknown) => void;
   onUpdate: (values?: unknown) => void;
 }
 
-const CategoriesModal = ({
+const WorkshopModal = ({
   initialData,
   loading,
   visible = false,
@@ -18,7 +18,7 @@ const CategoriesModal = ({
   onCreate,
   onCancel,
   ...rest
-}: ICategoriesModal): JSX.Element => {
+}: IWorkshopModal): JSX.Element => {
   const [form] = Form.useForm();
 
   const onSubmit = async () => {
@@ -32,7 +32,7 @@ const CategoriesModal = ({
       onCreate({ title });
     } catch (error) {
       message.error(
-        "No se puede crear la categoria, por favor verifique los valores"
+        "No se puede crear el workshop, por favor verifique los valores"
       );
     }
   };
@@ -51,7 +51,7 @@ const CategoriesModal = ({
 
   return (
     <Modal
-      title={!initialData ? "Crear categoría" : "Actualizar categoría"}
+      title={!initialData ? "Crear workshop" : "Actualizar workshop"}
       visible={visible}
       okText={!initialData ? "Crear" : "Actualizar"}
       onOk={onSubmit}
@@ -60,14 +60,14 @@ const CategoriesModal = ({
       cancelButtonProps={{ disabled: loading }}
       {...rest}
     >
-      <Form form={form} name="category-form" layout="inline">
+      <Form form={form} name="workshop-form" layout="inline">
         <Form.Item
           label="Titulo"
           name="title"
           rules={[
             {
               required: true,
-              message: "El titulo de la categoria es requerido!",
+              message: "El titulo del workshop es requerido!",
             },
           ]}
         >
@@ -78,4 +78,4 @@ const CategoriesModal = ({
   );
 };
 
-export default CategoriesModal;
+export default WorkshopModal;

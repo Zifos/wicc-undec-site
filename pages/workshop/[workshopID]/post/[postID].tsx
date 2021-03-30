@@ -49,7 +49,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
     },
     {
       path: `/workshop/${workshopID}`,
-      name: initialPost.category?.title,
+      name: initialPost.workshop?.title,
     },
   ];
 
@@ -90,11 +90,6 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                       direction="vertical"
                       style={{ width: "100%" }}
                     >
-                      {/* <Link href={`/category/${categoryID}`}>
-                        <Tag color="purple" style={{ cursor: "pointer" }}>
-                          {initialPost.category?.title}
-                        </Tag>
-                      </Link> */}
                       <div>
                         <Typography.Title level={2}>
                           {initialPost.title}

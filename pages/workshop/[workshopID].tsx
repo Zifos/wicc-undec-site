@@ -13,7 +13,7 @@ import {
   StyledTitle,
   StyledLogo,
 } from "../../components/Styled";
-import { ICategory } from "../../models/category.model";
+import { IWorkshop } from "../../models/workshop.model";
 
 const logo = "/WICC-logo.png";
 
@@ -28,10 +28,10 @@ const routes = [
   },
 ];
 
-const Category = ({
+const Workshop = ({
   initialWorkshop,
 }: {
-  initialWorkshop: ICategory;
+  initialWorkshop: IWorkshop;
 }): JSX.Element => {
   const router = useRouter();
   const { workshopID } = router.query;
@@ -85,23 +85,23 @@ const Category = ({
   );
 };
 
-Category.getInitialProps = async ({
+Workshop.getInitialProps = async ({
   res,
   query,
-}: NextPageContext): Promise<{ initialWorkshop: ICategory } | unknown> => {
+}: NextPageContext): Promise<{ initialWorkshop: IWorkshop } | unknown> => {
   const { workshopID } = query;
 
   const response = await fetch(
-    `${process.env.URL || ""}/api/category/${workshopID}`
+    `${process.env.URL || ""}/api/workshop/${workshopID}`
   );
 
   if (response.ok) {
     const responseJSON: {
-      category: ICategory;
+      workshop: IWorkshop;
     } = await response.json();
-    const { category } = responseJSON;
+    const { workshop } = responseJSON;
     return {
-      initialWorkshop: category,
+      initialWorkshop: workshop,
     };
   }
   if (res) {
@@ -114,4 +114,4 @@ Category.getInitialProps = async ({
   return {};
 };
 
-export default Category;
+export default Workshop;

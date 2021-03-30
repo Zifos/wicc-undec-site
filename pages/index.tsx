@@ -17,16 +17,16 @@ import {
   StyledTitle3,
   StyledLogo,
 } from "../components/Styled";
-import { ICategory } from "../models/category.model";
+import { IWorkshop } from "../models/workshop.model";
 import { IPost } from "../models/post.model";
 
 const logo = "/WICC-logo.png";
 
 interface IHomeProps {
-  categoriesCount: number;
+  workshopsCount: number;
   postsCount: number;
   firstPosts: IPost[];
-  firstCategories: ICategory[];
+  firstWorkshops: IWorkshop[];
 }
 
 export async function getServerSideProps(): Promise<
@@ -54,9 +54,9 @@ export async function getServerSideProps(): Promise<
 
 const Home = ({
   postsCount,
-  categoriesCount,
+  workshopsCount,
   firstPosts,
-  firstCategories,
+  firstWorkshops,
 }: IHomeProps): JSX.Element => {
   const [session] = useSession();
 
@@ -148,7 +148,7 @@ const Home = ({
                           fontSize: "4rem",
                         }}
                       >
-                        {categoriesCount}
+                        {workshopsCount}
                       </Typography.Title>
                     </Col>
                     <Col xs={0} sm={5} style={{ textAlign: "right" }}>
@@ -175,7 +175,7 @@ const Home = ({
                   <Col lg={8} key={i} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <NextLink
-                        href={`category/${post.category}/post/${post._id}`}
+                        href={`workshop/${post.workshop}/post/${post._id}`}
                       >
                         <Typography.Title
                           type="secondary"
@@ -200,16 +200,16 @@ const Home = ({
                 <span style={{ fontWeight: 300 }}>Workshops</span> buscados
               </StyledTitle3>
               <Row gutter={[32, 32]}>
-                {firstCategories.map((category, i) => (
+                {firstWorkshops.map((workshop, i) => (
                   <Col lg={8} key={i} style={{ width: "100%" }}>
                     <StyledLinkCard>
-                      <NextLink href={`category/${category._id}`}>
+                      <NextLink href={`workshop/${workshop._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
                           style={{ margin: "0" }}
                         >
-                          {category.title}
+                          {workshop.title}
                         </Typography.Title>
                       </NextLink>
                     </StyledLinkCard>

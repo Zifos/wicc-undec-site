@@ -1,4 +1,4 @@
-import CategoryModel from "./category.model";
+import WorkshopModel from "./workshop.model";
 import PostModel from "./post.model";
 
 /**
@@ -6,6 +6,6 @@ import PostModel from "./post.model";
  * It may be fixed in another way, but don't know how to. Suggestions are welcome
  */
 export default {
-  CategoryModel,
+  WorkshopModel,
   PostModel,
 };

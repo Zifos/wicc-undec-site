@@ -15,7 +15,7 @@ const getPostById = async (
   } = req;
   try {
     const post = await Models.PostModel.findById(id).populate(
-      "category",
+      "workshop",
       // select fields
       "title"
     );
@@ -73,7 +73,7 @@ const updatePostTitleById = async (
       query: { id },
     } = req;
     const { body } = req;
-    const { title, category_id, article_id, author, description } = body;
+    const { title, workshop_id, article_id, author, description } = body;
     const oldPost = await Models.PostModel.findById(id);
 
     let updateQuery: { [key: string]: unknown } = {};
@@ -82,8 +82,8 @@ const updatePostTitleById = async (
       updateQuery.title = title;
     }
 
-    if (category_id) {
-      updateQuery.category = category_id;
+    if (workshop_id) {
+      updateQuery.workshop = workshop_id;
     }
 
     if (article_id) {
@@ -132,15 +132,15 @@ const updatePostTitleById = async (
       new: true,
     });
 
-    if (category_id && oldPost.category !== category_id) {
-      const oldCategory = await Models.CategoryModel.findById(oldPost.category);
+    if (workshop_id && oldPost.workshop !== workshop_id) {
+      const oldWorkshop = await Models.WorkshopModel.findById(oldPost.workshop);
 
-      oldCategory.posts.pull(oldPost.id);
+      oldWorkshop.posts.pull(oldPost.id);
 
-      await oldCategory.save();
+      await oldWorkshop.save();
 
-      await Models.CategoryModel.findByIdAndUpdate(
-        category_id,
+      await Models.WorkshopModel.findByIdAndUpdate(
+        workshop_id,
         { $push: { posts: newPost._id as never } },
         { upsert: true }
       );

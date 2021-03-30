@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { UploadFile } from "antd/lib/upload/interface";
 import { IPost } from "../../models/post.model";
-import useCategories from "../../hooks/useCategories";
+import useWorkshops from "../../hooks/useWorkshops";
 
 interface IPostModalProps extends ModalProps {
   initialData: IPost;
@@ -25,10 +25,10 @@ const PostModal = ({
   ...rest
 }: IPostModalProps): JSX.Element => {
   const [form] = Form.useForm();
-  const [selectedCategoryId, setSelectedCategoryId] = useState(undefined);
+  const [selectedWorkshopId, setSelectedWorkshopId] = useState(undefined);
   const [pdfFile, setPdfFile] = useState(undefined);
   const [audioFile, setAudioFile] = useState(undefined);
-  const { categories, getCategories } = useCategories();
+  const { workshops, getWorkshops } = useWorkshops();
   const [isPDFButtonDisabled, setPDFButtonDisabled] = useState(false);
   const [isAudioButtonDisabled, setAudioButtonDisabled] = useState(false);
 
@@ -44,7 +44,7 @@ const PostModal = ({
         description,
         pdf: pdfFile,
         audio: audioFile,
-        category_id: selectedCategoryId,
+        workshop_id: selectedWorkshopId,
         article_id,
         author: {
           name: author_name,
@@ -58,7 +58,7 @@ const PostModal = ({
       description,
       pdf: pdfFile,
       audio: audioFile,
-      category_id: selectedCategoryId,
+      workshop_id: selectedWorkshopId,
       article_id,
       author: {
         name: author_name,
@@ -70,7 +70,7 @@ const PostModal = ({
     if (initialData) {
       form.setFieldsValue({ title: initialData.title });
       form.setFieldsValue({ description: initialData.description });
-      form.setFieldsValue({ category: initialData.category });
+      form.setFieldsValue({ workshop: initialData.workshop });
       setPDFButtonDisabled(Boolean(initialData.pdf));
       setAudioButtonDisabled(Boolean(initialData.audio));
       form.setFieldsValue({ article_id: initialData.article_id });
@@ -89,10 +89,10 @@ const PostModal = ({
   }, [form, visible]);
 
   useEffect(() => {
-    if (!categories.length) {
-      getCategories();
+    if (!workshops.length) {
+      getWorkshops();
     }
-  }, [categories, getCategories]);
+  }, [workshops, getWorkshops]);
 
   return (
     visible && (
@@ -147,27 +147,27 @@ const PostModal = ({
             <Input.TextArea rows={2} />
           </Form.Item>
           <Form.Item
-            name="category"
-            label="Categoría"
+            name="workshop"
+            label="Workshop"
             rules={[
               {
                 required: true,
-                message: "Seleccioná una categoría",
+                message: "Seleccioná un workshop",
               },
             ]}
           >
             <Select
               showSearch
               style={{ width: "100%" }}
-              placeholder="Selecciona una categoria"
+              placeholder="Selecciona una workshop"
               optionFilterProp="children"
-              onChange={(val) => setSelectedCategoryId(val)}
+              onChange={(val) => setSelectedWorkshopId(val)}
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {categories?.length &&
-                categories.map((cat) => (
+              {workshops?.length &&
+                workshops.map((cat) => (
                   <Select.Option key={cat._id} value={cat._id}>
                     {cat.title}
                   </Select.Option>
