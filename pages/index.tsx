@@ -167,8 +167,8 @@ const Home = ({
                 level={3}
                 style={{ color: "white", textAlign: "center" }}
               >
-                <span style={{ fontWeight: 300 }}>Publicaciones</span>{" "}
-                relevantes
+                <span style={{ fontWeight: 300 }}>Publicaciones</span> mas
+                visitadas
               </StyledTitle3>
               <Row gutter={[32, 32]}>
                 {firstPosts.map((post, i) => (
