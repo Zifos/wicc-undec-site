@@ -20,7 +20,7 @@ const Footer = (): JSX.Element => (
   <StyledFooter>
     With lots of coffee by{" "}
     <b>
-      <a href="http://zifosteam.com/" target="_blank">
+      <a href="http://zifosteam.com/" rel="noreferrer" target="_blank">
         Zifos Team
       </a>
     </b>
