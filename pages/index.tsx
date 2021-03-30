@@ -126,7 +126,7 @@ const Home = ({
               </NextLink>
             </Col>
             <Col lg={12} style={{ width: "100%" }}>
-              <NextLink href="categories">
+              <NextLink href="workshops">
                 <StyledContent link color="red" fullRounded>
                   <Row justify="space-between" align="middle">
                     <Col>
@@ -138,7 +138,7 @@ const Home = ({
                           fontWeight: 300,
                         }}
                       >
-                        Categorías
+                        Workshops
                       </StyledTitle3>
                       <Typography.Title
                         level={2}
@@ -197,7 +197,7 @@ const Home = ({
                 level={3}
                 style={{ color: "white", textAlign: "center" }}
               >
-                <span style={{ fontWeight: 300 }}>Categorías</span> buscadas
+                <span style={{ fontWeight: 300 }}>Workshops</span> buscados
               </StyledTitle3>
               <Row gutter={[32, 32]}>
                 {firstCategories.map((category, i) => (

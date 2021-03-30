@@ -36,7 +36,7 @@ const StyledLinkCard = styled(Card)`
 
 const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
   const router = useRouter();
-  const { categoryID } = router.query;
+  const { workshopID } = router.query;
 
   const routes = [
     {
@@ -44,11 +44,11 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
       name: "Inicio",
     },
     {
-      path: "/categories",
-      name: "Categorías",
+      path: "/workshops",
+      name: "Workshops",
     },
     {
-      path: `/category/${categoryID}`,
+      path: `/workshop/${workshopID}`,
       name: initialPost.category?.title,
     },
   ];

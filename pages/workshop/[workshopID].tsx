@@ -1,17 +1,19 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Head from "next/head";
-import { Col, Row, Image, Space, Typography } from "antd";
+import { Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { NextPageContext } from "next";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { ICategory } from "../../models/category.model";
 import {
   StyledWrapper,
   StyledHeader,
   StyledContent,
   StyledLinkCard,
   StyledTitle,
+  StyledLogo,
 } from "../../components/Styled";
+import { ICategory } from "../../models/category.model";
 
 const logo = "/WICC-logo.png";
 
@@ -20,25 +22,28 @@ const routes = [
     path: "/",
     name: "Inicio",
   },
+  {
+    path: "/workshops",
+    name: "Workshops",
+  },
 ];
 
-const Categories = ({
-  initialCategories,
+const Category = ({
+  initialWorkshop,
 }: {
-  initialCategories: ICategory[];
+  initialWorkshop: ICategory;
 }): JSX.Element => {
-  const dataGrouped = useMemo<Array<Array<ICategory>>>(
-    () =>
-      initialCategories.reduce((acc, category, index) => {
-        if (index % 3 === 0) {
-          acc.push([]);
-        }
-        acc[acc.length - 1].push(category);
+  const router = useRouter();
+  const { workshopID } = router.query;
 
-        return acc;
-      }, []),
-    [initialCategories]
-  );
+  const dataGrouped = initialWorkshop.posts.reduce((acc, post, index) => {
+    if (index % 3 === 0) {
+      acc.push([]);
+    }
+    acc[acc.length - 1].push(post);
+
+    return acc;
+  }, []);
 
   return (
     <>
@@ -48,23 +53,18 @@ const Categories = ({
       </Head>
       <StyledWrapper>
         <StyledHeader>
-          <Image
-            src={logo}
-            height="14rem"
-            style={{ width: "auto" }}
-            preview={false}
-          />
+          <StyledLogo src={logo} preview={false} />
         </StyledHeader>
-        <StyledContent color="red">
+        <StyledContent>
           <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
-            <StyledTitle>Categorías</StyledTitle>
+            <StyledTitle>{initialWorkshop.title}</StyledTitle>
             {dataGrouped.map((group, i) => (
               <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
-                      <Link href={`category/${post._id}`}>
+                      <Link href={`${workshopID}/post/${post._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -85,20 +85,23 @@ const Categories = ({
   );
 };
 
-Categories.getInitialProps = async ({
+Category.getInitialProps = async ({
   res,
-}: NextPageContext): Promise<{ initialCategories: ICategory[] } | unknown> => {
-  const response = await fetch(`${process.env.URL || ""}/api/category`);
+  query,
+}: NextPageContext): Promise<{ initialWorkshop: ICategory } | unknown> => {
+  const { workshopID } = query;
+
+  const response = await fetch(
+    `${process.env.URL || ""}/api/category/${workshopID}`
+  );
 
   if (response.ok) {
     const responseJSON: {
-      categories: ICategory[];
+      category: ICategory;
     } = await response.json();
-    const { categories } = responseJSON;
+    const { category } = responseJSON;
     return {
-      initialCategories: categories.filter(
-        (category) => category.posts.length > 0
-      ),
+      initialWorkshop: category,
     };
   }
   if (res) {
@@ -111,4 +114,4 @@ Categories.getInitialProps = async ({
   return {};
 };
 
-export default Categories;
+export default Category;
