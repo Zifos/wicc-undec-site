@@ -93,7 +93,7 @@ const createPost = async (
       );
     }
 
-    let newAuthor = JSON.parse(author);
+    let newAuthor = author && JSON.parse(author);
 
     const newPost = new PostModel({
       title,
@@ -112,6 +112,7 @@ const createPost = async (
     );
     res.status(200).json({ success: true, newPost: newPost.toObject() });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, error });
   }
 };
