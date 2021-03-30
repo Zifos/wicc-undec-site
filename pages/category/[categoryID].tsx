@@ -65,21 +65,13 @@ const Category = ({
                   <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <Link href={`${categoryID}/post/${post._id}`}>
-                        <div>
-                          <Typography.Title
-                            type="secondary"
-                            level={4}
-                            style={{ margin: "0" }}
-                          >
-                            {post.title}
-                          </Typography.Title>
-                          <Typography.Text
-                            type="secondary"
-                            style={{ margin: "0" }}
-                          >
-                            {post.author.name}
-                          </Typography.Text>
-                        </div>
+                        <Typography.Title
+                          type="secondary"
+                          level={4}
+                          style={{ margin: "0" }}
+                        >
+                          {post.title}
+                        </Typography.Title>
                       </Link>
                     </StyledLinkCard>
                   </Col>

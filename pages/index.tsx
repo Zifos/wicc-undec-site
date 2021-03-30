@@ -177,21 +177,13 @@ const Home = ({
                       <NextLink
                         href={`category/${post.category}/post/${post._id}`}
                       >
-                        <>
-                          <Typography.Title
-                            type="secondary"
-                            level={4}
-                            style={{ margin: "0" }}
-                          >
-                            {post.title}
-                          </Typography.Title>
-                          <Typography.Text
-                            type="secondary"
-                            style={{ margin: "0" }}
-                          >
-                            {post.author.name}
-                          </Typography.Text>
-                        </>
+                        <Typography.Title
+                          type="secondary"
+                          level={4}
+                          style={{ margin: "0" }}
+                        >
+                          {post.title}
+                        </Typography.Title>
                       </NextLink>
                     </StyledLinkCard>
                   </Col>
