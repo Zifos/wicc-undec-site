@@ -4,7 +4,7 @@ import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
 import { NextPageContext } from "next";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { ICategory } from "../../models/category.model";
+import { IWorkshop } from "../../models/workshop.model";
 import {
   StyledWrapper,
   StyledHeader,
@@ -22,28 +22,28 @@ const routes = [
   },
 ];
 
-const Categories = ({
-  initialCategories,
+const Workshops = ({
+  initialWorkshops,
 }: {
-  initialCategories: ICategory[];
+  initialWorkshops: IWorkshop[];
 }): JSX.Element => {
-  const dataGrouped = useMemo<Array<Array<ICategory>>>(
+  const dataGrouped = useMemo<Array<Array<IWorkshop>>>(
     () =>
-      initialCategories.reduce((acc, category, index) => {
+      initialWorkshops.reduce((acc, workshop, index) => {
         if (index % 3 === 0) {
           acc.push([]);
         }
-        acc[acc.length - 1].push(category);
+        acc[acc.length - 1].push(workshop);
 
         return acc;
       }, []),
-    [initialCategories]
+    [initialWorkshops]
   );
 
   return (
     <>
       <Head>
-        <title>WICC 2021 | Lista de publicaciones</title>
+        <title>WICC 2021 | Lista de workshops</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StyledWrapper>
@@ -58,13 +58,13 @@ const Categories = ({
         <StyledContent color="red">
           <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
-            <StyledTitle>Categorías</StyledTitle>
+            <StyledTitle>Workshops</StyledTitle>
             {dataGrouped.map((group, i) => (
               <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
-                      <Link href={`category/${post._id}`}>
+                      <Link href={`workshop/${post._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -85,19 +85,19 @@ const Categories = ({
   );
 };
 
-Categories.getInitialProps = async ({
+Workshops.getInitialProps = async ({
   res,
-}: NextPageContext): Promise<{ initialCategories: ICategory[] } | unknown> => {
-  const response = await fetch(`${process.env.URL || ""}/api/category`);
+}: NextPageContext): Promise<{ initialWorkshops: IWorkshop[] } | unknown> => {
+  const response = await fetch(`${process.env.URL || ""}/api/workshop`);
 
   if (response.ok) {
     const responseJSON: {
-      categories: ICategory[];
+      workshops: IWorkshop[];
     } = await response.json();
-    const { categories } = responseJSON;
+    const { workshops } = responseJSON;
     return {
-      initialCategories: categories.filter(
-        (category) => category.posts.length > 0
+      initialWorkshops: workshops.filter(
+        (workshop) => workshop.posts.length > 0
       ),
     };
   }
@@ -111,4 +111,4 @@ Categories.getInitialProps = async ({
   return {};
 };
 
-export default Categories;
+export default Workshops;

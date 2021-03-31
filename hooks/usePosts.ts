@@ -7,7 +7,7 @@ type CRUDPost = {
   description?: string;
   pdf: File;
   audio: File;
-  category_id: string | number;
+  workshop_id: string | number;
   article_id: string;
   author: IAuthor;
 };
@@ -29,7 +29,7 @@ const usePosts = (
     description,
     pdf,
     audio,
-    category_id,
+    workshop_id,
     article_id,
     author,
   }: Omit<CRUDPost, "_id">) => {
@@ -40,7 +40,7 @@ const usePosts = (
     formData.append("description", description);
     formData.append("paper", pdf);
     formData.append("audio", audio);
-    formData.append("category_id", String(category_id));
+    formData.append("workshop_id", String(workshop_id));
     formData.append("article_id", article_id);
     formData.append("author", JSON.stringify(author));
     const { newPost }: { newPost: IPost } = await fetch("/api/post", {
@@ -58,7 +58,7 @@ const usePosts = (
     description,
     pdf,
     audio,
-    category_id,
+    workshop_id,
     article_id,
     author,
   }: CRUDPost) => {
@@ -77,8 +77,8 @@ const usePosts = (
     if (audio) {
       formData.append("audio", audio);
     }
-    if (category_id) {
-      formData.append("category_id", String(category_id));
+    if (workshop_id) {
+      formData.append("workshop_id", String(workshop_id));
     }
     if (article_id) {
       formData.append("article_id", article_id);

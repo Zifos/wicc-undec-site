@@ -17,16 +17,16 @@ import {
   StyledTitle3,
   StyledLogo,
 } from "../components/Styled";
-import { ICategory } from "../models/category.model";
+import { IWorkshop } from "../models/workshop.model";
 import { IPost } from "../models/post.model";
 
 const logo = "/WICC-logo.png";
 
 interface IHomeProps {
-  categoriesCount: number;
+  workshopsCount: number;
   postsCount: number;
   firstPosts: IPost[];
-  firstCategories: ICategory[];
+  firstWorkshops: IWorkshop[];
 }
 
 export async function getServerSideProps(): Promise<
@@ -54,9 +54,9 @@ export async function getServerSideProps(): Promise<
 
 const Home = ({
   postsCount,
-  categoriesCount,
+  workshopsCount,
   firstPosts,
-  firstCategories,
+  firstWorkshops,
 }: IHomeProps): JSX.Element => {
   const [session] = useSession();
 
@@ -126,7 +126,7 @@ const Home = ({
               </NextLink>
             </Col>
             <Col lg={12} style={{ width: "100%" }}>
-              <NextLink href="categories">
+              <NextLink href="workshops">
                 <StyledContent link color="red" fullRounded>
                   <Row justify="space-between" align="middle">
                     <Col>
@@ -138,7 +138,7 @@ const Home = ({
                           fontWeight: 300,
                         }}
                       >
-                        Categorías
+                        Workshops
                       </StyledTitle3>
                       <Typography.Title
                         level={2}
@@ -148,7 +148,7 @@ const Home = ({
                           fontSize: "4rem",
                         }}
                       >
-                        {categoriesCount}
+                        {workshopsCount}
                       </Typography.Title>
                     </Col>
                     <Col xs={0} sm={5} style={{ textAlign: "right" }}>
@@ -167,15 +167,15 @@ const Home = ({
                 level={3}
                 style={{ color: "white", textAlign: "center" }}
               >
-                <span style={{ fontWeight: 300 }}>Publicaciones</span>{" "}
-                relevantes
+                <span style={{ fontWeight: 300 }}>Publicaciones</span> mas
+                visitadas
               </StyledTitle3>
               <Row gutter={[32, 32]}>
                 {firstPosts.map((post, i) => (
                   <Col lg={8} key={i} style={{ width: "100%" }}>
                     <StyledLinkCard>
                       <NextLink
-                        href={`category/${post.category}/post/${post._id}`}
+                        href={`workshop/${post.workshop}/post/${post._id}`}
                       >
                         <Typography.Title
                           type="secondary"
@@ -197,19 +197,19 @@ const Home = ({
                 level={3}
                 style={{ color: "white", textAlign: "center" }}
               >
-                <span style={{ fontWeight: 300 }}>Categorías</span> buscadas
+                <span style={{ fontWeight: 300 }}>Workshops</span> buscados
               </StyledTitle3>
               <Row gutter={[32, 32]}>
-                {firstCategories.map((category, i) => (
+                {firstWorkshops.map((workshop, i) => (
                   <Col lg={8} key={i} style={{ width: "100%" }}>
                     <StyledLinkCard>
-                      <NextLink href={`category/${category._id}`}>
+                      <NextLink href={`workshop/${workshop._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
                           style={{ margin: "0" }}
                         >
-                          {category.title}
+                          {workshop.title}
                         </Typography.Title>
                       </NextLink>
                     </StyledLinkCard>

@@ -13,7 +13,7 @@ import {
   StyledTitle,
   StyledLogo,
 } from "../../components/Styled";
-import { ICategory } from "../../models/category.model";
+import { IWorkshop } from "../../models/workshop.model";
 
 const logo = "/WICC-logo.png";
 
@@ -23,20 +23,20 @@ const routes = [
     name: "Inicio",
   },
   {
-    path: "/categories",
-    name: "Categorías",
+    path: "/workshops",
+    name: "Workshops",
   },
 ];
 
-const Category = ({
-  initialCategory,
+const Workshop = ({
+  initialWorkshop,
 }: {
-  initialCategory: ICategory;
+  initialWorkshop: IWorkshop;
 }): JSX.Element => {
   const router = useRouter();
-  const { categoryID } = router.query;
+  const { workshopID } = router.query;
 
-  const dataGrouped = initialCategory.posts.reduce((acc, post, index) => {
+  const dataGrouped = initialWorkshop.posts.reduce((acc, post, index) => {
     if (index % 3 === 0) {
       acc.push([]);
     }
@@ -58,13 +58,13 @@ const Category = ({
         <StyledContent>
           <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
-            <StyledTitle>{initialCategory.title}</StyledTitle>
+            <StyledTitle>{initialWorkshop.title}</StyledTitle>
             {dataGrouped.map((group, i) => (
               <Row gutter={[32, 32]} key={i}>
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
-                      <Link href={`${categoryID}/post/${post._id}`}>
+                      <Link href={`${workshopID}/post/${post._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}
@@ -85,23 +85,23 @@ const Category = ({
   );
 };
 
-Category.getInitialProps = async ({
+Workshop.getInitialProps = async ({
   res,
   query,
-}: NextPageContext): Promise<{ initialCategory: ICategory } | unknown> => {
-  const { categoryID } = query;
+}: NextPageContext): Promise<{ initialWorkshop: IWorkshop } | unknown> => {
+  const { workshopID } = query;
 
   const response = await fetch(
-    `${process.env.URL || ""}/api/category/${categoryID}`
+    `${process.env.URL || ""}/api/workshop/${workshopID}`
   );
 
   if (response.ok) {
     const responseJSON: {
-      category: ICategory;
+      workshop: IWorkshop;
     } = await response.json();
-    const { category } = responseJSON;
+    const { workshop } = responseJSON;
     return {
-      initialCategory: category,
+      initialWorkshop: workshop,
     };
   }
   if (res) {
@@ -114,4 +114,4 @@ Category.getInitialProps = async ({
   return {};
 };
 
-export default Category;
+export default Workshop;

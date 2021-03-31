@@ -3,15 +3,15 @@ import { IPost } from "./post.model";
 
 const { Types } = Schema;
 
-export interface ICategory {
+export interface IWorkshop {
   title: string;
   _id: string;
   posts: IPost[];
 }
 
-const CategorySchema = new Schema({
+const WorkshopSchema = new Schema({
   title: Types.String,
   posts: { type: [{ type: Types.ObjectId, ref: "post" }], default: [] },
 });
 
-export default models.category || model("category", CategorySchema);
+export default models.workshop || model("workshop", WorkshopSchema);

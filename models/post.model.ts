@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import { ICategory } from "./category.model";
+import { IWorkshop } from "./workshop.model";
 
 const { Types } = Schema;
 
@@ -20,7 +20,7 @@ export interface IPost {
   author: IAuthor;
   audio: IFile;
   pdf: IFile;
-  category: ICategory;
+  workshop: IWorkshop;
 }
 
 export const PostSchema = new Schema({
@@ -30,7 +30,7 @@ export const PostSchema = new Schema({
   description: { type: Types.String, default: "" },
   article_id: Types.String,
   author: { type: Object, default: {} },
-  category: { type: Types.ObjectId, ref: "category" },
+  workshop: { type: Types.ObjectId, ref: "workshop" },
 });
 
 export default models.post || model("post", PostSchema);

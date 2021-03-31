@@ -55,7 +55,7 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
                 {group.map((post, i2) => (
                   <Col lg={8} key={i + i2} style={{ width: "100%" }}>
                     <StyledLinkCard>
-                      <Link href={`category/${post.category}/post/${post._id}`}>
+                      <Link href={`workshop/${post.workshop}/post/${post._id}`}>
                         <Typography.Title
                           type="secondary"
                           level={4}

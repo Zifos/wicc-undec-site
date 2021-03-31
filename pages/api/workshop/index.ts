@@ -3,7 +3,7 @@ import AuthMiddleware from "../../../utils/auth_middleware";
 import Models from "../../../models";
 import connectDB from "../../../utils/db_connection.handler";
 
-const getAllCategories = async (
+const getAllWorkshops = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
@@ -12,35 +12,35 @@ const getAllCategories = async (
       query: { all },
     } = req;
     if (all) {
-      const categories = await Models.CategoryModel.find().populate(
+      const workshops = await Models.WorkshopModel.find().populate(
         "posts",
         "_id"
       );
-      res.status(200).json({ categories });
+      res.status(200).json({ workshops });
     } else {
-      const categories = await Models.CategoryModel.find({
+      const workshops = await Models.WorkshopModel.find({
         "posts.0": { $exists: true },
       }).populate("posts", "_id");
-      res.status(200).json({ categories });
+      res.status(200).json({ workshops });
     }
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-const createCategory = async (
+const createWorkshop = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
   try {
     const { title } = JSON.parse(req.body);
-    const newCategory = new Models.CategoryModel({
+    const newWorkshop = new Models.WorkshopModel({
       title,
     });
-    await newCategory.save();
+    await newWorkshop.save();
     res
       .status(200)
-      .json({ success: true, newCategory: newCategory.toObject() });
+      .json({ success: true, newWorkshop: newWorkshop.toObject() });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
@@ -50,10 +50,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
   switch (method) {
     case "GET":
-      await getAllCategories(req, res);
+      await getAllWorkshops(req, res);
       break;
     case "POST":
-      await AuthMiddleware(createCategory)(req, res);
+      await AuthMiddleware(createWorkshop)(req, res);
       break;
     default:
       res.status(404).json({ error: "Resource not found" });

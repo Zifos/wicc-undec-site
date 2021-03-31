@@ -1,21 +1,21 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import { Table, Space, Button, Popconfirm } from "antd";
-import { ICategory } from "../../models/category.model";
+import { IWorkshop } from "../../models/workshop.model";
 
-interface ICategoriesTableProps {
-  data?: ICategory[];
+interface IWorkshopsTableProps {
+  data?: IWorkshop[];
   onUpdate: (_id: string) => void;
   onDelete: (_id: string) => void;
 }
 
-const CategoriesTable = ({
+const WorkshopsTable = ({
   data = [],
   onUpdate,
   onDelete,
-}: ICategoriesTableProps): JSX.Element => {
-  const updateCategory = (_id) => onUpdate(_id);
-  const deleteCategory = (_id) => onDelete(_id);
+}: IWorkshopsTableProps): JSX.Element => {
+  const updateWorkshop = (_id) => onUpdate(_id);
+  const deleteWorkshop = (_id) => onDelete(_id);
 
   const columns = [
     {
@@ -42,15 +42,15 @@ const CategoriesTable = ({
       render: (record): JSX.Element => (
         <Space size="middle">
           <Button
-            onClick={() => updateCategory(record._id)}
+            onClick={() => updateWorkshop(record._id)}
             type="link"
             role="button"
           >
             Actualizar
           </Button>
           <Popconfirm
-            title="¿Quieres borrar la categoría?"
-            onConfirm={() => deleteCategory(record._id)}
+            title="¿Quieres borrar el workshop?"
+            onConfirm={() => deleteWorkshop(record._id)}
             okText="Eliminar"
             cancelText="No"
           >
@@ -73,4 +73,4 @@ const CategoriesTable = ({
   );
 };
 
-export default CategoriesTable;
+export default WorkshopsTable;

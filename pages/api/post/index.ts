@@ -66,7 +66,7 @@ const createPost = async (
   try {
     const { body } = req;
     // eslint-disable-next-line camelcase
-    const { title, category_id, author, article_id, description } = body;
+    const { title, workshop_id, author, article_id, description } = body;
 
     const audioFile = req.files.audio[0];
     const paperFile = req.files.paper[0];
@@ -97,7 +97,7 @@ const createPost = async (
 
     const newPost = new PostModel({
       title,
-      category: category_id,
+      workshop: workshop_id,
       pdf: pdfData,
       audio: audioData,
       article_id,
@@ -105,8 +105,8 @@ const createPost = async (
       description,
     });
     await newPost.save();
-    await Models.CategoryModel.findByIdAndUpdate(
-      category_id,
+    await Models.WorkshopModel.findByIdAndUpdate(
+      workshop_id,
       { $push: { posts: newPost._id as never } },
       { upsert: true }
     );
