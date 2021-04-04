@@ -2,11 +2,10 @@
 import React, { useEffect, useState, createRef } from "react";
 import Head from "next/head";
 import styled from "styled-components";
-import { Card, Col, Row, Space, Typography, Tag, Button } from "antd";
+import { Card, Col, Row, Space, Typography, Button } from "antd";
 import { FilePdfOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { NextPageContext } from "next";
 import Content from "../../../../components/Content";
 import AudioPlayer from "../../../../components/AudioPlayer";
@@ -63,7 +62,9 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
   const PDFRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    setPDFHeight(PDFRef.current.offsetHeight);
+    let height = PDFRef.current.offsetHeight;
+    if (height < 450) height = window.innerHeight * 0.9;
+    setPDFHeight(height);
   }, [PDFRef]);
 
   const { remarkRef } = useRemark();
@@ -172,7 +173,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                     <div id="remark42" ref={remarkRef} />
                   </Space>
                 </Col>
-                <Col lg={12}>
+                <Col lg={12} style={{ width: "100%" }}>
                   <div ref={PDFRef} style={{ height: "100%" }}>
                     <PdfViewer
                       url={String(initialPost.pdf?.fileLocation)}
