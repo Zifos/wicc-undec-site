@@ -12,6 +12,7 @@ import Content from "../../../../components/Content";
 import AudioPlayer from "../../../../components/AudioPlayer";
 import { IPost } from "../../../../models/post.model";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
+import useRemark from "../../../../hooks/useRemark";
 
 const PdfViewer = dynamic(() => import("../../../../components/PDFViewer"), {
   ssr: false,
@@ -65,38 +66,47 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
     setPDFHeight(PDFRef.current.offsetHeight);
   }, [PDFRef]);
 
+  const { remarkRef } = useRemark();
+
   return (
     <>
       <Head>
         <title>WICC 2021 | Lista de publicaciones</title>
         <link rel="icon" href="/favicon.ico" />
-        <Remark42 />
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              
-                var remark_config = {
+                window.remark_config = {
                   host: "http://localhost:8080", // hostname of remark server, same as REMARK_URL in backend config, e.g. "https://demo.remark42.com"
-                  site_id: "asd",
-                  components: ["embed"],
-                  locale: "es", 
-                  show_email_subscription: false,
+                  site_id: "wicc",
+                  components: ["embed"], // optional param; which components to load. default to ["embed"]
+                  // to load all components define components as ['embed', 'last-comments', 'counter']
+                  // available component are:
+                  //     - 'embed': basic comments widget
+                  //     - 'last-comments': last comments widget, see Last Comments section below
+                  //     - 'counter': counter widget, see Counter section below
+                  locale: "es", // set up locale and language, if it isn't defined default value ('en') will be used
+                  show_email_subscription: false, // optional param; by default it is true and you can see email subscription feature
+                  // in interface when enable it from backend side
+                  // if you set this param in false you will get notifications email notifications as admin
+                  // but your users won't have interface for subscription
                 };
-              
-              
+
+                (function (c, d) {
+                  for (var i = 0; i < c.length; i++) {
+                    var s = d.createElement('script');
+                    var e = 'noModule' in s ? '.mjs' : '.js';
+                    var r = d.head || d.body;
+                    
+                    s.async = true;
+                    s.defer = true;
+                    s.src = remark_config.host + '/web/' + c[i] + e;
+
+                    r.appendChild(s);
+                  }
+                })(['embed'], document);
+            
             `,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(c) {
-              for(var i = 0; i < c.length; i++){
-                var d = document, s = d.createElement('script');
-                s.src = 'http://localhost:8080' + '/web/' +c[i] +'.js';
-                s.defer = true;
-                (d.head || d.body).appendChild(s);
-              }
-            })(remark_config.components || ['embed']);`,
           }}
         />
       </Head>
@@ -159,7 +169,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         </Space>
                       </Button>
                     </StyledLinkCard>
-                    <div id="remark42" />
+                    <div id="remark42" ref={remarkRef} />
                   </Space>
                 </Col>
                 <Col lg={12}>
