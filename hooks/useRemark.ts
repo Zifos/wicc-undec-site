@@ -7,6 +7,12 @@ const useRemark = (): { remarkRef: Ref<HTMLDivElement> } => {
 
   useEffect(() => {
     const setupRemark = () => {
+      if (!window?.remark_config) {
+        // eslint-disable-next-line no-console
+        console.error("Remark config doesn't exist");
+        return;
+      }
+
       if (!divRef.current) {
         return;
       }
