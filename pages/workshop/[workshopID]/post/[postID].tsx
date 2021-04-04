@@ -17,10 +17,6 @@ const PdfViewer = dynamic(() => import("../../../../components/PDFViewer"), {
   ssr: false,
 });
 
-const Remark42 = dynamic(() => import("../../../../components/Remark42"), {
-  ssr: false,
-});
-
 const StyledContent = styled(Content)`
   overflow-y: auto;
   background: hsla(247, 79%, 22%, 1);
