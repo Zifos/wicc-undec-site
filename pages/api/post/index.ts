@@ -5,12 +5,6 @@ import PostModel from "../../../models/post.model";
 import connectDB from "../../../utils/db_connection.handler";
 import Models from "../../../models";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 const getAllPosts = async (
   _req: NextApiRequest,
   res: NextApiResponse
@@ -40,15 +34,13 @@ const createPost = async (
       pdf,
     } = JSON.parse(body);
 
-    let newAuthor = author && JSON.parse(author);
-
     const newPost = new PostModel({
       title,
       workshop: workshop_id,
       pdf,
       audio,
       article_id,
-      author: newAuthor || {},
+      author: author || {},
       description,
     });
     await newPost.save();

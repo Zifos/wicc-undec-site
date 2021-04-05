@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import filehandler from "../../../utils/filehandler";
 import AuthMiddleware from "../../../utils/auth_middleware";
 import Models from "../../../models";
 import connectDB from "../../../utils/db_connection.handler";
@@ -62,7 +61,7 @@ const updatePostTitleById = async (
     }
 
     if (author) {
-      const parsedAuthor = JSON.parse(author);
+      const parsedAuthor = author;
       const isAuthorEmpty =
         parsedAuthor &&
         Object.keys(parsedAuthor).length === 0 &&

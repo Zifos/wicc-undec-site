@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button, Form, Input, Modal, ModalProps, Select, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UploadOutlined } from "@ant-design/icons";
 import { UploadFile } from "antd/lib/upload/interface";
+import firebase from "../../utils/firebase_connection";
 import { IPost } from "../../models/post.model";
 import useWorkshops from "../../hooks/useWorkshops";
 
@@ -180,7 +182,9 @@ const PostModal = ({
               name="pdf"
               multiple={false}
               onChange={(e) => {
-                setPdfFile(e?.fileList[0]?.originFileObj);
+                if (!e?.fileList[0]?.originFileObj) {
+                  setPdfFile(undefined);
+                }
                 setPDFButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
               }}
               defaultFileList={
@@ -192,6 +196,34 @@ const PostModal = ({
                 ]
               }
               accept=".pdf"
+              customRequest={({ file, onError, onProgress, onSuccess }) => {
+                // @ts-ignore
+                const ref = firebase.storage().ref().child(file.name);
+
+                const task = ref.put(file as Blob);
+                task.on(
+                  firebase.storage.TaskEvent.STATE_CHANGED,
+                  (snapshot) => {
+                    const progress = Math.round(
+                      (100 * snapshot.bytesTransferred) / snapshot.totalBytes
+                    );
+                    onProgress({
+                      percent: progress,
+                    } as never);
+                  },
+                  onError,
+                  () => {
+                    task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                      onSuccess(downloadURL, file as never);
+                      setPdfFile({
+                        // @ts-ignore
+                        fileName: file.name,
+                        fileLocation: downloadURL,
+                      });
+                    });
+                  }
+                );
+              }}
             >
               <Button
                 disabled={Boolean(pdfFile) || isPDFButtonDisabled}
@@ -205,7 +237,9 @@ const PostModal = ({
             <Upload
               name="audio"
               onChange={(e) => {
-                setAudioFile(e?.fileList[0]?.originFileObj);
+                if (!e?.fileList[0]?.originFileObj) {
+                  setAudioFile(undefined);
+                }
                 setAudioButtonDisabled(Boolean(e?.fileList[0]?.originFileObj));
               }}
               defaultFileList={
@@ -217,6 +251,34 @@ const PostModal = ({
                 ]
               }
               accept=".mp3"
+              customRequest={({ file, onError, onProgress, onSuccess }) => {
+                // @ts-ignore
+                const ref = firebase.storage().ref().child(file.name);
+
+                const task = ref.put(file as Blob);
+                task.on(
+                  firebase.storage.TaskEvent.STATE_CHANGED,
+                  (snapshot) => {
+                    const progress = Math.round(
+                      (100 * snapshot.bytesTransferred) / snapshot.totalBytes
+                    );
+                    onProgress({
+                      percent: progress,
+                    } as never);
+                  },
+                  onError,
+                  () => {
+                    task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                      onSuccess(downloadURL, file as never);
+                      setAudioFile({
+                        // @ts-ignore
+                        fileName: file.name,
+                        fileLocation: downloadURL,
+                      });
+                    });
+                  }
+                );
+              }}
             >
               <Button
                 disabled={Boolean(audioFile) || isAudioButtonDisabled}

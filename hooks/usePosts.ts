@@ -26,7 +26,6 @@ const usePosts = (
 
   const createPost = async (postData: Omit<CRUDPost, "_id">) => {
     setLoading(true);
-
     const { newPost }: { newPost: IPost } = await fetch("/api/post", {
       method: "POST",
       body: JSON.stringify(postData),
