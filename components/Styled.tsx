@@ -91,10 +91,10 @@ const StyledLinkCard = styled(Card)`
   }
 `;
 
-const StyledWrappedTitle = styled.div`
+const StyledWrappedTitle = styled.div<{ noMargin?: boolean }>`
   position: relative;
   text-align: center;
-  margin-bottom: 2rem;
+  ${({ noMargin }) => (noMargin ? "" : "margin-bottom: 2rem;")}
   z-index: -1;
 
   &::after {
@@ -125,8 +125,8 @@ const StyledWrappedTitle = styled.div`
   }
 `;
 
-const StyledTitle = ({ children }) => (
-  <StyledWrappedTitle data-text={children}>
+const StyledTitle = ({ children, noMargin }) => (
+  <StyledWrappedTitle data-text={children} noMargin={noMargin}>
     <Typography.Title level={1}>{children}</Typography.Title>
   </StyledWrappedTitle>
 );
