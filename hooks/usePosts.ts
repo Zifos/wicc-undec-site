@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { IAuthor, IPost } from "../models/post.model";
+import { IAuthor, IPost, IFile } from "../models/post.model";
 
 type CRUDPost = {
   _id: string;
   title: string;
   description?: string;
-  pdf: File;
-  audio: File;
+  pdf: IFile;
+  audio: IFile;
   workshop_id: string | number;
   article_id: string;
   author: IAuthor;
@@ -24,73 +24,27 @@ const usePosts = (
   const [posts, setPosts] = useState<IPost[]>(initialPosts || []);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const createPost = async ({
-    title,
-    description,
-    pdf,
-    audio,
-    workshop_id,
-    article_id,
-    author,
-  }: Omit<CRUDPost, "_id">) => {
+  const createPost = async (postData: Omit<CRUDPost, "_id">) => {
     setLoading(true);
-    const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("paper", pdf);
-    formData.append("audio", audio);
-    formData.append("workshop_id", String(workshop_id));
-    formData.append("article_id", article_id);
-    formData.append("author", JSON.stringify(author));
     const { newPost }: { newPost: IPost } = await fetch("/api/post", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(postData),
     }).then((res) => res.json());
 
     setPosts((values) => [...values, newPost]);
     setLoading(false);
   };
 
-  const updatePost = async ({
-    _id,
-    title,
-    description,
-    pdf,
-    audio,
-    workshop_id,
-    article_id,
-    author,
-  }: CRUDPost) => {
+  const updatePost = async (postData: CRUDPost) => {
     setLoading(true);
-    const formData = new FormData();
 
-    if (title) {
-      formData.append("title", title);
-    }
-    if (description) {
-      formData.append("description", description);
-    }
-    if (pdf) {
-      formData.append("paper", pdf);
-    }
-    if (audio) {
-      formData.append("audio", audio);
-    }
-    if (workshop_id) {
-      formData.append("workshop_id", String(workshop_id));
-    }
-    if (article_id) {
-      formData.append("article_id", article_id);
-    }
-    if (author) {
-      formData.append("author", JSON.stringify(author));
-    }
-
-    const { newPost }: { newPost: IPost } = await fetch(`/api/post/${_id}`, {
-      method: "PUT",
-      body: formData,
-    }).then((res) => res.json());
+    const { newPost }: { newPost: IPost } = await fetch(
+      `/api/post/${postData._id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(postData),
+      }
+    ).then((res) => res.json());
     const updatedPost = newPost;
     const updatedPostIndex = posts.findIndex(
       (post) => post._id === updatedPost._id
