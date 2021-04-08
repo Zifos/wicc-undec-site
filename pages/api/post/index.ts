@@ -32,6 +32,7 @@ const createPost = async (
       description,
       audio,
       pdf,
+      discord_link,
     } = JSON.parse(body);
 
     const newPost = new PostModel({
@@ -42,6 +43,7 @@ const createPost = async (
       article_id,
       author: author || {},
       description,
+      discord_link,
     });
     await newPost.save();
     await Models.WorkshopModel.findByIdAndUpdate(

@@ -21,6 +21,7 @@ export interface IPost {
   audio: IFile;
   pdf: IFile;
   workshop: IWorkshop;
+  discord_link: string;
 }
 
 export const PostSchema = new Schema({
@@ -31,6 +32,7 @@ export const PostSchema = new Schema({
   article_id: Types.String,
   author: { type: Object, default: {} },
   workshop: { type: Types.ObjectId, ref: "workshop" },
+  discord_link: { type: Types.String, default: "" },
 });
 
 export default models.post || model("post", PostSchema);

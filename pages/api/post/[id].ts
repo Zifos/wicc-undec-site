@@ -39,6 +39,7 @@ const updatePostTitleById = async (
       description,
       audio,
       pdf,
+      discord_link,
     } = JSON.parse(body);
     const oldPost = await Models.PostModel.findById(id);
 
@@ -77,6 +78,10 @@ const updatePostTitleById = async (
 
     if (pdf) {
       updateQuery.pdf = pdf;
+    }
+
+    if (discord_link) {
+      updateQuery.discord_link = discord_link;
     }
 
     const newPost = await Models.PostModel.findByIdAndUpdate(id, updateQuery, {
