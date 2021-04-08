@@ -53,7 +53,17 @@ const StyledLinkCard = styled(Card)`
   }
 `;
 
-const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
+const Post = ({
+  initialPost,
+  remarkConfig,
+}: {
+  initialPost: IPost;
+  remarkConfig: {
+    REMARK_HOST: string;
+    REMARK_SITE_ID: string;
+    REMARK_LOCALE: string;
+  };
+}): JSX.Element => {
   const router = useRouter();
   const { workshopID } = router.query;
 
@@ -92,10 +102,10 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
           dangerouslySetInnerHTML={{
             __html: `
                 window.remark_config = {
-                  host: ${process.env.REMARK_HOST},
-                  site_id: ${process.env.REMARK_SITE_ID},
+                  host: "${remarkConfig.REMARK_HOST}",
+                  site_id: "${remarkConfig.REMARK_SITE_ID}",
                   components: ["embed"], 
-                  locale: ${process.env.REMARK_LOCALE},
+                  locale: "${remarkConfig.REMARK_LOCALE}",
                   show_email_subscription: false,
                 };
 
@@ -220,8 +230,14 @@ Post.getInitialProps = async ({
       post: IPost;
     } = await response.json();
     const { post } = responseJSON;
+    const { REMARK_HOST, REMARK_SITE_ID, REMARK_LOCALE } = process.env;
     return {
       initialPost: post,
+      remarkConfig: {
+        REMARK_HOST,
+        REMARK_SITE_ID,
+        REMARK_LOCALE,
+      },
     };
   }
   if (res) {
