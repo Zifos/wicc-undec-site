@@ -12,5 +12,8 @@ declare namespace NodeJS {
     FIREBASE_CLIENT_EMAIL: string;
     FIREBASE_PROJECT_ID: string;
     FIREBASE_STORAGE_BUCKET_URL: string;
+    REMARK_HOST: string;
+    REMARK_SITE_ID: string;
+    REMARK_LOCALE: string;
   }
 }

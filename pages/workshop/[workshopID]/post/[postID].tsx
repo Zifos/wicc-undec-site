@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useEffect, useState, createRef } from "react";
 import Head from "next/head";
 import styled from "styled-components";
@@ -10,6 +11,7 @@ import Content from "../../../../components/Content";
 import AudioPlayer from "../../../../components/AudioPlayer";
 import { IPost } from "../../../../models/post.model";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
+import useRemark from "../../../../hooks/useRemark";
 
 const PdfViewer = dynamic(() => import("../../../../components/PDFViewer"), {
   ssr: false,
@@ -79,11 +81,41 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
     setPDFHeight(height);
   }, [PDFRef]);
 
+  const { remarkRef } = useRemark();
+
   return (
     <>
       <Head>
         <title>WICC 2021 | Lista de publicaciones</title>
         <link rel="icon" href="/favicon.ico" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                window.remark_config = {
+                  host: ${process.env.REMARK_HOST},
+                  site_id: ${process.env.REMARK_SITE_ID},
+                  components: ["embed"], 
+                  locale: ${process.env.REMARK_LOCALE},
+                  show_email_subscription: false,
+                };
+
+                (function (c, d) {
+                  for (var i = 0; i < c.length; i++) {
+                    var s = d.createElement('script');
+                    var e = 'noModule' in s ? '.mjs' : '.js';
+                    var r = d.head || d.body;
+                    
+                    s.async = true;
+                    s.defer = true;
+                    s.src = remark_config.host + '/web/' + c[i] + e;
+
+                    r.appendChild(s);
+                  }
+                })(['embed'], document);
+            
+            `,
+          }}
+        />
       </Head>
       {/* <Image src={logo} width="24rem" preview={false} /> */}
       <StyledContent>
@@ -155,6 +187,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         </Space>
                       </Button>
                     </StyledLinkCard>
+                    <div id="remark42" ref={remarkRef} />
                   </Space>
                 </Col>
                 <Col lg={12} style={{ width: "100%" }}>
