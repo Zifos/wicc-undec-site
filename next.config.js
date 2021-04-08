@@ -25,6 +25,9 @@ module.exports = withCSS({
         javascriptEnabled: true,
         modifyVars: modifiedVariables,
       },
+      typescript: {
+        ignoreBuildErrors: true,
+      },
       webpack: (config) => {
         // Note: we provide webpack above so you should not `require` it
         // Perform customizations to webpack config
