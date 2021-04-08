@@ -92,19 +92,11 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
           dangerouslySetInnerHTML={{
             __html: `
                 window.remark_config = {
-                  host: "http://134.122.117.155:8080", // hostname of remark server, same as REMARK_URL in backend config, e.g. "https://demo.remark42.com"
-                  site_id: "wicc",
-                  components: ["embed"], // optional param; which components to load. default to ["embed"]
-                  // to load all components define components as ['embed', 'last-comments', 'counter']
-                  // available component are:
-                  //     - 'embed': basic comments widget
-                  //     - 'last-comments': last comments widget, see Last Comments section below
-                  //     - 'counter': counter widget, see Counter section below
-                  locale: "es", // set up locale and language, if it isn't defined default value ('en') will be used
-                  show_email_subscription: false, // optional param; by default it is true and you can see email subscription feature
-                  // in interface when enable it from backend side
-                  // if you set this param in false you will get notifications email notifications as admin
-                  // but your users won't have interface for subscription
+                  host: ${process.env.REMARK_HOST},
+                  site_id: ${process.env.REMARK_SITE_ID},
+                  components: ["embed"], 
+                  locale: ${process.env.REMARK_LOCALE},
+                  show_email_subscription: false,
                 };
 
                 (function (c, d) {
