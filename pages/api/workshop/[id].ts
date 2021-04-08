@@ -30,10 +30,11 @@ const updateWorkshopById = async (
     const {
       query: { id },
     } = req;
-    const { title } = JSON.parse(req.body);
+    const { title, discord_link, mozhubs_link } = JSON.parse(req.body);
+
     const newWorkshop = await Models.WorkshopModel.findByIdAndUpdate(
       id,
-      { title },
+      { title, discord_link, mozhubs_link },
       { new: true }
     );
     res.status(200).json(newWorkshop);

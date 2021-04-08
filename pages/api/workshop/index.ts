@@ -33,9 +33,11 @@ const createWorkshop = async (
   res: NextApiResponse
 ): Promise<void> => {
   try {
-    const { title } = JSON.parse(req.body);
+    const { title, discord_link, mozhubs_link } = JSON.parse(req.body);
     const newWorkshop = new Models.WorkshopModel({
       title,
+      discord_link,
+      mozhubs_link,
     });
     await newWorkshop.save();
     res
