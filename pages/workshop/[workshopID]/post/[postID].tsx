@@ -92,7 +92,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
           dangerouslySetInnerHTML={{
             __html: `
                 window.remark_config = {
-                  host: "http://localhost:8080", // hostname of remark server, same as REMARK_URL in backend config, e.g. "https://demo.remark42.com"
+                  host: "http://134.122.117.155:8080", // hostname of remark server, same as REMARK_URL in backend config, e.g. "https://demo.remark42.com"
                   site_id: "wicc",
                   components: ["embed"], // optional param; which components to load. default to ["embed"]
                   // to load all components define components as ['embed', 'last-comments', 'counter']
