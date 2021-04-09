@@ -91,41 +91,6 @@ const Home = ({
           </StyledContent>
           <Row gutter={[0, 32]}>
             <Col lg={12} style={{ width: "100%" }}>
-              <NextLink href="posts">
-                <StyledContent link fullRounded>
-                  <Row justify="space-between" align="middle">
-                    <Col>
-                      <StyledTitle3
-                        level={1}
-                        style={{
-                          margin: "0",
-                          color: "white",
-                          fontWeight: 300,
-                        }}
-                      >
-                        Publicaciones
-                      </StyledTitle3>
-                      <Typography.Title
-                        level={2}
-                        style={{
-                          margin: "0",
-                          color: "white",
-                          fontSize: "4rem",
-                        }}
-                      >
-                        {postsCount}
-                      </Typography.Title>
-                    </Col>
-                    <Col xs={0} sm={5} style={{ textAlign: "right" }}>
-                      <SnippetsOutlined
-                        style={{ fontSize: "6rem", color: "white" }}
-                      />
-                    </Col>
-                  </Row>
-                </StyledContent>
-              </NextLink>
-            </Col>
-            <Col lg={12} style={{ width: "100%" }}>
               <NextLink href="workshops">
                 <StyledContent link color="red" fullRounded>
                   <Row justify="space-between" align="middle">
@@ -153,6 +118,41 @@ const Home = ({
                     </Col>
                     <Col xs={0} sm={5} style={{ textAlign: "right" }}>
                       <BarsOutlined
+                        style={{ fontSize: "6rem", color: "white" }}
+                      />
+                    </Col>
+                  </Row>
+                </StyledContent>
+              </NextLink>
+            </Col>
+            <Col lg={12} style={{ width: "100%" }}>
+              <NextLink href="posts">
+                <StyledContent link fullRounded>
+                  <Row justify="space-between" align="middle">
+                    <Col>
+                      <StyledTitle3
+                        level={1}
+                        style={{
+                          margin: "0",
+                          color: "white",
+                          fontWeight: 300,
+                        }}
+                      >
+                        Publicaciones
+                      </StyledTitle3>
+                      <Typography.Title
+                        level={2}
+                        style={{
+                          margin: "0",
+                          color: "white",
+                          fontSize: "4rem",
+                        }}
+                      >
+                        {postsCount}
+                      </Typography.Title>
+                    </Col>
+                    <Col xs={0} sm={5} style={{ textAlign: "right" }}>
+                      <SnippetsOutlined
                         style={{ fontSize: "6rem", color: "white" }}
                       />
                     </Col>

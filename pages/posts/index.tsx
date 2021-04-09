@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
-import { Col, Row, Space, Typography } from "antd";
+import { Col, Input, Row, Space, Typography } from "antd";
 import Link from "next/link";
 import { IPost } from "../../models/post.model";
 import {
@@ -23,18 +23,20 @@ const routes = [
 ];
 
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
-  const dataGrouped = useMemo<Array<Array<IPost>>>(
-    () =>
-      initialPosts.reduce((acc, post, index) => {
-        if (index % 3 === 0) {
-          acc.push([]);
-        }
-        acc[acc.length - 1].push(post);
+  const [filteredPosts, filterPost] = useState(initialPosts);
 
-        return acc;
-      }, []),
-    [initialPosts]
-  );
+  const onSearch = (e) => {
+    if (e) filterPost(initialPosts);
+    filterPost(() =>
+      initialPosts.filter((val) =>
+        val.title
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .match(e?.target?.value.toLowerCase())
+      )
+    );
+  };
 
   return (
     <>
@@ -50,25 +52,24 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
           <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <StyledTitle>Publicaciones</StyledTitle>
-            {dataGrouped.map((group, i) => (
-              <Row gutter={[32, 32]} key={i}>
-                {group.map((post, i2) => (
-                  <Col lg={8} key={i + i2} style={{ width: "100%" }}>
-                    <StyledLinkCard>
-                      <Link href={`workshop/${post.workshop}/post/${post._id}`}>
-                        <Typography.Title
-                          type="secondary"
-                          level={4}
-                          style={{ margin: "0" }}
-                        >
-                          {post.title}
-                        </Typography.Title>
-                      </Link>
-                    </StyledLinkCard>
-                  </Col>
-                ))}
-              </Row>
-            ))}
+            <Input placeholder="input search text" onChange={onSearch} />
+            <Row gutter={[32, 32]}>
+              {filteredPosts?.map((post, i) => (
+                <Col lg={8} key={i} style={{ width: "100%" }}>
+                  <StyledLinkCard>
+                    <Link href={`workshop/${post.workshop}/post/${post._id}`}>
+                      <Typography.Title
+                        type="secondary"
+                        level={4}
+                        style={{ margin: "0" }}
+                      >
+                        {post.title}
+                      </Typography.Title>
+                    </Link>
+                  </StyledLinkCard>
+                </Col>
+              ))}
+            </Row>
           </Space>
         </StyledContent>
       </StyledWrapper>

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Head from "next/head";
 import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
@@ -26,64 +26,47 @@ const Workshops = ({
   initialWorkshops,
 }: {
   initialWorkshops: IWorkshop[];
-}): JSX.Element => {
-  const dataGrouped = useMemo<Array<Array<IWorkshop>>>(
-    () =>
-      initialWorkshops.reduce((acc, workshop, index) => {
-        if (index % 3 === 0) {
-          acc.push([]);
-        }
-        acc[acc.length - 1].push(workshop);
-
-        return acc;
-      }, []),
-    [initialWorkshops]
-  );
-
-  return (
-    <>
-      <Head>
-        <title>WICC 2021 | Lista de workshops</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <StyledWrapper>
-        <StyledHeader>
-          <Image
-            src={logo}
-            height="14rem"
-            style={{ width: "auto" }}
-            preview={false}
-          />
-        </StyledHeader>
-        <StyledContent color="red">
-          <Breadcrumbs routes={routes} />
-          <Space size="large" direction="vertical" style={{ width: "100%" }}>
-            <StyledTitle>Workshops</StyledTitle>
-            {dataGrouped.map((group, i) => (
-              <Row gutter={[32, 32]} key={i}>
-                {group.map((post, i2) => (
-                  <Col lg={8} key={i + i2} style={{ width: "100%" }}>
-                    <StyledLinkCard>
-                      <Link href={`workshop/${post._id}`}>
-                        <Typography.Title
-                          type="secondary"
-                          level={4}
-                          style={{ margin: "0" }}
-                        >
-                          {post.title}
-                        </Typography.Title>
-                      </Link>
-                    </StyledLinkCard>
-                  </Col>
-                ))}
-              </Row>
+}): JSX.Element => (
+  <>
+    <Head>
+      <title>WICC 2021 | Lista de workshops</title>
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+    <StyledWrapper>
+      <StyledHeader>
+        <Image
+          src={logo}
+          height="14rem"
+          style={{ width: "auto" }}
+          preview={false}
+        />
+      </StyledHeader>
+      <StyledContent color="red">
+        <Breadcrumbs routes={routes} />
+        <Space size="large" direction="vertical" style={{ width: "100%" }}>
+          <StyledTitle>Workshops</StyledTitle>
+          <Row gutter={[32, 32]}>
+            {initialWorkshops?.map((post, i) => (
+              <Col lg={8} key={i} style={{ width: "100%" }}>
+                <StyledLinkCard>
+                  <Link href={`workshop/${post._id}`}>
+                    <Typography.Title
+                      type="secondary"
+                      level={4}
+                      style={{ margin: "0" }}
+                    >
+                      {post.title}
+                    </Typography.Title>
+                  </Link>
+                </StyledLinkCard>
+              </Col>
             ))}
-          </Space>
-        </StyledContent>
-      </StyledWrapper>
-    </>
-  );
-};
+          </Row>
+        </Space>
+      </StyledContent>
+    </StyledWrapper>
+  </>
+);
 
 Workshops.getInitialProps = async ({
   res,

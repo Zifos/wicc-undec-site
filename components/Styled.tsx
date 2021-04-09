@@ -125,7 +125,7 @@ const StyledWrappedTitle = styled.div<{ noMargin?: boolean }>`
   }
 `;
 
-const StyledTitle = ({ children, noMargin }) => (
+const StyledTitle = ({ children, noMargin = false }) => (
   <StyledWrappedTitle data-text={children} noMargin={noMargin}>
     <Typography.Title level={1}>{children}</Typography.Title>
   </StyledWrappedTitle>

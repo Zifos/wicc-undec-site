@@ -68,15 +68,6 @@ const Workshop = ({
   const router = useRouter();
   const { workshopID } = router.query;
 
-  const dataGrouped = initialWorkshop.posts.reduce((acc, post, index) => {
-    if (index % 3 === 0) {
-      acc.push([]);
-    }
-    acc[acc.length - 1].push(post);
-
-    return acc;
-  }, []);
-
   return (
     <>
       <Head>
@@ -119,25 +110,23 @@ const Workshop = ({
                 </Button>
               </Space>
             </div>
-            {dataGrouped.map((group, i) => (
-              <Row gutter={[32, 32]} key={i}>
-                {group.map((post, i2) => (
-                  <Col lg={8} key={i + i2} style={{ width: "100%" }}>
-                    <StyledLinkCard>
-                      <Link href={`${workshopID}/post/${post._id}`}>
-                        <Typography.Title
-                          type="secondary"
-                          level={4}
-                          style={{ margin: "0" }}
-                        >
-                          {post.title}
-                        </Typography.Title>
-                      </Link>
-                    </StyledLinkCard>
-                  </Col>
-                ))}
-              </Row>
-            ))}
+            <Row gutter={[32, 32]}>
+              {initialWorkshop?.posts?.map((post, i) => (
+                <Col lg={8} key={i} style={{ width: "100%" }}>
+                  <StyledLinkCard>
+                    <Link href={`${workshopID}/post/${post._id}`}>
+                      <Typography.Title
+                        type="secondary"
+                        level={4}
+                        style={{ margin: "0" }}
+                      >
+                        {post.title}
+                      </Typography.Title>
+                    </Link>
+                  </StyledLinkCard>
+                </Col>
+              ))}
+            </Row>
           </Space>
         </StyledContent>
       </StyledWrapper>
