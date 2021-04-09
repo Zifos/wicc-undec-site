@@ -16,7 +16,7 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactNode => {
   return (
     <Provider session={pageProps.session}>
       <ThemeProvider theme={{ ...theme }}>
-        <Spin spinning={loadingPage}>
+        <Spin spinning={loadingPage} style={{ maxHeight: "100vh" }}>
           {!currentRoute.includes("/admin") ? (
             <Layout style={{ height: "100vh", overflow: "hidden" }}>
               <Component {...pageProps} />
