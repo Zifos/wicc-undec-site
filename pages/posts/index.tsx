@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import { Col, Input, Row, Space, Typography } from "antd";
+import { Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
+import { SearchOutlined } from "@ant-design/icons";
 import { IPost } from "../../models/post.model";
 import {
   StyledWrapper,
@@ -10,6 +11,7 @@ import {
   StyledLinkCard,
   StyledTitle,
   StyledLogo,
+  StyledSearchInput,
 } from "../../components/Styled";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
@@ -51,8 +53,16 @@ const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
         <StyledContent>
           <Breadcrumbs routes={routes} />
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
-            <StyledTitle>Publicaciones</StyledTitle>
-            <Input placeholder="input search text" onChange={onSearch} />
+            <StyledTitle noMargin>Publicaciones</StyledTitle>
+            <Row justify="center" style={{ marginBottom: "1rem" }}>
+              <Col lg={8}>
+                <StyledSearchInput
+                  placeholder="Buscar"
+                  onChange={onSearch}
+                  suffix={<SearchOutlined />}
+                />
+              </Col>
+            </Row>
             <Row gutter={[32, 32]}>
               {filteredPosts?.map((post, i) => (
                 <Col lg={8} key={i} style={{ width: "100%" }}>

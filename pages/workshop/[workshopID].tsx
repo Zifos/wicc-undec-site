@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { Button, Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
+import { SearchOutlined } from "@ant-design/icons";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import {
   StyledWrapper,
@@ -12,6 +13,7 @@ import {
   StyledLinkCard,
   StyledTitle,
   StyledLogo,
+  StyledSearchInput,
 } from "../../components/Styled";
 import { IWorkshop } from "../../models/workshop.model";
 
@@ -68,6 +70,20 @@ const Workshop = ({
   const router = useRouter();
   const { workshopID } = router.query;
 
+  const [filteredPosts, filterPost] = useState(initialWorkshop.posts);
+
+  const onSearch = (e) => {
+    if (e) filterPost(initialWorkshop.posts);
+    filterPost(() =>
+      initialWorkshop.posts.filter((val) =>
+        val.title
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .match(e?.target?.value.toLowerCase())
+      )
+    );
+  };
   return (
     <>
       <Head>
@@ -84,34 +100,49 @@ const Workshop = ({
             <div style={{ marginBottom: "1rem" }}>
               <StyledTitle noMargin>{initialWorkshop.title}</StyledTitle>
               <Space
-                style={{
-                  width: "100%",
-                  justifyContent: "center",
-                  marginTop: "1rem",
-                }}
+                direction="vertical"
+                size="large"
+                style={{ width: "100%" }}
               >
-                <Button
-                  type="link"
-                  href="#"
-                  target="_blank"
-                  style={{ color: "#d82068" }}
-                  icon={VRIcon}
+                <Space
+                  style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    marginTop: "1rem",
+                  }}
                 >
-                  Ingresar a la sala virtual
-                </Button>
-                <Button
-                  type="link"
-                  href="#"
-                  target="_blank"
-                  style={{ color: "#d82068" }}
-                  icon={DiscordIcon}
-                >
-                  Acceder al canal de Discord
-                </Button>
+                  <Button
+                    type="link"
+                    href="#"
+                    target="_blank"
+                    style={{ color: "#d82068" }}
+                    icon={VRIcon}
+                  >
+                    Ingresar a la sala virtual
+                  </Button>
+                  <Button
+                    type="link"
+                    href="#"
+                    target="_blank"
+                    style={{ color: "#d82068" }}
+                    icon={DiscordIcon}
+                  >
+                    Acceder al canal de Discord
+                  </Button>
+                </Space>
+                <Row justify="center">
+                  <Col lg={8}>
+                    <StyledSearchInput
+                      placeholder="Buscar"
+                      onChange={onSearch}
+                      suffix={<SearchOutlined />}
+                    />
+                  </Col>
+                </Row>
               </Space>
             </div>
             <Row gutter={[32, 32]}>
-              {initialWorkshop?.posts?.map((post, i) => (
+              {filteredPosts.map((post, i) => (
                 <Col lg={8} key={i} style={{ width: "100%" }}>
                   <StyledLinkCard>
                     <Link href={`${workshopID}/post/${post._id}`}>

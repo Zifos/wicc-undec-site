@@ -1,4 +1,4 @@
-import { Card, Image, Row, Typography } from "antd";
+import { Card, Image, Input, Row, Typography } from "antd";
 import styled from "styled-components";
 import Content from "./Content";
 
@@ -189,6 +189,24 @@ const StyledLogo = styled(Image)`
   }
 `;
 
+const StyledSearchInput = styled(Input)`
+  background-color: transparent;
+
+  input {
+    background-color: transparent;
+    border-radius: 0;
+    color: white;
+
+    &:placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .ant-input-suffix svg {
+    fill: white;
+  }
+`;
+
 export {
   StyledWrapper,
   StyledHeader,
@@ -200,4 +218,5 @@ export {
   StyledTitle2,
   StyledTitle3,
   StyledLogo,
+  StyledSearchInput,
 };
