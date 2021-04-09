@@ -55,8 +55,8 @@ const Workshops = ({
     router.push("/");
   }
 
-  const onSubmit = async ({ title }) => {
-    await createWorkshop(title);
+  const onSubmit = async ({ title, discord_link, mozhubs_links }) => {
+    await createWorkshop(title, discord_link, mozhubs_links);
     message.success(`Workshop creado ${title}`);
     setIsWorkshopFormOpen(false);
   };
