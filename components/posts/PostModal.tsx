@@ -40,6 +40,7 @@ const PostModal = ({
     const description = form.getFieldValue("description");
     const author_name = form.getFieldValue("author_name");
     const article_id = form.getFieldValue("article_id");
+    const discord_link = form.getFieldValue("discord_link");
     if (!initialData) {
       onCreate({
         title,
@@ -51,6 +52,7 @@ const PostModal = ({
         author: {
           name: author_name,
         },
+        discord_link,
       });
       return;
     }
@@ -65,6 +67,7 @@ const PostModal = ({
       author: {
         name: author_name,
       },
+      discord_link,
     });
   };
 
@@ -77,6 +80,7 @@ const PostModal = ({
       setAudioButtonDisabled(Boolean(initialData.audio));
       form.setFieldsValue({ article_id: initialData.article_id });
       form.setFieldsValue({ author_name: initialData.author.name });
+      form.setFieldsValue({ discord_link: initialData.discord_link });
     }
   }, [form, initialData]);
 
@@ -176,7 +180,19 @@ const PostModal = ({
                 ))}
             </Select>
           </Form.Item>
-
+          <Form.Item
+            label="Discord url"
+            name="discord_link"
+            rules={[
+              {
+                // eslint-disable-next-line no-useless-escape
+                pattern: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
+                message: "Ingresá una url valida",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
           <Form.Item name="pdf" label="PDF">
             <Upload
               name="pdf"

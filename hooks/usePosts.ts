@@ -10,6 +10,7 @@ type CRUDPost = {
   workshop_id: string | number;
   article_id: string;
   author: IAuthor;
+  discord_link: string;
 };
 
 const usePosts = (
