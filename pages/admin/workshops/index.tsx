@@ -63,6 +63,7 @@ const Workshops = ({
 
   const onCancel = () => {
     setIsWorkshopFormOpen(false);
+    setWorkshopForUpdate(undefined);
   };
 
   const openUpdateForm = (_id: string) => {
