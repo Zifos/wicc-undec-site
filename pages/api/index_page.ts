@@ -11,10 +11,12 @@ const getIndexPageData = async (
   });
   const workshopsCount = workshops.length;
   const postsCount = await Models.PostModel.estimatedDocumentCount();
-  const firstPosts = await Models.PostModel.find().limit(3);
+  const firstPosts = await Models.PostModel.find().sort("-visits").limit(3);
   const firstWorkshops = await Models.WorkshopModel.find({
     "posts.0": { $exists: true },
-  }).limit(3);
+  })
+    .sort("-visits")
+    .limit(3);
 
   res.status(200).json({
     firstWorkshops,
