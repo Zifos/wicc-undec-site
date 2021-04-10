@@ -14,15 +14,12 @@ const connectDB = (handler: HandlerFunction) => async (
   }
   try {
     // Use new db connection
-    await mongoose.connect(
-      `mongodb+srv://admin:${process.env.MONGO_PASS}@wicc.t6k4d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-      {
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-        useNewUrlParser: true,
-      }
-    );
+    await mongoose.connect(process.env.MONGO_URL, {
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+      useNewUrlParser: true,
+    });
     return handler(req, res);
   } catch (error) {
     res.status(500).json(error);
