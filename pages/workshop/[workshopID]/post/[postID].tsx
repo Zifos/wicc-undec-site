@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React, { useEffect, useState, createRef } from "react";
 import Head from "next/head";
+import getConfig from "next/config";
 import styled from "styled-components";
 import { Card, Col, Row, Space, Typography, Button } from "antd";
 import { FilePdfOutlined } from "@ant-design/icons";
@@ -53,17 +54,9 @@ const StyledLinkCard = styled(Card)`
   }
 `;
 
-const Post = ({
-  initialPost,
-  remarkConfig,
-}: {
-  initialPost: IPost;
-  remarkConfig: {
-    REMARK_HOST: string;
-    REMARK_SITE_ID: string;
-    REMARK_LOCALE: string;
-  };
-}): JSX.Element => {
+const { publicRuntimeConfig } = getConfig();
+
+const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
   const router = useRouter();
   const { workshopID } = router.query;
 
@@ -102,10 +95,10 @@ const Post = ({
           dangerouslySetInnerHTML={{
             __html: `
                 window.remark_config = {
-                  host: "${remarkConfig.REMARK_HOST}",
-                  site_id: "${remarkConfig.REMARK_SITE_ID}",
+                  host: "${publicRuntimeConfig.REMARK_HOST}",
+                  site_id: "${publicRuntimeConfig.REMARK_SITE_ID}",
                   components: ["embed"], 
-                  locale: "${remarkConfig.REMARK_LOCALE}",
+                  locale: "${publicRuntimeConfig.REMARK_LOCALE}",
                   show_email_subscription: false,
                 };
 
@@ -232,14 +225,8 @@ Post.getInitialProps = async ({
       post: IPost;
     } = await response.json();
     const { post } = responseJSON;
-    const { REMARK_HOST, REMARK_SITE_ID, REMARK_LOCALE } = process.env;
     return {
       initialPost: post,
-      remarkConfig: {
-        REMARK_HOST,
-        REMARK_SITE_ID,
-        REMARK_LOCALE,
-      },
     };
   }
   if (res) {

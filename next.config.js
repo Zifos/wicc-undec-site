@@ -28,6 +28,11 @@ module.exports = withCSS({
       typescript: {
         ignoreBuildErrors: true,
       },
+      publicRuntimeConfig: {
+        REMARK_HOST: process.env.REMARK_HOST,
+        REMARK_SITE_ID: process.env.REMARK_SITE_ID,
+        REMARK_LOCALE: process.env.REMARK_LOCALE,
+      },
       webpack: (config) => {
         // Note: we provide webpack above so you should not `require` it
         // Perform customizations to webpack config
