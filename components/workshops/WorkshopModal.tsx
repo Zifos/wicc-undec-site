@@ -27,7 +27,7 @@ const WorkshopModal = ({
       const title = form.getFieldValue("title");
       const discord_link = form.getFieldValue("discord_url");
       const mozhubs_link = form.getFieldValue("mozhubs_url");
-      if (initialData?._id && title !== initialData.title) {
+      if (initialData?._id) {
         onUpdate({ _id: initialData?._id, title, discord_link, mozhubs_link });
         return;
       }
@@ -64,7 +64,7 @@ const WorkshopModal = ({
       cancelButtonProps={{ disabled: loading }}
       {...rest}
     >
-      <Form form={form} name="workshop-form" layout="inline">
+      <Form form={form} name="workshop-form" layout="vertical">
         <Form.Item
           label="Titulo"
           name="title"
@@ -79,7 +79,7 @@ const WorkshopModal = ({
         </Form.Item>
         <Form.Item
           label="Discord url"
-          name="discord_link"
+          name="discord_url"
           rules={[
             {
               // eslint-disable-next-line no-useless-escape

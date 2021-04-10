@@ -7,8 +7,8 @@ export interface IWorkshop {
   title: string;
   _id: string;
   posts: IPost[];
-  discord_link: string;
-  mozhubs_link: string;
+  discord_link?: string;
+  mozhubs_link?: string;
 }
 
 const WorkshopSchema = new Schema({

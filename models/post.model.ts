@@ -21,7 +21,7 @@ export interface IPost {
   audio: IFile;
   pdf: IFile;
   workshop: IWorkshop;
-  discord_link: string;
+  discord_link?: string;
 }
 
 export const PostSchema = new Schema({
