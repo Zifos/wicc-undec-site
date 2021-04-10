@@ -218,6 +218,10 @@ Post.getInitialProps = async ({
 }: NextPageContext): Promise<{ initialPost: IPost } | unknown> => {
   const { postID } = query;
 
+  await fetch(`${process.env.URL || ""}/api/post/count?id=${postID}`, {
+    method: "POST",
+  });
+
   const response = await fetch(`${process.env.URL || ""}/api/post/${postID}`);
 
   if (response.ok) {

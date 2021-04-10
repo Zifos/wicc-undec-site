@@ -6,7 +6,7 @@ type useFilterType = <T>(
 ) => [Array<T>, (word: string) => void];
 
 const useFilter: useFilterType = (initialArray, paths) => {
-  const [filteredArray, setFilteredArray] = useState([]);
+  const [filteredArray, setFilteredArray] = useState(initialArray);
 
   const filter = useCallback(
     (word: string): void => {

@@ -172,6 +172,10 @@ Workshop.getInitialProps = async ({
 }: NextPageContext): Promise<{ initialWorkshop: IWorkshop } | unknown> => {
   const { workshopID } = query;
 
+  await fetch(`${process.env.URL || ""}/api/workshop/count?id=${workshopID}`, {
+    method: "POST",
+  });
+
   const response = await fetch(
     `${process.env.URL || ""}/api/workshop/${workshopID}`
   );
