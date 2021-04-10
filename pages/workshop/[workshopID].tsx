@@ -108,24 +108,28 @@ const Workshop = ({
                     marginTop: "1rem",
                   }}
                 >
-                  <Button
-                    type="link"
-                    href="#"
-                    target="_blank"
-                    style={{ color: "#d82068" }}
-                    icon={VRIcon}
-                  >
-                    Ingresar a la sala virtual
-                  </Button>
-                  <Button
-                    type="link"
-                    href="#"
-                    target="_blank"
-                    style={{ color: "#d82068" }}
-                    icon={DiscordIcon}
-                  >
-                    Acceder al canal de Discord
-                  </Button>
+                  {initialWorkshop?.mozhubs_link && (
+                    <Button
+                      type="link"
+                      href={initialWorkshop?.mozhubs_link}
+                      target="_blank"
+                      style={{ color: "#d82068" }}
+                      icon={VRIcon}
+                    >
+                      Ingresar a la sala virtual
+                    </Button>
+                  )}
+                  {initialWorkshop?.discord_link && (
+                    <Button
+                      type="link"
+                      href={initialWorkshop?.discord_link}
+                      target="_blank"
+                      style={{ color: "#d82068" }}
+                      icon={DiscordIcon}
+                    >
+                      Acceder al canal de Discord
+                    </Button>
+                  )}
                 </Space>
                 <Row justify="center">
                   <Col lg={8}>

@@ -169,15 +169,17 @@ const Post = ({
                         {initialPost?.description}
                       </Typography.Text>
                     )}
-                    <Button
-                      type="link"
-                      href="#"
-                      target="_blank"
-                      style={{ color: "#d82068", padding: 0 }}
-                      icon={DiscordIcon}
-                    >
-                      Acceder al canal de Discord
-                    </Button>
+                    {initialPost?.discord_link && (
+                      <Button
+                        type="link"
+                        href={initialPost?.discord_link}
+                        target="_blank"
+                        style={{ color: "#d82068", padding: 0 }}
+                        icon={DiscordIcon}
+                      >
+                        Acceder al canal de Discord
+                      </Button>
+                    )}
                     <AudioPlayer
                       src={initialPost.audio?.fileLocation}
                       downloadFileName={initialPost.audio?.fileName}

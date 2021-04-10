@@ -64,7 +64,7 @@ const WorkshopModal = ({
       cancelButtonProps={{ disabled: loading }}
       {...rest}
     >
-      <Form form={form} name="workshop-form" layout="inline">
+      <Form form={form} name="workshop-form" layout="vertical">
         <Form.Item
           label="Titulo"
           name="title"
