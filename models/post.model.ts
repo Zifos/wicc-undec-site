@@ -33,6 +33,7 @@ export const PostSchema = new Schema({
   author: { type: Object, default: {} },
   workshop: { type: Types.ObjectId, ref: "workshop" },
   discord_link: { type: Types.String, default: "" },
+  visits: Types.Number,
 });
 
 export default models.post || model("post", PostSchema);
