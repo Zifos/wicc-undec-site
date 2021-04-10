@@ -16,6 +16,7 @@ const WorkshopSchema = new Schema({
   posts: { type: [{ type: Types.ObjectId, ref: "post" }], default: [] },
   discord_link: { type: Types.String, default: "" },
   mozhubs_link: { type: Types.String, default: "" },
+  visits: Types.Number,
 });
 
 export default models.workshop || model("workshop", WorkshopSchema);
