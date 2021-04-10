@@ -11,5 +11,5 @@ export default NextAuth({
       domain: process.env.AUTH0_DOMAIN,
     }),
   ],
-  database: `mongodb+srv://admin:${process.env.MONGO_PASS}@wicc.t6k4d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+  database: process.env.MONGO_URL,
 });
