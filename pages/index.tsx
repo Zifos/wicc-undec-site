@@ -226,7 +226,7 @@ const Home = ({
                 href="https://wicc2021.undec.edu.ar/"
                 target="_blank"
               >
-                WICC2021.undec.edu.ar/
+                WICC2021.undec.edu.ar
               </Button>
             </Col>
             <Col lg={8}>
