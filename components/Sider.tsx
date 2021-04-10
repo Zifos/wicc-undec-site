@@ -1,3 +1,4 @@
+import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { Menu, Layout } from "antd";
@@ -5,6 +6,7 @@ import {
   HomeOutlined,
   BarsOutlined,
   SnippetsOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { SiderProps } from "antd/lib/layout";
@@ -53,6 +55,12 @@ const Sider = (): JSX.Element => {
             <Link href={route.url}>{route.name}</Link>
           </Menu.Item>
         ))}
+        <Menu.Item
+          icon={<LogoutOutlined />}
+          style={{ position: "absolute", bottom: "48px" }}
+        >
+          <Link href="/logout">Cerrar sesión</Link>
+        </Menu.Item>
       </DefaultMenu>
     </StyledSider>
   );
