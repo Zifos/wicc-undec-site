@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { Button, Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next";
 import { SearchOutlined } from "@ant-design/icons";
+import useFilter from "../../hooks/useFilter";
+import { IPost } from "../../models/post.model";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import {
   StyledWrapper,
@@ -70,19 +72,14 @@ const Workshop = ({
   const router = useRouter();
   const { workshopID } = router.query;
 
-  const [filteredPosts, filterPost] = useState(initialWorkshop.posts);
+  const [filteredPosts, filterPost] = useFilter<IPost>(initialWorkshop.posts, [
+    "title",
+    "article_id",
+    "author.name",
+  ]);
 
   const onSearch = (e) => {
-    if (e) filterPost(initialWorkshop.posts);
-    filterPost(() =>
-      initialWorkshop.posts.filter((val) =>
-        val.title
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .match(e?.target?.value.toLowerCase())
-      )
-    );
+    filterPost(e?.target?.value);
   };
   return (
     <>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { Col, Row, Image, Space, Typography } from "antd";
 import Link from "next/link";
 import { NextPageContext } from "next";
 import { SearchOutlined } from "@ant-design/icons";
+import useFilter from "../../hooks/useFilter";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { IWorkshop } from "../../models/workshop.model";
 import {
@@ -29,20 +30,15 @@ const Workshops = ({
 }: {
   initialWorkshops: IWorkshop[];
 }): JSX.Element => {
-  const [filteredWorkshops, filterWorkshops] = useState(initialWorkshops);
+  const [filteredWorkshops, filterWorkshops] = useFilter<IWorkshop>(
+    initialWorkshops,
+    ["title"]
+  );
 
   const onSearch = (e) => {
-    if (e) filterWorkshops(initialWorkshops);
-    filterWorkshops(() =>
-      initialWorkshops.filter((val) =>
-        val.title
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .match(e?.target?.value.toLowerCase())
-      )
-    );
+    filterWorkshops(e?.target?.value);
   };
+
   return (
     <>
       <Head>

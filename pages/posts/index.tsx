@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
 import { Col, Row, Space, Typography } from "antd";
 import Link from "next/link";
@@ -14,6 +14,7 @@ import {
   StyledSearchInput,
 } from "../../components/Styled";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import useFilter from "../../hooks/useFilter";
 
 const logo = "/WICC-logo.png";
 
@@ -25,19 +26,14 @@ const routes = [
 ];
 
 const Posts = ({ initialPosts }: { initialPosts: IPost[] }): JSX.Element => {
-  const [filteredPosts, filterPost] = useState(initialPosts);
+  const [filteredPosts, filterPost] = useFilter<IPost>(initialPosts, [
+    "title",
+    "article_id",
+    "author.name",
+  ]);
 
   const onSearch = (e) => {
-    if (e) filterPost(initialPosts);
-    filterPost(() =>
-      initialPosts.filter((val) =>
-        val.title
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .match(e?.target?.value.toLowerCase())
-      )
-    );
+    filterPost(e?.target?.value);
   };
 
   return (
