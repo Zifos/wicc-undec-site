@@ -7,12 +7,8 @@ const useWorkshops = (
   workshops: IWorkshop[];
   loading: boolean;
   getWorkshops: () => Promise<{ success: boolean; workshops?: IWorkshop[] }>;
-  createWorkshop: (
-    title: string,
-    discord_link: string,
-    mozhubs_link: string
-  ) => void;
-  updateWorkshopTitle: (cat: IWorkshop) => void;
+  createWorkshop: (workshopData: IWorkshop) => void;
+  updateWorkshopTitle: (updateData: IWorkshop) => void;
   deleteWorkshop: (_id: string) => Promise<{ success: boolean }>;
 } => {
   const [workshops, setWorkshops] = useState<IWorkshop[]>(
@@ -30,11 +26,7 @@ const useWorkshops = (
     }
   }, [workshops?.length, initialWorkshops, setWorkshops]);
 
-  const createWorkshop = async (
-    title: string,
-    discord_link: string,
-    mozhubs_link: string
-  ) => {
+  const createWorkshop = async (workshopData: IWorkshop) => {
     setLoading(true);
     const {
       newWorkshop,
@@ -42,11 +34,7 @@ const useWorkshops = (
       "/api/workshop",
       {
         method: "POST",
-        body: JSON.stringify({
-          title,
-          discord_link,
-          mozhubs_link,
-        }),
+        body: JSON.stringify(workshopData),
       }
     ).then((res) => res.json());
 
@@ -54,20 +42,11 @@ const useWorkshops = (
     setLoading(false);
   };
 
-  const updateWorkshopTitle = async ({
-    _id,
-    title,
-    discord_link,
-    mozhubs_link,
-  }: IWorkshop) => {
+  const updateWorkshopTitle = async ({ _id, ...updateData }: IWorkshop) => {
     setLoading(true);
     const updatedWorkshop: IWorkshop = await fetch(`/api/workshop/${_id}`, {
       method: "PUT",
-      body: JSON.stringify({
-        title,
-        discord_link,
-        mozhubs_link,
-      }),
+      body: JSON.stringify(updateData),
     }).then((res) => res.json());
     const updatedWorkshopIndex = workshops.findIndex(
       (cat) => cat._id === updatedWorkshop._id
