@@ -115,9 +115,10 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
       <Head>
         <title>WICC 2021 | Lista de publicaciones</title>
         <link rel="icon" href="/favicon.ico" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        {initialPost?.workshop?.enable_comments && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                 window.remark_config = {
                   host: "${publicRuntimeConfig.REMARK_HOST}",
                   site_id: "${publicRuntimeConfig.REMARK_SITE_ID}",
@@ -141,8 +142,9 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                 })(['embed'], document);
             
             `,
-          }}
-        />
+            }}
+          />
+        )}
       </Head>
       {/* <Image src={logo} width="24rem" preview={false} /> */}
       <StyledContent>
@@ -201,17 +203,18 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                       src={initialPost.audio?.fileLocation}
                       downloadFileName={initialPost.audio?.fileName}
                     />
-                    {initialPost?.discord_link && (
-                      <Button
-                        type="link"
-                        href={initialPost?.discord_link}
-                        target="_blank"
-                        style={{ color: "#d82068", padding: 0 }}
-                        icon={DiscordIcon}
-                      >
-                        Acceder al canal de Discord
-                      </Button>
-                    )}
+                    {initialPost?.workshop?.enable_discord &&
+                      initialPost?.workshop?.discord_link && (
+                        <Button
+                          type="link"
+                          href={initialPost?.workshop?.discord_link}
+                          target="_blank"
+                          style={{ color: "#d82068", padding: 0 }}
+                          icon={DiscordIcon}
+                        >
+                          {initialPost?.workshop?.discord_title}
+                        </Button>
+                      )}
                     <StyledRemarkWrapper>
                       <div id="remark42" ref={remarkRef} />
                     </StyledRemarkWrapper>

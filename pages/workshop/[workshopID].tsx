@@ -20,21 +20,7 @@ import {
 import { IWorkshop } from "../../models/workshop.model";
 
 const logo = "/WICC-logo.png";
-const VRIcon = (
-  <svg
-    viewBox="0 0 24 24"
-    width="20"
-    xmlns="http://www.w3.org/2000/svg"
-    style={{
-      marginRight: "0.5rem",
-      fill: "#d82068",
-      verticalAlign: "middle",
-    }}
-  >
-    <path d="M10.95 19.65a.75.75 0 00-1.2.6v.686a32.828 32.828 0 01-1.783-.142C3.092 20.292 1.5 19.104 1.5 18.75a.75.75 0 00-1.5 0c0 2.466 5.464 3.294 7.808 3.536.62.068 1.271.118 1.942.154v.81c0 .618.707.968 1.2.6l2-1.5a.753.753 0 000-1.2zM23.25 18a.75.75 0 00-.75.75c0 .443-2.057 1.678-7.148 2.103a.75.75 0 00.124 1.496C18.039 22.133 24 21.354 24 18.75a.75.75 0 00-.75-.75zM20 5.75a1 1 0 01-1-1V3c0-.551-.449-1-1-1H6c-.551 0-1 .449-1 1v1.75a1 1 0 01-2 0V3c0-1.654 1.346-3 3-3h12c1.654 0 3 1.346 3 3v1.75a1 1 0 01-1 1zM13.5 9.125a.625.625 0 00-.625-.625H12.5v1.25h.375c.345 0 .625-.28.625-.625z" />
-    <path d="M21.25 4H2.75A2.752 2.752 0 000 6.75v7.5A2.752 2.752 0 002.75 17h6.08a.75.75 0 00.711-.513l.438-1.316a.252.252 0 01.238-.171h3.565a.25.25 0 01.237.17l.438 1.316c.104.307.39.514.713.514h6.08A2.752 2.752 0 0024 14.25v-7.5A2.752 2.752 0 0021.25 4zM9.211 7.987l-1.5 4.5a.75.75 0 01-1.422 0l-1.5-4.5c-.131-.393.081-.818.474-.948s.818.082.949.474L7 9.878l.789-2.366a.75.75 0 011.422.475zm5.569 3.733a.75.75 0 11-1.061 1.061l-1.22-1.22v.689a.75.75 0 01-1.499 0v-4.5a.75.75 0 01.75-.75h1.125a2.119 2.119 0 011.113 3.927zM18.5 10a1.5 1.5 0 11.001-3.001A1.5 1.5 0 0118.5 10z" />
-  </svg>
-);
+
 const DiscordIcon = (
   <svg
     viewBox="0 0 24 24"
@@ -108,17 +94,18 @@ const Workshop = ({
                     marginTop: "1rem",
                   }}
                 >
-                  {initialWorkshop?.discord_link && (
-                    <Button
-                      type="link"
-                      href={initialWorkshop?.discord_link}
-                      target="_blank"
-                      style={{ color: "#d82068" }}
-                      icon={DiscordIcon}
-                    >
-                      Acceder al canal de Discord
-                    </Button>
-                  )}
+                  {initialWorkshop?.enable_discord &&
+                    initialWorkshop?.discord_link && (
+                      <Button
+                        type="link"
+                        href={initialWorkshop?.discord_link}
+                        target="_blank"
+                        style={{ color: "#d82068" }}
+                        icon={DiscordIcon}
+                      >
+                        {initialWorkshop?.discord_title}
+                      </Button>
+                    )}
                 </Space>
                 <Row justify="center">
                   <Col lg={8}>
