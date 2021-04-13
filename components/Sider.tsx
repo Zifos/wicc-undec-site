@@ -1,7 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
+import getConfig from "next/config";
 import styled from "styled-components";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Button } from "antd";
 import {
   HomeOutlined,
   BarsOutlined,
@@ -10,11 +11,16 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { SiderProps } from "antd/lib/layout";
+import { signOut } from "next-auth/client";
 
 const ANTDSider = Layout.Sider;
 
 const StyledSider = styled(ANTDSider)<SiderProps>``;
 const DefaultMenu = styled(Menu)``;
+
+const {
+  publicRuntimeConfig: { SITE_URL },
+} = getConfig();
 
 type Route = {
   name: string;
@@ -59,7 +65,9 @@ const Sider = (): JSX.Element => {
           icon={<LogoutOutlined />}
           style={{ position: "absolute", bottom: "48px" }}
         >
-          <Link href="/logout">Cerrar sesión</Link>
+          <Button type="link" onClick={() => signOut({ redirect: SITE_URL })}>
+            Cerrar sesión
+          </Button>
         </Menu.Item>
       </DefaultMenu>
     </StyledSider>

@@ -42,6 +42,7 @@ module.exports = withCSS({
           appId: process.env.FIREBASE_APP_ID,
           measurementId: process.env.FIREBASE_MEASSUREMENT_ID,
         },
+        SITE_URL: process.env.URL,
       },
       webpack: (config) => {
         // Note: we provide webpack above so you should not `require` it
