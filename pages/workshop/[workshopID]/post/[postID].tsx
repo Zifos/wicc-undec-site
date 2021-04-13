@@ -162,21 +162,6 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         {initialPost?.description}
                       </Typography.Text>
                     )}
-                    {initialPost?.discord_link && (
-                      <Button
-                        type="link"
-                        href={initialPost?.discord_link}
-                        target="_blank"
-                        style={{ color: "#d82068", padding: 0 }}
-                        icon={DiscordIcon}
-                      >
-                        Acceder al canal de Discord
-                      </Button>
-                    )}
-                    <AudioPlayer
-                      src={initialPost.audio?.fileLocation}
-                      downloadFileName={initialPost.audio?.fileName}
-                    />
                     <StyledLinkCard>
                       <Button
                         type="link"
@@ -192,6 +177,21 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         </Space>
                       </Button>
                     </StyledLinkCard>
+                    <AudioPlayer
+                      src={initialPost.audio?.fileLocation}
+                      downloadFileName={initialPost.audio?.fileName}
+                    />
+                    {initialPost?.discord_link && (
+                      <Button
+                        type="link"
+                        href={initialPost?.discord_link}
+                        target="_blank"
+                        style={{ color: "#d82068", padding: 0 }}
+                        icon={DiscordIcon}
+                      >
+                        Acceder al canal de Discord
+                      </Button>
+                    )}
                     <div id="remark42" ref={remarkRef} />
                   </Space>
                 </Col>
