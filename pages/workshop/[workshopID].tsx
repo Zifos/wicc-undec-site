@@ -108,17 +108,18 @@ const Workshop = ({
                     marginTop: "1rem",
                   }}
                 >
-                  {initialWorkshop?.discord_link && (
-                    <Button
-                      type="link"
-                      href={initialWorkshop?.discord_link}
-                      target="_blank"
-                      style={{ color: "#d82068" }}
-                      icon={DiscordIcon}
-                    >
-                      Acceder al canal de Discord
-                    </Button>
-                  )}
+                  {initialWorkshop?.enable_discord &&
+                    initialWorkshop?.discord_link && (
+                      <Button
+                        type="link"
+                        href={initialWorkshop?.discord_link}
+                        target="_blank"
+                        style={{ color: "#d82068" }}
+                        icon={DiscordIcon}
+                      >
+                        {initialWorkshop?.discord_title}
+                      </Button>
+                    )}
                 </Space>
                 <Row justify="center">
                   <Col lg={8}>

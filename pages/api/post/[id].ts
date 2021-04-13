@@ -14,7 +14,13 @@ const getPostById = async (
     const post = await Models.PostModel.findById(id).populate(
       "workshop",
       // select fields
-      "title"
+      [
+        "title",
+        "discord_link",
+        "discord_title",
+        "enable_discord",
+        "enable_comments",
+      ]
     );
     res.status(200).json({ post });
   } catch (error) {
