@@ -54,6 +54,30 @@ const StyledLinkCard = styled(Card)`
   }
 `;
 
+const StyledSpace = styled(Space)`
+  width: 100%;
+  height: 100%;
+
+  & > .ant-space-item:last-child {
+    flex: 1;
+  }
+`;
+
+const StyledRemarkWrapper = styled.div`
+  height: 100%;
+  position: relative;
+
+  & > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+`;
+
 const { publicRuntimeConfig } = getConfig();
 
 const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
@@ -134,11 +158,7 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
             <StyledCard>
               <Row gutter={[64, 32]} style={{ height: "100%" }}>
                 <Col lg={12}>
-                  <Space
-                    size="large"
-                    direction="vertical"
-                    style={{ width: "100%" }}
-                  >
+                  <StyledSpace size="large" direction="vertical">
                     <Space
                       size="middle"
                       direction="vertical"
@@ -192,8 +212,10 @@ const Post = ({ initialPost }: { initialPost: IPost }): JSX.Element => {
                         Acceder al canal de Discord
                       </Button>
                     )}
-                    <div id="remark42" ref={remarkRef} />
-                  </Space>
+                    <StyledRemarkWrapper>
+                      <div id="remark42" ref={remarkRef} />
+                    </StyledRemarkWrapper>
+                  </StyledSpace>
                 </Col>
                 <Col lg={12} style={{ width: "100%" }}>
                   <div ref={PDFRef} style={{ height: "100%" }}>
