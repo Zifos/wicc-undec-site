@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Form, Input, message, Modal, ModalProps } from "antd";
+import { Form, Input, message, Modal, ModalProps, Switch } from "antd";
 import { IWorkshop } from "../../models/workshop.model";
 
 interface IWorkshopModal extends ModalProps {
@@ -24,14 +24,18 @@ const WorkshopModal = ({
   const onSubmit = async () => {
     try {
       await form.validateFields();
-      const title = form.getFieldValue("title");
-      const discord_link = form.getFieldValue("discord_url");
-      const mozhubs_link = form.getFieldValue("mozhubs_url");
+      const params = {
+        title: form.getFieldValue("title"),
+        discord_link: form.getFieldValue("discord_url"),
+        discord_title: form.getFieldValue("discord_title"),
+        enable_discord: form.getFieldValue("enable_discord"),
+        enable_comments: form.getFieldValue("enable_comments"),
+      };
       if (initialData?._id) {
-        onUpdate({ _id: initialData?._id, title, discord_link, mozhubs_link });
+        onUpdate({ _id: initialData?._id, ...params });
         return;
       }
-      onCreate({ title });
+      onCreate({ ...params });
     } catch (error) {
       message.error(
         "No se puede crear el workshop, por favor verifique los valores"
@@ -49,7 +53,9 @@ const WorkshopModal = ({
     if (initialData?._id && form?.setFieldsValue) {
       form.setFieldsValue({ title: initialData.title });
       form.setFieldsValue({ discord_url: initialData.discord_link });
-      form.setFieldsValue({ mozhubs_url: initialData.mozhubs_link });
+      form.setFieldsValue({ discord_title: initialData.discord_title });
+      form.setFieldsValue({ enable_discord: initialData.enable_discord });
+      form.setFieldsValue({ enable_comments: initialData.enable_comments });
     }
   }, [form, initialData]);
 
@@ -77,6 +83,9 @@ const WorkshopModal = ({
         >
           <Input />
         </Form.Item>
+        <Form.Item label="Titulo de link de discord" name="discord_title">
+          <Input />
+        </Form.Item>
         <Form.Item
           label="Discord url"
           name="discord_url"
@@ -91,17 +100,18 @@ const WorkshopModal = ({
           <Input />
         </Form.Item>
         <Form.Item
-          label="Mozilla hubs URL"
-          name="mozhubs_url"
-          rules={[
-            {
-              // eslint-disable-next-line no-useless-escape
-              pattern: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
-              message: "Ingresá una url valida",
-            },
-          ]}
+          label="Habilitar link de discord"
+          name="enable_discord"
+          valuePropName="checked"
         >
-          <Input />
+          <Switch />
+        </Form.Item>
+        <Form.Item
+          label="Habilitar comentarios"
+          name="enable_comments"
+          valuePropName="checked"
+        >
+          <Switch />
         </Form.Item>
       </Form>
     </Modal>
