@@ -63,7 +63,9 @@ const Home = ({
   return (
     <>
       <Head>
-        <title>WICC 2021 | Lista de publicaciones</title>
+        <title>
+          WICC 2021 | Workshop de Investigadores en Ciencias de la Computación
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StyledWrapper>

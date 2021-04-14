@@ -18,6 +18,59 @@ class MyDocument extends Document {
             }}
           />
           {/* <!-- End Google Tag Manager --> */}
+
+          <meta
+            name="description"
+            content="Workshop de Investigadores en Ciencias de la Computación.
+          Edición 2021 - Chilecito, La Rioja, Argentina."
+          />
+
+          {/* <!-- Google / Search Engine Tags --> */}
+          <meta
+            itemProp="name"
+            content="WICC 2021 | Workshop de Investigadores en Ciencias de la Computación"
+          />
+          <meta
+            itemProp="description"
+            content="Workshop de Investigadores en Ciencias de la Computación.
+          Edición 2021 - Chilecito, La Rioja, Argentina."
+          />
+          <meta itemProp="image" content="https://www.wicc.tk/WICC-logo.png" />
+
+          {/* <!-- Facebook Meta Tags --> */}
+          <meta property="og:url" content="https://www.wicc.tk" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:title"
+            content="WICC 2021 | Workshop de Investigadores en Ciencias de la Computación"
+          />
+          <meta
+            property="og:description"
+            content="Workshop de Investigadores en Ciencias de la Computación.
+          Edición 2021 - Chilecito, La Rioja, Argentina."
+          />
+          <meta
+            property="og:image"
+            content="https://www.wicc.tk/WICC-logo.png"
+          />
+
+          {/* <!-- Twitter Meta Tags --> */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content="WICC 2021 | Workshop de Investigadores en Ciencias de la Computación"
+          />
+          <meta
+            name="twitter:description"
+            content="Workshop de Investigadores en Ciencias de la Computación.
+          Edición 2021 - Chilecito, La Rioja, Argentina."
+          />
+          <meta
+            name="twitter:image"
+            content="https://www.wicc.tk/WICC-logo.png"
+          />
+
+          {/* <!-- Meta Tags Generated via http://heymeta.com --> */}
         </Head>
         <body>
           {/* <!-- Google Tag Manager (noscript) --> */}
